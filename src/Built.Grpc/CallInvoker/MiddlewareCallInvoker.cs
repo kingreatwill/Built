@@ -1,9 +1,5 @@
 ﻿using Grpc.Core;
-using Grpc.Core.Interceptors;
-using Polly;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Built.Grpc
@@ -11,7 +7,7 @@ namespace Built.Grpc
     //DefaultCallInvoker
     internal sealed class MiddlewareCallInvoker : DefaultCallInvoker
     {
-        private Channel grpcChannel;
+        private readonly Channel grpcChannel;
 
         /// <summary>
         /// Middleware pipeline to be executed on every server request.
@@ -28,10 +24,8 @@ namespace Built.Grpc
             this.MiddlewarePipeline = pipeline;
         }
 
-        private TResponse Call<TResponse>(Func<CallInvoker, MiddlewareContext, TResponse> call, MiddlewareContext context)
+        private TResponse Call<TResponse>(Func<MiddlewareContext, TResponse> call, MiddlewareContext context)
         {
-            ServerCallInvoker callInvoker = new ServerCallInvoker(grpcChannel);
-
             // 实现方式2  继承Interceptor
             //var ss = callInvoker.Intercept(new ClientCallbackInterceptor(
             //        () => Console.WriteLine("-----------ClientCallbackInterceptor----------------------")
@@ -57,14 +51,14 @@ namespace Built.Grpc
             {
                 context.HandlerExecutor = async () =>
                 {
-                    response = await Task.FromResult(call(callInvoker, context));
+                    response = await Task.FromResult(call(context));
                     context.Response = response;
                 };
                 MiddlewarePipeline.RunPipeline(context).ConfigureAwait(false);
             }
             else
             {
-                response = call(callInvoker, context);
+                response = call(context);
             }
             return response;
             /*
@@ -100,7 +94,7 @@ namespace Built.Grpc
         public override TResponse BlockingUnaryCall<TRequest, TResponse>(Method<TRequest, TResponse> method,
             string host, CallOptions options, TRequest request)
         {
-            return Call((ci, context) => ci.BlockingUnaryCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options, (TRequest)context.Request), new MiddlewareContext
+            return Call((context) => base.BlockingUnaryCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options, (TRequest)context.Request), new MiddlewareContext
             {
                 Host = host,
                 Method = method,
@@ -113,7 +107,7 @@ namespace Built.Grpc
         public override AsyncUnaryCall<TResponse> AsyncUnaryCall<TRequest, TResponse>(
             Method<TRequest, TResponse> method, string host, CallOptions options, TRequest request)
         {
-            return Call((ci, context) => ci.AsyncUnaryCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options, (TRequest)context.Request), new MiddlewareContext
+            return Call((context) => base.AsyncUnaryCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options, (TRequest)context.Request), new MiddlewareContext
             {
                 Host = host,
                 Method = method,
@@ -126,7 +120,7 @@ namespace Built.Grpc
         public override AsyncServerStreamingCall<TResponse> AsyncServerStreamingCall<TRequest, TResponse>(Method<TRequest, TResponse> method, string host, CallOptions options,
             TRequest request)
         {
-            return Call((ci, context) => ci.AsyncServerStreamingCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options, (TRequest)context.Request), new MiddlewareContext
+            return Call((context) => base.AsyncServerStreamingCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options, (TRequest)context.Request), new MiddlewareContext
             {
                 Host = host,
                 Method = method,
@@ -138,7 +132,7 @@ namespace Built.Grpc
 
         public override AsyncClientStreamingCall<TRequest, TResponse> AsyncClientStreamingCall<TRequest, TResponse>(Method<TRequest, TResponse> method, string host, CallOptions options)
         {
-            return Call((ci, context) => ci.AsyncClientStreamingCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options), new MiddlewareContext
+            return Call((context) => base.AsyncClientStreamingCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options), new MiddlewareContext
             {
                 Host = host,
                 Method = method,
@@ -150,7 +144,7 @@ namespace Built.Grpc
 
         public override AsyncDuplexStreamingCall<TRequest, TResponse> AsyncDuplexStreamingCall<TRequest, TResponse>(Method<TRequest, TResponse> method, string host, CallOptions options)
         {
-            return Call((ci, context) => ci.AsyncDuplexStreamingCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options), new MiddlewareContext
+            return Call((context) => base.AsyncDuplexStreamingCall((Method<TRequest, TResponse>)context.Method, context.Host, context.Options), new MiddlewareContext
             {
                 Host = host,
                 Method = method,

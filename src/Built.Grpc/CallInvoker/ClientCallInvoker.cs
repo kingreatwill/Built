@@ -30,7 +30,7 @@ namespace Built.Grpc
 
         private TResponse Call<TResponse>(Func<CallInvoker, MiddlewareContext, TResponse> call, MiddlewareContext context)
         {
-            ServerCallInvoker callInvoker = new ServerCallInvoker(grpcChannel);
+            DefaultCallInvoker callInvoker = new DefaultCallInvoker(grpcChannel);
 
             // 实现方式2  继承Interceptor
             //var ss = callInvoker.Intercept(new ClientCallbackInterceptor(
