@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <PackageId>FM.ConsulInterop</PackageId>
+    <PackageTags>gRPC consul</PackageTags>
+    <PackageAuthors>shanyuanlin</PackageAuthors>
+    <Version>3.7.6</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>shanyuanlin</Authors>
+    <Company>followme.com</Company>
+    <Product>dotnet/FM.ConsulInterop</Product>
+    <Description>FM.ConsulInterop</Description>
+    <RepositoryUrl>https://gitlab.followme.com/dotnet/FM.ConsulInterop</RepositoryUrl>
+    <PackageProjectUrl>https://gitlab.followme.com/dotnet/FM.ConsulInterop</PackageProjectUrl>
+    <Copyright>https://gitlab.followme.com/dotnet/FM.ConsulInterop</Copyright>
+    <AssemblyName>FM.ConsulInterop</AssemblyName>
+    <RootNamespace>FM.ConsulInterop</RootNamespace>
+    
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="gPRCExtension\ClientCallInvoker - 复制.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Consul" Version="0.7.2.6" />
+    <PackageReference Include="Grpc" Version="1.13.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Polly" Version="6.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.options\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
