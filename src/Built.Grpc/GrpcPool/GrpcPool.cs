@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Grpc.Core;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     public class GrpcPool
     {

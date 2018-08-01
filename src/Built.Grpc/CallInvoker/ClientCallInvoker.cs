@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
+    //DefaultCallInvoker
     internal sealed class ClientCallInvoker : CallInvoker
     {
         private Channel grpcChannel;
-        private ClientCallActionCollection _callActionCollection;
 
         /// <summary>
         /// Middleware pipeline to be executed on every server request.
@@ -26,11 +26,6 @@ namespace FM.ConsulInterop
         public ClientCallInvoker(Channel channel, Pipeline pipeline) : this(channel)
         {
             this.MiddlewarePipeline = pipeline;
-        }
-
-        public ClientCallInvoker(Channel channel, ClientCallActionCollection clientCallActionCollection) : this(channel)
-        {
-            this._callActionCollection = clientCallActionCollection;
         }
 
         private TResponse Call<TResponse>(Func<CallInvoker, MiddlewareContext, TResponse> call, MiddlewareContext context)

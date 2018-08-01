@@ -1,6 +1,6 @@
 using System;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     /// <summary>
     /// Preconditions for checking method arguments, state etc.

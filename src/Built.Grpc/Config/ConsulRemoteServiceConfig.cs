@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FM.ConsulInterop.Config
+namespace Built.Grpc.Config
 {
     public class ConsulRemoteServiceConfig
     {

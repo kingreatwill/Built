@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     public class TimeoutMiddlewareOptions : IOptions<TimeoutMiddlewareOptions>
     {

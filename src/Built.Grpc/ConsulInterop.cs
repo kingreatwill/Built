@@ -1,7 +1,7 @@
 ﻿using Consul;
 using System;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     /// <summary>
     /// consul interop

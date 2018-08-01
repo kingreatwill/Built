@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FM.ConsulInterop.Config;
+using Built.Grpc.Config;
 using Grpc.Core;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     public static class GrpcServiceRegisterExtension
     {
-        static Dictionary<int, ServiceRegister> serviceDict = new Dictionary<int, ServiceRegister>();
+        private static Dictionary<int, ServiceRegister> serviceDict = new Dictionary<int, ServiceRegister>();
 
         /// <summary>
         /// Starts the and register service.
@@ -17,7 +17,7 @@ namespace FM.ConsulInterop
         /// <param name="server">The server.</param>
         /// <param name="serviceConfigConnectionString">The service configuration connection string.</param>
         /// <returns></returns>
-        public static Task<Server> StartAndRegisterService(this Grpc.Core.Server server,
+        public static Task<Server> StartAndRegisterService(this Server server,
             String serviceConfigConnectionString)
         {
             return StartAndRegisterService(server,
@@ -30,7 +30,7 @@ namespace FM.ConsulInterop
         /// <param name="server">The server.</param>
         /// <param name="serviceConfig">The service configuration.</param>
         /// <returns></returns>
-        public static async Task<Server> StartAndRegisterService(this Grpc.Core.Server server,
+        public static async Task<Server> StartAndRegisterService(this Server server,
             ConsulLocalServiceConfig serviceConfig)
         {
             /*
@@ -39,7 +39,7 @@ namespace FM.ConsulInterop
              * 1. 全指定 ip:port
              * 2. 指定Ip:0 (由grpc自动选择port)
              * 3. 0.0.0.0:9090 (这是自动选择当前host ip)
-             * 
+             *
              * 支持环境变量设置serviceaddress, consuladdresss
              */
             if (!string.IsNullOrWhiteSpace(EnviromentParameters.ServiceAddress))
@@ -59,7 +59,7 @@ namespace FM.ConsulInterop
 
             ipPortPair[0] = NetHelper.GetIp(ipPortPair[0]);
             InnerLogger.Log(LoggerLevel.Info, "选择IP:" + ipPortPair[0]);
-            
+
             server.Ports.Add(new ServerPort(ipPortPair[0], int.Parse(ipPortPair[1]),
                 ServerCredentials.Insecure));
 
@@ -92,7 +92,7 @@ namespace FM.ConsulInterop
         /// <param name="stopServer">The stop server.</param>
         /// <returns></returns>
         /// <exception cref="Exception">当前服务没有注册,或者是已经被反注册过..</exception>
-        public static async Task<Server> StopAndDeregister(this Grpc.Core.Server server,
+        public static async Task<Server> StopAndDeregister(this Server server,
             Action<Server> stopServer = null)
         {
             if (!serviceDict.ContainsKey(server.GetHashCode()))

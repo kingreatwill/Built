@@ -1,5 +1,5 @@
 ﻿using Consul;
-using FM.ConsulInterop.Config;
+using Built.Grpc.Config;
 using Grpc.Core;
 using System;
 using System.Collections.Generic;
@@ -7,12 +7,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     /// <summary>
     /// grpc ChannelPool Manager
     /// </summary>
-    /// <seealso cref="FM.ConsulInterop.ConsulInterop" />
+    /// <seealso cref="Built.Grpc.ConsulInterop" />
     public class GRPCChannelPoolManager : ConsulInterop
     {
         private ClientAgentOption ClientAgentOption { get; set; }

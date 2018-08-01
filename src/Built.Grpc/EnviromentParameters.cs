@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     internal static class EnviromentParameters
     {

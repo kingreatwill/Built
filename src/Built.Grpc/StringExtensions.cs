@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     static class StringExtensions
     {

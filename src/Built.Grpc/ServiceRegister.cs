@@ -1,10 +1,10 @@
 ﻿using Consul;
-using FM.ConsulInterop.Config;
+using Built.Grpc.Config;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     /// <summary>
     /// 服务注册

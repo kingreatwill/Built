@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FM.ConsulInterop.Config
+namespace Built.Grpc.Config
 {
     /// <summary>
     /// service config

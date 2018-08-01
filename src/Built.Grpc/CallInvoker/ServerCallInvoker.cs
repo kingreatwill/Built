@@ -1,7 +1,7 @@
 ﻿using Grpc.Core;
 using Grpc.Core.Utils;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     internal class ServerCallInvoker : CallInvoker
     {

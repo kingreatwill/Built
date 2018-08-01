@@ -1,18 +1,13 @@
 ﻿using Grpc.Core;
 using System.Collections.Generic;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     public class ClientAgentOption
     {
         /// <summary>
-        /// Gets or sets the client call action.
+        /// Middleware Pipeline
         /// </summary>
-        /// <value>
-        /// The client call action.
-        /// </value>
-        public ClientCallActionCollection ClientCallActionCollection { get; set; }
-
         public Pipeline MiddlewarePipeline { get; set; }
 
         /// <summary>

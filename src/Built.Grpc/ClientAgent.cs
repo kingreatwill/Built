@@ -1,13 +1,13 @@
 ﻿using System;
-using FM.ConsulInterop.Config;
+using Built.Grpc.Config;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     /// <summary>
     /// consul client agent
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <seealso cref="FM.ConsulInterop.ConsulInterop" />
+    /// <seealso cref="Built.Grpc.ConsulInterop" />
     public class ClientAgent<T> where T : class
     {
         /// <summary>

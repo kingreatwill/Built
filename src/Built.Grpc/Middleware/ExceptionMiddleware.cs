@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     public class ExceptionMiddleware
     {
@@ -18,7 +18,7 @@ namespace FM.ConsulInterop
             {
                 await _next(context);
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
                 //log it
                 // context.Response.Status = new Grpc.Core.Status(Grpc.Core.StatusCode.Internal, "Ooops");

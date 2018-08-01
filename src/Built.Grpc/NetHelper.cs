@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Net.NetworkInformation;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     public static class NetHelper
     {

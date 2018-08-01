@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     /// <summary>
     /// Settings specifying a service endpoint in the form of a host name and port.

@@ -5,7 +5,7 @@ using System.Text;
 using Grpc.Core.Interceptors;
 using Grpc.Core;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     public class ClientCallbackInterceptor : Interceptor
     {

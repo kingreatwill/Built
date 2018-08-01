@@ -1,7 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Built</PackageId>
+    <PackageTags>gRPC</PackageTags>
+    <PackageAuthors>jinwei</PackageAuthors>
+    <Version>0.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>jinwei</Authors>
+    <Company>BuiltEnter</Company>
+    <Product>dotnet/Built</Product>
+    <Description>Built</Description>
+    <RepositoryUrl>https://github.com/BuiltCloud/Built</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BuiltCloud/Built</PackageProjectUrl>
+    <Copyright>https://github.com/BuiltCloud</Copyright>
   </PropertyGroup>
 
 </Project>

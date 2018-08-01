@@ -1,7 +1,7 @@
 ﻿using Consul;
 using System.Collections.Generic;
 
-namespace FM.ConsulInterop
+namespace Built.Grpc
 {
     /// <summary>
     /// Consul Agent Server Comparer
