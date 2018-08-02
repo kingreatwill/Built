@@ -66,7 +66,7 @@ namespace Built.Grpc.HttpGateway
 
         public string GetHashString()
         {
-            return this.Method.ServiceName + "," + this.Method.Name;
+            return this.Method.FullName;
         }
     }
 }

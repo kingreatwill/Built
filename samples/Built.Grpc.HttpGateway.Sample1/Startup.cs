@@ -30,8 +30,15 @@ namespace Built.Grpc.HttpGateway.Sample1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // 启用插件;
-            app.HttpGatewayInit().HttpGatewayEnable();
+            //http://localhost:5000/ProductBasic.ProductBasicSrv/Gets?PageIndex=1&PageSize=10
+            var pipeline = new PipelineBuilder()
+                .Use(async (ctx, next) =>
+                {
+                    Console.WriteLine(ctx.Request.ToString());
+                    await next(ctx);
+                    Console.WriteLine(ctx.Response.ToString());
+                });
+            app.UseGrpcHttpGateway(pipeline.Build());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
