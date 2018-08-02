@@ -44,14 +44,31 @@ namespace Built.Extensions.Configuration.Yaml
             if (node is YamlScalarNode)
             {
                 VisitYamlScalarNode(context, (YamlScalarNode)node);
+                if (context.Contains("-"))
+                {
+                    VisitYamlScalarNode(context.Replace("-", ""), (YamlScalarNode)node);
+                    VisitYamlScalarNode(context.Replace("-", "_"), (YamlScalarNode)node);
+                }
             }
+            else
             if (node is YamlMappingNode)
             {
                 VisitYamlMappingNode(context, (YamlMappingNode)node);
+                if (context.Contains("-"))
+                {
+                    VisitYamlMappingNode(context.Replace("-", ""), (YamlMappingNode)node);
+                    VisitYamlMappingNode(context.Replace("-", "_"), (YamlMappingNode)node);
+                }
             }
+            else
             if (node is YamlSequenceNode)
             {
                 VisitYamlSequenceNode(context, (YamlSequenceNode)node);
+                if (context.Contains("-"))
+                {
+                    VisitYamlSequenceNode(context.Replace("-", ""), (YamlSequenceNode)node);
+                    VisitYamlSequenceNode(context.Replace("-", "_"), (YamlSequenceNode)node);
+                }
             }
         }
 

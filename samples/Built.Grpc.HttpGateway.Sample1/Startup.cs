@@ -20,7 +20,7 @@ namespace Built.Grpc.HttpGateway.Sample1
         public string Password { get; set; }
 
         // [YamlMember(Alias = "driver-class-name")]
-        public string driver_class_name { get; set; }
+        public string DriverClassName { get; set; }
     }
 
     public class Startup
