@@ -4,10 +4,10 @@
 using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Built.Configuration.Yaml;
+using Built.Extensions.Configuration.Yaml;
 using Xunit;
 
-namespace Built.Configuration.Yaml.Tests
+namespace Built.Extensions.Configuration.Yaml.Tests
 {
     public class YamlConfigurationExtensionsTests
     {

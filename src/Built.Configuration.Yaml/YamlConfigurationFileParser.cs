@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using YamlDotNet.RepresentationModel;
 
-namespace Built.Configuration.Yaml
+namespace Built.Extensions.Configuration.Yaml
 {
     internal class YamlConfigurationFileParser
     {

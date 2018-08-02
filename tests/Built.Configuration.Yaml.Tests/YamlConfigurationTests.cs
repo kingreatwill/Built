@@ -6,7 +6,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Built.Configuration.Yaml.Tests
+namespace Built.Extensions.Configuration.Yaml.Tests
 {
     public class YamlConfigurationTest
     {

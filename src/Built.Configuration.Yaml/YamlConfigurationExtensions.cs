@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
-using Built.Configuration.Yaml;
+using Built.Extensions.Configuration.Yaml;
 
 namespace Microsoft.Extensions.Configuration
 {

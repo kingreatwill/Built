@@ -7,7 +7,7 @@ using System.Text;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 
-namespace Built.Configuration.Yaml.Tests
+namespace Built.Extensions.Configuration.Yaml.Tests
 {
     public static class TestStreamHelpers
     {

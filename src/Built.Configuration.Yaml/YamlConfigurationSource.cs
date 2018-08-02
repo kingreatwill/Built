@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Built.Configuration.Yaml
+namespace Built.Extensions.Configuration.Yaml
 {
     /// <summary>
     /// A YAML file based <see cref="FileConfigurationSource"/>.

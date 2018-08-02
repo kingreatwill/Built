@@ -9,9 +9,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using YamlDotNet.Serialization;
 
 namespace Built.Grpc.HttpGateway.Sample1
 {
+    public class DatasourceConfig
+    {
+        public string Url { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+
+        // [YamlMember(Alias = "driver-class-name")]
+        public string driver_class_name { get; set; }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration, IHostingEnvironment env)
@@ -19,10 +30,13 @@ namespace Built.Grpc.HttpGateway.Sample1
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddYamlFile("appsettings.yml", optional: false, reloadOnChange: true)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 ;
             Configuration = builder.Build();
+            var sd = Configuration.GetValue<string>("datasource:driver-class-name");
+            var srvConfig = Configuration.
+               GetSection("datasource").Get<DatasourceConfig>();
             // Configuration = configuration;
         }
 

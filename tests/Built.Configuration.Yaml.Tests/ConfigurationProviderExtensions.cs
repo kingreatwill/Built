@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Built.Configuration.Yaml.Tests
+namespace Built.Extensions.Configuration.Yaml.Tests
 {
     public static class ConfigurationProviderExtensions
     {

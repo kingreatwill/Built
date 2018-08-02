@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using YamlDotNet.Core;
 
-namespace Built.Configuration.Yaml
+namespace Built.Extensions.Configuration.Yaml
 {
     /// <summary>
     /// A YAML file based <see cref="FileConfigurationProvider"/>.

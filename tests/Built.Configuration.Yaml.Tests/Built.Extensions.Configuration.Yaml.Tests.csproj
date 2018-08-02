@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Built.Configuration.Yaml\Built.Configuration.Yaml.csproj" />
+    <ProjectReference Include="..\..\src\Built.Configuration.Yaml\Built.Extensions.Configuration.Yaml.csproj" />
   </ItemGroup>
 
 </Project>
