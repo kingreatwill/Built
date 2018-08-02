@@ -64,7 +64,10 @@ namespace Built.Grpc.HttpGateway
                 {
                     if (type.Name.EndsWith("Base"))
                     {
-                        var methods = GetGrpcMethods("ProductBasic.ProductBasicSrv", type);
+                        // 获取__ServiceName
+                        FieldInfo f_key = type.ReflectedType.GetField("__ServiceName", BindingFlags.Static | BindingFlags.NonPublic);
+                        var ServiceName = f_key.GetValue(type.ReflectedType);
+                        var methods = GetGrpcMethods(ServiceName.ToString(), type);
                         // http header  转grpc header  grpc-timeout
                         /*
                          /// <summary>
