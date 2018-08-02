@@ -27,7 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{A16B0527
 		nuget\push.bat = nuget\push.bat
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Grpc.HttpGateway", "src\Built.Grpc.HttpGateway\Built.Grpc.HttpGateway.csproj", "{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.HttpGateway", "src\Built.Grpc.HttpGateway\Built.Grpc.HttpGateway.csproj", "{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Grpc.HttpGateway.Sample1", "samples\Built.Grpc.HttpGateway.Sample1\Built.Grpc.HttpGateway.Sample1.csproj", "{1288D185-1994-4899-B5AE-DB6FEEC066A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1288D185-1994-4899-B5AE-DB6FEEC066A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1288D185-1994-4899-B5AE-DB6FEEC066A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1288D185-1994-4899-B5AE-DB6FEEC066A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1288D185-1994-4899-B5AE-DB6FEEC066A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{96A2F082-3D66-4423-B0BF-F48ADF944563} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 		{B4B382C8-6DE1-498A-A7F6-23A335867A5E} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 		{1D2D336E-0C8C-4212-9637-D47DA8D9C987} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
+		{1288D185-1994-4899-B5AE-DB6FEEC066A3} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}
