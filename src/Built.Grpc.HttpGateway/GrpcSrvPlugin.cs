@@ -62,10 +62,46 @@ namespace Built.Grpc.HttpGateway
                 var types = assembly.GetTypes();
                 foreach (var type in types)
                 {
-                    //if (type.Name.EndsWith("Base"))
-                    //{
-                    //    var s = GetGrpcMethods(type.Name, type);
-                    //}
+                    if (type.Name.EndsWith("Base"))
+                    {
+                        var methods = GetGrpcMethods("ProductBasic.ProductBasicSrv", type);
+                        // http header  转grpc header  grpc-timeout
+                        /*
+                         /// <summary>
+                        ///
+                        /// </summary>
+                        /// <param name="httpHeaderKey"></param>
+                        /// <param name="grpcHeaderKey"></param>
+                        /// <returns></returns>
+                        private static bool IsGrpcRequestHeader(string httpHeaderKey, out string grpcHeaderKey)
+                        {
+                            string prefix = "grpc.";
+
+                            if (httpHeaderKey.Length > prefix.Length && httpHeaderKey.StartsWith(prefix))
+                            {
+                                grpcHeaderKey = httpHeaderKey.Substring(prefix.Length);
+                                return true;
+                            }
+
+                            grpcHeaderKey = null;
+                            return false;
+                        }
+                         */
+                        foreach (var method in methods)
+                        {
+                            if (method.Method.Name == "Gets")
+                            {
+                                var str = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                                {
+                                    PageIndex = 1,
+                                    PageSize = 10,
+                                });
+                                var requestObject = Newtonsoft.Json.JsonConvert.DeserializeObject(str, method.RequestType);
+
+                                object responseObject = new GatewayMiddleware().CallGrpcAsync(method, new Dictionary<string, string>(), requestObject).Result;
+                            }
+                        }
+                    }
                     if (type.IsSubclassOf(baseClient))
                     {
                         foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
@@ -118,10 +154,11 @@ namespace Built.Grpc.HttpGateway
                                         PageSize = 10,
                                     });
                                     var objParams = Newtonsoft.Json.JsonConvert.DeserializeObject(str, parameters[0].ParameterType);
-                                    var res = method.Invoke(testClass, new object[] { objParams, null, null, null });
-                                    var d = res as Task;
 
-                                    var d2 = res as AsyncUnaryCall<object>;
+                                    // Task<object> task = (Task<object>)method.MakeGenericMethod(new Type[] { parameters[0].ParameterType, method.ReturnType }).Invoke(testClass, new object[] { objParams, null, null, null });
+
+                                    var res = method.Invoke(testClass, new object[] { objParams, null, null, null });
+
                                     // var r = res.ResponseAsync.Result;
                                 }
                             }

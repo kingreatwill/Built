@@ -5,10 +5,17 @@ option java_multiple_files = true;
 option csharp_namespace = "Built.Grpc.ContractsSample1.ProductBasic";
 package ProductBasic;
 
+service ProductPriceSrv {
+  // Sends a greeting
+  rpc Gets (ProductBasicGetsRequest) returns (ProductBasicGetsResponse) {}
+}
 // The service definition.
 service ProductBasicSrv {
   // Sends a greeting
   rpc Gets (ProductBasicGetsRequest) returns (ProductBasicGetsResponse) {}
+  rpc Gets2 (stream ProductBasicGetsRequest) returns (ProductBasicGetsResponse) {}
+  rpc Gets3 (ProductBasicGetsRequest) returns (stream ProductBasicGetsResponse) {}
+  rpc Gets4 (stream ProductBasicGetsRequest) returns (stream ProductBasicGetsResponse) {}
 }
 
 message ProductBasicGetsRequest {

@@ -13,12 +13,9 @@ using System.Threading.Tasks;
 using grpc = global::Grpc.Core;
 
 namespace Built.Grpc.ContractsSample1.ProductBasic {
-  /// <summary>
-  /// The service definition.
-  /// </summary>
-  public static partial class ProductBasicSrv
+  public static partial class ProductPriceSrv
   {
-    static readonly string __ServiceName = "ProductBasic.ProductBasicSrv";
+    static readonly string __ServiceName = "ProductBasic.ProductPriceSrv";
 
     static readonly grpc::Marshaller<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest> __Marshaller_ProductBasicGetsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> __Marshaller_ProductBasicGetsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse.Parser.ParseFrom);
@@ -36,6 +33,149 @@ namespace Built.Grpc.ContractsSample1.ProductBasic {
       get { return global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicReflection.Descriptor.Services[0]; }
     }
 
+    /// <summary>Base class for server-side implementations of ProductPriceSrv</summary>
+    public abstract partial class ProductPriceSrvBase
+    {
+      /// <summary>
+      /// Sends a greeting
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      public virtual global::System.Threading.Tasks.Task<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+    }
+
+    /// <summary>Client for ProductPriceSrv</summary>
+    public partial class ProductPriceSrvClient : grpc::ClientBase<ProductPriceSrvClient>
+    {
+      /// <summary>Creates a new client for ProductPriceSrv</summary>
+      /// <param name="channel">The channel to use to make remote calls.</param>
+      public ProductPriceSrvClient(grpc::Channel channel) : base(channel)
+      {
+      }
+      /// <summary>Creates a new client for ProductPriceSrv that uses a custom <c>CallInvoker</c>.</summary>
+      /// <param name="callInvoker">The callInvoker to use to make remote calls.</param>
+      public ProductPriceSrvClient(grpc::CallInvoker callInvoker) : base(callInvoker)
+      {
+      }
+      /// <summary>Protected parameterless constructor to allow creation of test doubles.</summary>
+      protected ProductPriceSrvClient() : base()
+      {
+      }
+      /// <summary>Protected constructor to allow creation of configured clients.</summary>
+      /// <param name="configuration">The client configuration.</param>
+      protected ProductPriceSrvClient(ClientBaseConfiguration configuration) : base(configuration)
+      {
+      }
+
+      /// <summary>
+      /// Sends a greeting
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse Gets(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return Gets(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Sends a greeting
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse Gets(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Gets, null, options, request);
+      }
+      /// <summary>
+      /// Sends a greeting
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> GetsAsync(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return GetsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Sends a greeting
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> GetsAsync(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Gets, null, options, request);
+      }
+      /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
+      protected override ProductPriceSrvClient NewInstance(ClientBaseConfiguration configuration)
+      {
+        return new ProductPriceSrvClient(configuration);
+      }
+    }
+
+    /// <summary>Creates service definition that can be registered with a server</summary>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    public static grpc::ServerServiceDefinition BindService(ProductPriceSrvBase serviceImpl)
+    {
+      return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_Gets, serviceImpl.Gets).Build();
+    }
+
+  }
+  /// <summary>
+  /// The service definition.
+  /// </summary>
+  public static partial class ProductBasicSrv
+  {
+    static readonly string __ServiceName = "ProductBasic.ProductBasicSrv";
+
+    static readonly grpc::Marshaller<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest> __Marshaller_ProductBasicGetsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> __Marshaller_ProductBasicGetsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse.Parser.ParseFrom);
+
+    static readonly grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> __Method_Gets = new grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Gets",
+        __Marshaller_ProductBasicGetsRequest,
+        __Marshaller_ProductBasicGetsResponse);
+
+    static readonly grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> __Method_Gets2 = new grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse>(
+        grpc::MethodType.ClientStreaming,
+        __ServiceName,
+        "Gets2",
+        __Marshaller_ProductBasicGetsRequest,
+        __Marshaller_ProductBasicGetsResponse);
+
+    static readonly grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> __Method_Gets3 = new grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "Gets3",
+        __Marshaller_ProductBasicGetsRequest,
+        __Marshaller_ProductBasicGetsResponse);
+
+    static readonly grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> __Method_Gets4 = new grpc::Method<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse>(
+        grpc::MethodType.DuplexStreaming,
+        __ServiceName,
+        "Gets4",
+        __Marshaller_ProductBasicGetsRequest,
+        __Marshaller_ProductBasicGetsResponse);
+
+    /// <summary>Service descriptor</summary>
+    public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
+    {
+      get { return global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicReflection.Descriptor.Services[1]; }
+    }
+
     /// <summary>Base class for server-side implementations of ProductBasicSrv</summary>
     public abstract partial class ProductBasicSrvBase
     {
@@ -46,6 +186,21 @@ namespace Built.Grpc.ContractsSample1.ProductBasic {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       public virtual global::System.Threading.Tasks.Task<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets2(grpc::IAsyncStreamReader<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest> requestStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task Gets3(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::IServerStreamWriter<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task Gets4(grpc::IAsyncStreamReader<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest> requestStream, grpc::IServerStreamWriter<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -119,6 +274,30 @@ namespace Built.Grpc.ContractsSample1.ProductBasic {
       {
         return CallInvoker.AsyncUnaryCall(__Method_Gets, null, options, request);
       }
+      public virtual grpc::AsyncClientStreamingCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets2(grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return Gets2(new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncClientStreamingCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets2(grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncClientStreamingCall(__Method_Gets2, null, options);
+      }
+      public virtual grpc::AsyncServerStreamingCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets3(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return Gets3(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncServerStreamingCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets3(global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_Gets3, null, options, request);
+      }
+      public virtual grpc::AsyncDuplexStreamingCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets4(grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return Gets4(new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncDuplexStreamingCall<global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsRequest, global::Built.Grpc.ContractsSample1.ProductBasic.ProductBasicGetsResponse> Gets4(grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncDuplexStreamingCall(__Method_Gets4, null, options);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override ProductBasicSrvClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -131,7 +310,10 @@ namespace Built.Grpc.ContractsSample1.ProductBasic {
     public static grpc::ServerServiceDefinition BindService(ProductBasicSrvBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_Gets, serviceImpl.Gets).Build();
+          .AddMethod(__Method_Gets, serviceImpl.Gets)
+          .AddMethod(__Method_Gets2, serviceImpl.Gets2)
+          .AddMethod(__Method_Gets3, serviceImpl.Gets3)
+          .AddMethod(__Method_Gets4, serviceImpl.Gets4).Build();
     }
 
   }

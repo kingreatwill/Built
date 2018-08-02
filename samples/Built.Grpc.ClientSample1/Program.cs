@@ -42,6 +42,8 @@ namespace Built.Grpc.ClientSample1
             request.Items.Add(1);
             request.PType = ProductBasicGetsRequest.Types.PhoneType.Work;
             var result2 = client2.Gets(request);
+            //var s = client2.Gets2();
+            //s.RequestStream.WriteAsync
             //var sd = await client2.GetsAsync(request);
             foreach (var r in result2.Result)
             {
