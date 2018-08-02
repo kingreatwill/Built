@@ -7,7 +7,7 @@ namespace Built.Grpc.ClientSample1
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main(string[] args)//async
         {
             var pipeline = new PipelineBuilder()
               //.Use<ExceptionMiddleware>()
@@ -42,7 +42,7 @@ namespace Built.Grpc.ClientSample1
             request.Items.Add(1);
             request.PType = ProductBasicGetsRequest.Types.PhoneType.Work;
             var result2 = client2.Gets(request);
-
+            //var sd = await client2.GetsAsync(request);
             foreach (var r in result2.Result)
             {
                 Console.WriteLine($"{r.ProductId}|---------|{r.ProductName}");

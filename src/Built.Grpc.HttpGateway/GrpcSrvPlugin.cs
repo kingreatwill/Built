@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Built.Grpc.HttpGateway
 {
@@ -83,6 +84,27 @@ namespace Built.Grpc.HttpGateway
                                     });
                                     var objParams = Newtonsoft.Json.JsonConvert.DeserializeObject(str, parameters[0].ParameterType);
                                     var res = method.Invoke(testClass, new object[] { objParams, null, null, null });
+                                }
+                            }
+                            // 异步调用;
+                            if (method.Name == "GetsAsync")
+                            {
+                                ParameterInfo[] parameters = method.GetParameters();
+                                if (parameters.Length == 4)
+                                {
+                                    Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
+                                    object testClass = Activator.CreateInstance(type, channel);
+                                    var str = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                                    {
+                                        PageIndex = 1,
+                                        PageSize = 10,
+                                    });
+                                    var objParams = Newtonsoft.Json.JsonConvert.DeserializeObject(str, parameters[0].ParameterType);
+                                    var res = method.Invoke(testClass, new object[] { objParams, null, null, null });
+                                    var d = res as Task;
+
+                                    var d2 = res as AsyncUnaryCall<object>;
+                                    // var r = res.ResponseAsync.Result;
                                 }
                             }
                         }
