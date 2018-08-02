@@ -61,13 +61,31 @@ namespace Built.Grpc.HttpGateway
                 var types = assembly.GetTypes();
                 foreach (var type in types)
                 {
-                    if (type.Name.EndsWith("Base"))
-                    {
-                        var s = GetGrpcMethods(type.Name, type);
-                    }
+                    //if (type.Name.EndsWith("Base"))
+                    //{
+                    //    var s = GetGrpcMethods(type.Name, type);
+                    //}
                     if (type.IsSubclassOf(baseClient))
                     {
-                        var s = GetGrpcMethods(type.Name, type);
+                        foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                        {
+                            if (method.Name == "Gets")
+                            {
+                                ParameterInfo[] parameters = method.GetParameters();
+                                if (parameters.Length == 4)
+                                {
+                                    Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
+                                    object testClass = Activator.CreateInstance(type, channel);
+                                    var str = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                                    {
+                                        PageIndex = 1,
+                                        PageSize = 10,
+                                    });
+                                    var objParams = Newtonsoft.Json.JsonConvert.DeserializeObject(str, parameters[0].ParameterType);
+                                    var res = method.Invoke(testClass, new object[] { objParams, null, null, null });
+                                }
+                            }
+                        }
                     }
                 }
                 //ClientBase
