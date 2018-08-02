@@ -2,6 +2,7 @@
 using Built.Grpc.ContractsSample1.ProductBasic;
 using Built.Grpc.ImplSample1;
 using Grpc.Core;
+using Grpc.Core.Interceptors;
 using System;
 
 namespace Built.Grpc.SrvSample1
@@ -14,7 +15,13 @@ namespace Built.Grpc.SrvSample1
             Server server = new Server
             {
                 Services = {
-                    BuiltHelloDemoSrv.BindService(new HelloworldImpl()),
+                    BuiltHelloDemoSrv.BindService(new HelloworldImpl()).Intercept(
+                            new ServerCallContextInterceptor(ctx =>
+                                {
+                                    Console.WriteLine(ctx.Host);
+                                }
+                            )
+                    ),
                     ProductBasicSrv.BindService(new ProductBasicImpl())
                 },
                 Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }

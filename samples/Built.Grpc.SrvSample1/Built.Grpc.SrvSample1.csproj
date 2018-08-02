@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Built.Grpc\Built.Grpc.csproj" />
     <ProjectReference Include="..\Built.Grpc.ContractsSample1\Built.Grpc.ContractsSample1.csproj" />
     <ProjectReference Include="..\Built.Grpc.ImplSample1\Built.Grpc.ImplSample1.csproj" />
   </ItemGroup>
