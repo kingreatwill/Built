@@ -34,9 +34,9 @@ namespace Built.Grpc.HttpGateway.Sample1
             var pipeline = new PipelineBuilder()
                 .Use(async (ctx, next) =>
                 {
-                    Console.WriteLine(ctx.Request.ToString());
+                    Console.WriteLine($"--------Request--------{ctx.Request.ToString()}-------------------");
                     await next(ctx);
-                    Console.WriteLine(ctx.Response.ToString());
+                    Console.WriteLine($"--------Response--------{ctx.Response.ToString()}-------------------");
                 });
             app.UseGrpcHttpGateway(pipeline.Build());
             if (env.IsDevelopment())
