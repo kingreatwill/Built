@@ -63,5 +63,10 @@ namespace Built.Grpc.HttpGateway
                     return m_RequestType;
             }
         }
+
+        public string GetHashString()
+        {
+            return this.Method.ServiceName + "," + this.Method.Name;
+        }
     }
 }

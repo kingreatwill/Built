@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -12,6 +13,13 @@ namespace Built.Grpc.HttpGateway
     public static class GrpcSrvPlugin
     {
         private static readonly string PluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GatewayClients");
+        public static IList<GrpcServiceMethod> Handles = new List<GrpcServiceMethod>();
+        public static ConcurrentDictionary<string, GrpcServiceMethod> Handers = new ConcurrentDictionary<string, GrpcServiceMethod>();
+
+        public static void AddOrUpdate(GrpcServiceMethod method)
+        {
+            Handers.AddOrUpdate(method.GetHashString(), method);
+        }
 
         public static IApplicationBuilder HttpGatewayEnable(this IApplicationBuilder app)
         {
@@ -56,7 +64,6 @@ namespace Built.Grpc.HttpGateway
             var baseClient = typeof(ClientBase);
             foreach (var clientPath in clients)
             {
-                //Assembly.LoadFile Assembly.LoadFrom 不能释放文件句柄，不能实现热更新
                 byte[] assemblyBuf = File.ReadAllBytes(clientPath);
                 var assembly = Assembly.Load(assemblyBuf);
                 var types = assembly.GetTypes();
@@ -70,28 +77,7 @@ namespace Built.Grpc.HttpGateway
                         if (f_key == null) continue;
                         var ServiceName = f_key.GetValue(type.ReflectedType);
                         var methods = GetGrpcMethods(ServiceName.ToString(), type);
-                        // http header  转grpc header  grpc-timeout
-                        /*
-                         /// <summary>
-                        ///
-                        /// </summary>
-                        /// <param name="httpHeaderKey"></param>
-                        /// <param name="grpcHeaderKey"></param>
-                        /// <returns></returns>
-                        private static bool IsGrpcRequestHeader(string httpHeaderKey, out string grpcHeaderKey)
-                        {
-                            string prefix = "grpc.";
 
-                            if (httpHeaderKey.Length > prefix.Length && httpHeaderKey.StartsWith(prefix))
-                            {
-                                grpcHeaderKey = httpHeaderKey.Substring(prefix.Length);
-                                return true;
-                            }
-
-                            grpcHeaderKey = null;
-                            return false;
-                        }
-                         */
                         foreach (var method in methods)
                         {
                             if (method.Method.Name == "Gets")
@@ -107,70 +93,7 @@ namespace Built.Grpc.HttpGateway
                             }
                         }
                     }
-                    if (type.IsSubclassOf(baseClient))
-                    {
-                        foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                        {
-                            if (method.Name == "Gets")
-                            {
-                                ParameterInfo[] parameters = method.GetParameters();
-                                if (parameters.Length == 4)
-                                {
-                                    Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
-                                    var pipeline = new PipelineBuilder()
-                                      .Use<PolicyMiddleware>(new PolicyMiddlewareOptions
-                                      {
-                                          RetryTimes = 2,
-                                          TimoutMilliseconds = 100
-                                      })
-                                  ;
-                                    //pipeline.Use<LoggingMiddleware>();// pipeline.UseWhen<LoggingMiddleware>(ctx => ctx.Context.Method.EndsWith("SayHello"));
-                                    //pipeline.Use<TimeoutMiddleware>(new TimeoutMiddlewareOptions { TimoutMilliseconds = 1000 });
-                                    //console logger
-                                    pipeline.Use(async (ctx, next) =>
-                                    {
-                                        Console.WriteLine(ctx.Request.ToString());
-                                        await next(ctx);
-                                        Console.WriteLine(ctx.Response.ToString());
-                                    });
-                                    MiddlewareCallInvoker callInvoker = new MiddlewareCallInvoker(channel, pipeline.Build());
-
-                                    object testClass = Activator.CreateInstance(type, callInvoker);
-                                    var str = Newtonsoft.Json.JsonConvert.SerializeObject(new
-                                    {
-                                        PageIndex = 1,
-                                        PageSize = 10,
-                                    });
-                                    var objParams = Newtonsoft.Json.JsonConvert.DeserializeObject(str, parameters[0].ParameterType);
-                                    var res = method.Invoke(testClass, new object[] { objParams, null, null, null });
-                                }
-                            }
-                            // 异步调用;
-                            if (method.Name == "GetsAsync")
-                            {
-                                ParameterInfo[] parameters = method.GetParameters();
-                                if (parameters.Length == 4)
-                                {
-                                    Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
-                                    object testClass = Activator.CreateInstance(type, channel);
-                                    var str = Newtonsoft.Json.JsonConvert.SerializeObject(new
-                                    {
-                                        PageIndex = 1,
-                                        PageSize = 10,
-                                    });
-                                    var objParams = Newtonsoft.Json.JsonConvert.DeserializeObject(str, parameters[0].ParameterType);
-
-                                    // Task<object> task = (Task<object>)method.MakeGenericMethod(new Type[] { parameters[0].ParameterType, method.ReturnType }).Invoke(testClass, new object[] { objParams, null, null, null });
-
-                                    var res = method.Invoke(testClass, new object[] { objParams, null, null, null });
-
-                                    // var r = res.ResponseAsync.Result;
-                                }
-                            }
-                        }
-                    }
                 }
-                //ClientBase
             }
             return app;
         }
@@ -188,6 +111,7 @@ namespace Built.Grpc.HttpGateway
             {
                 IMethod method = GrpcReflection.CreateMethod(serviceName, handler, marshallerFactory);
 
+                AddOrUpdate(new GrpcServiceMethod(method, handler.RequestType, handler.ResponseType));
                 methods.Add(new GrpcServiceMethod(method, handler.RequestType, handler.ResponseType));
             }
 

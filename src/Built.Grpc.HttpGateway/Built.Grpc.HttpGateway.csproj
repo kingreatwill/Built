@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Built.Grpc\Built.Grpc.csproj" />
+    <ProjectReference Include="..\Built\Built.csproj" />
   </ItemGroup>
 
 </Project>

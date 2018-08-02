@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.HttpGateway", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Grpc.HttpGateway.Sample1", "samples\Built.Grpc.HttpGateway.Sample1\Built.Grpc.HttpGateway.Sample1.csproj", "{1288D185-1994-4899-B5AE-DB6FEEC066A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{7B8760F3-9B85-4EEF-8596-627343209237}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Tool.CodeGenerator", "tools\Built.Tool.CodeGenerator\Built.Tool.CodeGenerator.csproj", "{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,10 @@ Global
 		{1288D185-1994-4899-B5AE-DB6FEEC066A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1288D185-1994-4899-B5AE-DB6FEEC066A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1288D185-1994-4899-B5AE-DB6FEEC066A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +87,7 @@ Global
 		{B4B382C8-6DE1-498A-A7F6-23A335867A5E} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 		{1D2D336E-0C8C-4212-9637-D47DA8D9C987} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 		{1288D185-1994-4899-B5AE-DB6FEEC066A3} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
+		{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA} = {7B8760F3-9B85-4EEF-8596-627343209237}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}
