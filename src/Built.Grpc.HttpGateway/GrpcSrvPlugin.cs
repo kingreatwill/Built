@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Grpc.Core;
+using Microsoft.AspNetCore.Builder;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,13 +52,46 @@ namespace Built.Grpc.HttpGateway
         public static IApplicationBuilder HttpGatewayInit(this IApplicationBuilder app)
         {
             var clients = Directory.GetFiles(PluginPath, "*.dll");
+            var baseClient = typeof(ClientBase);
             foreach (var clientPath in clients)
             {
                 //Assembly.LoadFile Assembly.LoadFrom 不能释放文件句柄，不能实现热更新
                 byte[] assemblyBuf = File.ReadAllBytes(clientPath);
                 var assembly = Assembly.Load(assemblyBuf);
+                var types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (type.Name.EndsWith("Base"))
+                    {
+                        var s = GetGrpcMethods(type.Name, type);
+                    }
+                    if (type.IsSubclassOf(baseClient))
+                    {
+                        var s = GetGrpcMethods(type.Name, type);
+                    }
+                }
+                //ClientBase
             }
             return app;
+        }
+
+        public static IList<GrpcServiceMethod> GetGrpcMethods(string serviceName, Type serviceType)
+        {
+            return GetGrpcMethods(serviceName, serviceType, GrpcMarshallerFactory.DefaultInstance);
+        }
+
+        public static IList<GrpcServiceMethod> GetGrpcMethods(string serviceName, Type serviceType, IGrpcMarshallerFactory marshallerFactory)
+        {
+            List<GrpcServiceMethod> methods = new List<GrpcServiceMethod>();
+
+            foreach (GrpcMethodHandlerInfo handler in GrpcReflection.EnumerateServiceMethods(serviceType))
+            {
+                IMethod method = GrpcReflection.CreateMethod(serviceName, handler, marshallerFactory);
+
+                methods.Add(new GrpcServiceMethod(method, handler.RequestType, handler.ResponseType));
+            }
+
+            return methods;
         }
     }
 }
