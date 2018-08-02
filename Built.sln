@@ -15,7 +15,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.ClientSample1", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.ContractsSample1", "samples\Built.Grpc.ContractsSample1\Built.Grpc.ContractsSample1.csproj", "{B4B382C8-6DE1-498A-A7F6-23A335867A5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Grpc.ImplSample1", "samples\Built.Grpc.ImplSample1\Built.Grpc.ImplSample1.csproj", "{1D2D336E-0C8C-4212-9637-D47DA8D9C987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.ImplSample1", "samples\Built.Grpc.ImplSample1\Built.Grpc.ImplSample1.csproj", "{1D2D336E-0C8C-4212-9637-D47DA8D9C987}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{A16B0527-C56B-46E6-BA2A-7DD782CBD6D5}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\copy_moc.bat = nuget\copy_moc.bat
+		nuget\MagicOnion.HttpGateway.nuspec = nuget\MagicOnion.HttpGateway.nuspec
+		nuget\MagicOnion.nuspec = nuget\MagicOnion.nuspec
+		nuget\nuget.exe = nuget\nuget.exe
+		nuget\pack.bat = nuget\pack.bat
+		nuget\push.bat = nuget\push.bat
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Grpc.HttpGateway", "src\Built.Grpc.HttpGateway\Built.Grpc.HttpGateway.csproj", "{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +59,10 @@ Global
 		{1D2D336E-0C8C-4212-9637-D47DA8D9C987}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D2D336E-0C8C-4212-9637-D47DA8D9C987}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D2D336E-0C8C-4212-9637-D47DA8D9C987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
