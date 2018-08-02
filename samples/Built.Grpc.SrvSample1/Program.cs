@@ -9,13 +9,17 @@ namespace Built.Grpc.SrvSample1
     {
         private static void Main(string[] args)
         {
-            var server = new Server
+            var Port = 50051;
+            Server server = new Server
             {
                 Services = { BuiltHelloDemoSrv.BindService(new HelloworldImpl()) },
-                Ports = { new ServerPort("", 0, ServerCredentials.Insecure) }
+                Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
             };
-
             server.Start();
+
+            Console.WriteLine("Greeter server listening on port " + Port);
+            Console.WriteLine("Press any key to stop the server...");
+            Console.ReadKey();
 
             server.ShutdownAsync().Wait();
 
