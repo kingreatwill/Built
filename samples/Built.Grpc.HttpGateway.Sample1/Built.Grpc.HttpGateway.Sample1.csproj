@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Built.Configuration.Yaml\Built.Configuration.Yaml.csproj" />
     <ProjectReference Include="..\..\src\Built.Grpc.HttpGateway\Built.Grpc.HttpGateway.csproj" />
   </ItemGroup>
 

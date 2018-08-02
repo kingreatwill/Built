@@ -14,9 +14,16 @@ namespace Built.Grpc.HttpGateway.Sample1
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddYamlFile("appsettings.yml", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                ;
+            Configuration = builder.Build();
+            // Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
