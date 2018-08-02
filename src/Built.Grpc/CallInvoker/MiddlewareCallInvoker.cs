@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 
 namespace Built.Grpc
 {
-    //DefaultCallInvoker
-    internal sealed class MiddlewareCallInvoker : DefaultCallInvoker
+    public sealed class MiddlewareCallInvoker : DefaultCallInvoker
     {
         private readonly Channel grpcChannel;
 

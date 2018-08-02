@@ -1,4 +1,5 @@
 ﻿using Built.Grpc.ContractsSample1.HelloDemo;
+using Built.Grpc.ContractsSample1.ProductBasic;
 using Built.Grpc.ImplSample1;
 using Grpc.Core;
 using System;
@@ -12,7 +13,10 @@ namespace Built.Grpc.SrvSample1
             var Port = 50051;
             Server server = new Server
             {
-                Services = { BuiltHelloDemoSrv.BindService(new HelloworldImpl()) },
+                Services = {
+                    BuiltHelloDemoSrv.BindService(new HelloworldImpl()),
+                    ProductBasicSrv.BindService(new ProductBasicImpl())
+                },
                 Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
             };
             server.Start();

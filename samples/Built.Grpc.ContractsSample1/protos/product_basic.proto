@@ -1,0 +1,33 @@
+//protoc.exe --csharp_out . Hello.proto --grpc_out . --plugin=protoc-gen-grpc="c:\winpath\grpc_csharp_plugin.exe"
+syntax = "proto3";
+
+option java_multiple_files = true;
+option csharp_namespace = "Built.Grpc.ContractsSample1.ProductBasic";
+package ProductBasic;
+
+// The service definition.
+service ProductBasicSrv {
+  // Sends a greeting
+  rpc Gets (ProductBasicGetsRequest) returns (ProductBasicGetsResponse) {}
+}
+
+message ProductBasicGetsRequest {
+  int32  pageIndex = 1;
+  int32  pageSize = 2;
+  repeated int32  items = 3;
+  enum PhoneType { 
+    MOBILE = 0; 
+    HOME = 1; 
+    WORK = 2; 
+  }
+  PhoneType pType = 4;
+}
+
+message  ProductBasicGetsResponse{
+	repeated  ProductBasicGetsResult  result = 1;
+}
+
+message ProductBasicGetsResult {
+  int64  productId = 1;
+  string  productName = 2;
+}
