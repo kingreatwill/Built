@@ -76,7 +76,25 @@ namespace Built.Grpc.HttpGateway
                                 if (parameters.Length == 4)
                                 {
                                     Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
-                                    object testClass = Activator.CreateInstance(type, channel);
+                                    var pipeline = new PipelineBuilder()
+                                      .Use<PolicyMiddleware>(new PolicyMiddlewareOptions
+                                      {
+                                          RetryTimes = 2,
+                                          TimoutMilliseconds = 100
+                                      })
+                                  ;
+                                    //pipeline.Use<LoggingMiddleware>();// pipeline.UseWhen<LoggingMiddleware>(ctx => ctx.Context.Method.EndsWith("SayHello"));
+                                    //pipeline.Use<TimeoutMiddleware>(new TimeoutMiddlewareOptions { TimoutMilliseconds = 1000 });
+                                    //console logger
+                                    pipeline.Use(async (ctx, next) =>
+                                    {
+                                        Console.WriteLine(ctx.Request.ToString());
+                                        await next(ctx);
+                                        Console.WriteLine(ctx.Response.ToString());
+                                    });
+                                    MiddlewareCallInvoker callInvoker = new MiddlewareCallInvoker(channel, pipeline.Build());
+
+                                    object testClass = Activator.CreateInstance(type, callInvoker);
                                     var str = Newtonsoft.Json.JsonConvert.SerializeObject(new
                                     {
                                         PageIndex = 1,
