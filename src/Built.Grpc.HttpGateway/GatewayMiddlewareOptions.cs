@@ -12,10 +12,7 @@ namespace Built.Grpc.HttpGateway
 
         public GatewayMiddlewareOptions()
         {
-            TimoutMilliseconds = 60000;
         }
-
-        public int TimoutMilliseconds { get; set; }
 
         GatewayMiddlewareOptions IOptions<GatewayMiddlewareOptions>.Value
         {

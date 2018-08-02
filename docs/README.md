@@ -8,7 +8,7 @@ WORKDIR /app
 EXPOSE 80/tcp
 ENV ASPNETCORE_URLS http://*:5000
  
-ENTRYPOINT ["dotnet", "Winton.Extensions.Configuration.Consul.Test.Website.dll"]
+ENTRYPOINT ["dotnet", "Built.Extensions.Configuration.Consul.Test.Website.dll"]
 
 
 docker-compose.yml

@@ -29,19 +29,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{A16B0527
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.HttpGateway", "src\Built.Grpc.HttpGateway\Built.Grpc.HttpGateway.csproj", "{26FB3CC5-7FC5-4B96-B39E-F9E2B24562BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Grpc.HttpGateway.Sample1", "samples\Built.Grpc.HttpGateway.Sample1\Built.Grpc.HttpGateway.Sample1.csproj", "{1288D185-1994-4899-B5AE-DB6FEEC066A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.HttpGateway.Sample1", "samples\Built.Grpc.HttpGateway.Sample1\Built.Grpc.HttpGateway.Sample1.csproj", "{1288D185-1994-4899-B5AE-DB6FEEC066A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{7B8760F3-9B85-4EEF-8596-627343209237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Tool.CodeGenerator", "tools\Built.Tool.CodeGenerator\Built.Tool.CodeGenerator.csproj", "{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Tool.CodeGenerator", "tools\Built.Tool.CodeGenerator\Built.Tool.CodeGenerator.csproj", "{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Extensions.Configuration.Yaml", "src\Built.Configuration.Yaml\Built.Extensions.Configuration.Yaml.csproj", "{2A4C036F-145F-437C-8BFC-F75F6A51DF3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Extensions.Configuration.Yaml", "src\Built.Configuration.Yaml\Built.Extensions.Configuration.Yaml.csproj", "{2A4C036F-145F-437C-8BFC-F75F6A51DF3A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2C5BECFB-EB25-4A2A-9D42-62174E6D045D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Extensions.Configuration.Yaml.Tests", "tests\Built.Configuration.Yaml.Tests\Built.Extensions.Configuration.Yaml.Tests.csproj", "{0D4436AA-D3BB-4590-A250-1CFA1287B05F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Extensions.Configuration.Yaml.Tests", "tests\Built.Configuration.Yaml.Tests\Built.Extensions.Configuration.Yaml.Tests.csproj", "{0D4436AA-D3BB-4590-A250-1CFA1287B05F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Extensions.Configuration.Consul", "src\Built.Extensions.Configuration.Consul\Built.Extensions.Configuration.Consul.csproj", "{8C76728B-A0B4-475E-B623-92B6EA369570}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Extensions.Configuration.Consul", "src\Built.Extensions.Configuration.Consul\Built.Extensions.Configuration.Consul.csproj", "{8C76728B-A0B4-475E-B623-92B6EA369570}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{470B5A89-B0FD-4D57-AD08-EA9C6607AEB2}"
+	ProjectSection(SolutionItems) = preProject
+		docs\README.md = docs\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extensions", "extensions", "{68410025-D500-4DAC-A564-04EA8D0E59E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,7 +115,9 @@ Global
 		{1D2D336E-0C8C-4212-9637-D47DA8D9C987} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 		{1288D185-1994-4899-B5AE-DB6FEEC066A3} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 		{3D6F4B7C-7929-40D0-A541-26FA9C4AB7BA} = {7B8760F3-9B85-4EEF-8596-627343209237}
+		{2A4C036F-145F-437C-8BFC-F75F6A51DF3A} = {68410025-D500-4DAC-A564-04EA8D0E59E2}
 		{0D4436AA-D3BB-4590-A250-1CFA1287B05F} = {2C5BECFB-EB25-4A2A-9D42-62174E6D045D}
+		{8C76728B-A0B4-475E-B623-92B6EA369570} = {68410025-D500-4DAC-A564-04EA8D0E59E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}
