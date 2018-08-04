@@ -13,6 +13,7 @@ namespace Built.Tool.CodeGenerator
 {
     internal class Class2
     {
+        //https://github.com/dotnet/roslyn/issues/5162
         public void test2()
         {
             string csPaths = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp_gen_grpc_code");
@@ -40,6 +41,15 @@ using grpc = global::Grpc.Core;
                 MetadataReference.CreateFromFile(typeof(Google.Protobuf.Reflection.ServiceDescriptor).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(Grpc.Core.ClientBase).Assembly.Location),
             };
+            var references2 = new[]{
+                MetadataReference.CreateFromFile(Assembly.Load("netstandard, Version=2.0.0.0").Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.Runtime, Version=0.0.0.0").Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.IO, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.Threading.Tasks, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").Location),
+                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(Google.Protobuf.ProtoPreconditions).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(Grpc.Core.Channel).Assembly.Location),
+            };
 
             /*
 
@@ -49,12 +59,17 @@ using grpc = global::Grpc.Core;
             COM.ReferencedAssemblies.Add(@"Google.Protobuf.dll");
             COM.ReferencedAssemblies.Add(@"Grpc.Core.dll");
              */
-
+            var options = new CSharpCompilationOptions(
+                   outputKind: OutputKind.DynamicallyLinkedLibrary,
+                    optimizationLevel: OptimizationLevel.Release);
             var compilation = CSharpCompilation.Create("GeneratedAssembly",
-                new[] { sourceTree1, sourceTree2 },
-                references,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
+                 new[] { sourceTree1, sourceTree2 },
+                 references2,
+                options);
+            var result2 = compilation.Emit("GeneratedAssembly.dll");
+            //new CSharpCompilationOptions(
+            //        outputKind: OutputKind.DynamicallyLinkedLibrary,
+            //        optimizationLevel: OptimizationLevel.Release)
             Assembly assembly = null;
             using (var stream = new System.IO.MemoryStream())
             {
