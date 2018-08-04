@@ -9,6 +9,7 @@ namespace Built.Tool.CodeGenerator
     {
         private static void Main(string[] args)
         {
+            new Class2().test2();
             var architecture = RuntimeInformation.OSArchitecture.ToString().ToLower();// 系统架构,x86 x64
             var os = "windows";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -59,7 +60,7 @@ namespace Built.Tool.CodeGenerator
                 Console.WriteLine($"Total execute time :{(proc.ExitTime - proc.StartTime).TotalMilliseconds} ms");
                 Console.WriteLine($"Exited Code ： {proc.ExitCode}");
             }
-
+            new Class2().sd();
             Console.WriteLine("Hello World!");
         }
     }
