@@ -22,25 +22,6 @@ namespace Built.Tool.CodeGenerator
             var sourceTree1 = CSharpSyntaxTree.ParseText(File.ReadAllText(dllFiles[0]));
             var sourceTree2 = CSharpSyntaxTree.ParseText(File.ReadAllText(dllFiles[1]));
 
-            //コードが参照するアセンブリの一覧
-            var references = new[]{
-                //microlib.dll
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(System.IO.Stream).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(System.Threading.CancellationToken).Assembly.Location),
-
-                /*
-
-                 using System;
-using System.Threading;
-using System.Threading.Tasks;
-using grpc = global::Grpc.Core;
-                 */
-
-                //Google.Protobuf.dll
-                MetadataReference.CreateFromFile(typeof(Google.Protobuf.Reflection.ServiceDescriptor).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(Grpc.Core.ClientBase).Assembly.Location),
-            };
             var references2 = new[]{
                 MetadataReference.CreateFromFile(Assembly.Load("netstandard, Version=2.0.0.0").Location),
                 MetadataReference.CreateFromFile(Assembly.Load("System.Runtime, Version=0.0.0.0").Location),
@@ -50,45 +31,34 @@ using grpc = global::Grpc.Core;
                 MetadataReference.CreateFromFile(typeof(Google.Protobuf.ProtoPreconditions).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(Grpc.Core.Channel).Assembly.Location),
             };
-
-            /*
-
-              COM.ReferencedAssemblies.Add("mscorlib.dll");
-            COM.ReferencedAssemblies.Add("System.dll");
-            COM.ReferencedAssemblies.Add("System.Interactive.Async.dll");
-            COM.ReferencedAssemblies.Add(@"Google.Protobuf.dll");
-            COM.ReferencedAssemblies.Add(@"Grpc.Core.dll");
-             */
             var options = new CSharpCompilationOptions(
                    outputKind: OutputKind.DynamicallyLinkedLibrary,
                     optimizationLevel: OptimizationLevel.Release);
+
             var compilation = CSharpCompilation.Create("GeneratedAssembly",
                  new[] { sourceTree1, sourceTree2 },
                  references2,
                 options);
             var result2 = compilation.Emit("GeneratedAssembly.dll");
-            //new CSharpCompilationOptions(
-            //        outputKind: OutputKind.DynamicallyLinkedLibrary,
-            //        optimizationLevel: OptimizationLevel.Release)
-            Assembly assembly = null;
-            using (var stream = new System.IO.MemoryStream())
-            {
-                var result = compilation.Emit(stream);
-                if (result.Success)
-                {
-                    assembly = System.Reflection.Assembly.Load(stream.GetBuffer());
-                }
-                else
-                {
-                    //失敗時 コンパイルエラーを出力
-                    //foreach (var mes in result.Diagnostics.Select(d =>
-                    //    string.Format("[{0}]:{1}({2})", d.Id, d.GetMessage(), d.Location.GetLineSpan().StartLinePosition)))
-                    //{
-                    //    Console.Error.WriteLine(mes);
-                    //}
-                    //return null;
-                }
-            }
+            //Assembly assembly = null;
+            //using (var stream = new System.IO.MemoryStream())
+            //{
+            //    var result = compilation.Emit(stream);
+            //    if (result.Success)
+            //    {
+            //        assembly = System.Reflection.Assembly.Load(stream.GetBuffer());
+            //    }
+            //    else
+            //    {
+            //        //失敗時 コンパイルエラーを出力
+            //        //foreach (var mes in result.Diagnostics.Select(d =>
+            //        //    string.Format("[{0}]:{1}({2})", d.Id, d.GetMessage(), d.Location.GetLineSpan().StartLinePosition)))
+            //        //{
+            //        //    Console.Error.WriteLine(mes);
+            //        //}
+            //        //return null;
+            //    }
+            //}
         }
 
         public void sd()
