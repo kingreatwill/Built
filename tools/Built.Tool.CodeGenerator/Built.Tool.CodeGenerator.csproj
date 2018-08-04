@@ -14,4 +14,104 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\any.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\api.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\descriptor.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\duration.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\empty.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\field_mask.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\source_context.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\struct.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\timestamp.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\type.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\google\protobuf\wrappers.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\linux_x64\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\linux_x86\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\macosx_x64\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\macosx_x86\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\windows_x64\protoc.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\google.protobuf.tools\3.5.1\tools\windows_x86\protoc.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\linux_x64\grpc_csharp_plugin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\linux_x64\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\linux_x86\grpc_csharp_plugin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\linux_x86\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\macosx_x64\grpc_csharp_plugin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\macosx_x64\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\macosx_x86\grpc_csharp_plugin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\macosx_x86\protoc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\windows_x64\grpc_csharp_plugin.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\windows_x64\protoc.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\windows_x86\grpc_csharp_plugin.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="packages\grpc.tools\1.9.0\tools\windows_x86\protoc.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="protos\helloworld.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="protos\product_basic.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="temp_gen_grpc_code\" />
+  </ItemGroup>
+
 </Project>
