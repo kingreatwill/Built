@@ -31,6 +31,8 @@ namespace Built.Extensions.Configuration.Consul
         /// </summary>
         Action<ConsulConfigurationOptions> ConsulConfigurationOptions { get; set; }
 
+        Action<ConsulClientConfiguration> ConsulClientConfiguration { get; set; }
+
         /// <summary>
         ///     Gets or sets an <see cref="Action" /> to be applied to the <see cref="HttpClientHandler" />
         ///     during construction of the <see cref="IConsulClient" />.

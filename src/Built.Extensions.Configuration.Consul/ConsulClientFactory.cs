@@ -17,7 +17,7 @@ namespace Built.Extensions.Configuration.Consul
         public IConsulClient Create()
         {
             return new ConsulClient(
-                _consulConfigSource.ConsulConfigurationOptions,
+                _consulConfigSource.ConsulClientConfiguration,// _consulConfigSource.ConsulConfigurationOptions
                 _consulConfigSource.ConsulHttpClientOptions,
                 _consulConfigSource.ConsulHttpClientHandlerOptions);
         }
