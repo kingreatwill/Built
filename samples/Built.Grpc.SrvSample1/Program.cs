@@ -1,6 +1,8 @@
 ﻿using Built.Grpc.ContractsSample1.HelloDemo;
 using Built.Grpc.ContractsSample1.ProductBasic;
+using Built.Grpc.Extensions;
 using Built.Grpc.ImplSample1;
+using Google.Protobuf.Reflection;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using System;
@@ -18,15 +20,19 @@ namespace Built.Grpc.SrvSample1
                     BuiltHelloDemoSrv.BindService(new HelloworldImpl()).Intercept(
                             new ServerCallContextInterceptor(ctx =>
                                 {
-                                    Console.WriteLine(ctx.Host);
+                                    Console.WriteLine(ctx);
                                 }
                             )
                     ),
-                    ProductBasicSrv.BindService(new ProductBasicImpl())
+                    ProductBasicSrv.BindService(new ProductBasicImpl()),
+                    ProductPriceSrv.BindService(new ProductPriceImpl())
                 },
-                Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
+                Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) },
+                
             };
-            server.Start();
+            var s = ProductBasicSrv.Descriptor.FullName;
+           
+            server.StartAndRegisterConsul();
 
             Console.WriteLine("Greeter server listening on port " + Port);
             Console.WriteLine("Press any key to stop the server...");

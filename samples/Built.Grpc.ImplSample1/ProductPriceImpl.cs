@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Built.Grpc.ImplSample1
 {
-    public class ProductBasicImpl : ProductBasicSrv.ProductBasicSrvBase
+    public class ProductPriceImpl : ProductPriceSrv.ProductPriceSrvBase
     {
         public override Task<ProductBasicGetsResponse> Gets(ProductBasicGetsRequest request, ServerCallContext context)
         {
@@ -19,7 +19,7 @@ namespace Built.Grpc.ImplSample1
                 response.Result.Add(new ProductBasicGetsResult
                 {
                     ProductId = (request.PageIndex - 1) * request.PageSize + i + 1,
-                    ProductName = $"Basic:{ request.PageIndex }_{i}_{request.Items}_{request.PType}"
+                    ProductName = $"Price:{ request.PageIndex }_{i}_{request.Items}_{request.PType}"
                 });
             }
             return Task.FromResult(response);
