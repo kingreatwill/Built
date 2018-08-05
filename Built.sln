@@ -55,6 +55,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", 
 		benchmarks\README.md = benchmarks\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Benchmark.Rpc", "benchmarks\Built.Benchmark.Rpc\Built.Benchmark.Rpc.csproj", "{8F0CA6D4-B8E5-4BDD-8860-B4B0CBB7F065}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{8C76728B-A0B4-475E-B623-92B6EA369570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C76728B-A0B4-475E-B623-92B6EA369570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C76728B-A0B4-475E-B623-92B6EA369570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F0CA6D4-B8E5-4BDD-8860-B4B0CBB7F065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F0CA6D4-B8E5-4BDD-8860-B4B0CBB7F065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F0CA6D4-B8E5-4BDD-8860-B4B0CBB7F065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F0CA6D4-B8E5-4BDD-8860-B4B0CBB7F065}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{2A4C036F-145F-437C-8BFC-F75F6A51DF3A} = {68410025-D500-4DAC-A564-04EA8D0E59E2}
 		{0D4436AA-D3BB-4590-A250-1CFA1287B05F} = {2C5BECFB-EB25-4A2A-9D42-62174E6D045D}
 		{8C76728B-A0B4-475E-B623-92B6EA369570} = {68410025-D500-4DAC-A564-04EA8D0E59E2}
+		{8F0CA6D4-B8E5-4BDD-8860-B4B0CBB7F065} = {0A0616C1-6960-483C-AC23-21F70B8E0E9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}
