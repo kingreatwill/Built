@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Built.Grpc.HttpGateway
 {
-    class SwaggerMiddleware
+    public class SwaggerMiddleware
     {
     }
 }
