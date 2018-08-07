@@ -64,7 +64,7 @@ namespace Built.Grpc.HttpGateway.Sample1
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
