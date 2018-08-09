@@ -60,6 +60,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Grpc.GatewaySwagger.Sample1", "samples\Built.Grpc.GatewaySwagger.Sample1\Built.Grpc.GatewaySwagger.Sample1.csproj", "{4D27CDF0-6FE0-4F1F-98A7-B54E6B7120AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{B49E4651-6C30-48FF-A997-67C7B7BADE0C}"
+	ProjectSection(SolutionItems) = preProject
+		demos\README.md = demos\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Blazor.Demo", "demos\Built.Blazor.Demo\Built.Blazor.Demo.csproj", "{4D45680C-3DE3-49E2-94DC-779C7F702AE5}"
 EndProject
