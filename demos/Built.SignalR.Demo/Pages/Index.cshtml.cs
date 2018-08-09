@@ -11,7 +11,6 @@ namespace Built.SignalR.Demo.Pages
     {
         public void OnGet()
         {
-
         }
     }
 }

@@ -97,6 +97,9 @@ namespace Built.Grpc.ContractsSample1.ProductBasic {
     /// <summary>Field number for the "pageIndex" field.</summary>
     public const int PageIndexFieldNumber = 1;
     private int pageIndex_;
+    /// <summary>
+    ///Ò³Âë
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int PageIndex {
       get { return pageIndex_; }
@@ -108,6 +111,9 @@ namespace Built.Grpc.ContractsSample1.ProductBasic {
     /// <summary>Field number for the "pageSize" field.</summary>
     public const int PageSizeFieldNumber = 2;
     private int pageSize_;
+    /// <summary>
+    /// ´óÐ¡
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int PageSize {
       get { return pageSize_; }

@@ -19,8 +19,8 @@ service ProductBasicSrv {
 }
 
 message ProductBasicGetsRequest {
-  int32  pageIndex = 1;
-  int32  pageSize = 2;
+  int32  pageIndex = 1; //Ò³Âë
+  int32  pageSize = 2; // ´óÐ¡
   repeated int32  items = 3;
   enum PhoneType { 
     MOBILE = 0; 
