@@ -11,12 +11,22 @@ namespace Built.Grpc.HttpGateway
         {
             // 启用插件;
             return app.HttpGatewayInit().UseMiddleware<GatewayMiddleware>(pipeline);
-            //return app.UseMiddleware<GatewayMiddleware>(pipeline);
         }
 
-        public static IApplicationBuilder MonitorFileEnable(this IApplicationBuilder app)
+        public static IApplicationBuilder MonitorDllFileEnable(this IApplicationBuilder app)
         {
-            DirectoryMonitor monitor = new DirectoryMonitor(GrpcServiceMethodFactory.PluginPath);
+            DirectoryMonitor monitor = new DirectoryMonitor(GrpcServiceMethodFactory.PluginPath, "*.dll");
+            monitor.Change += (string filePath) =>
+            {
+                GrpcServiceMethodFactory.LoadAsync(filePath);
+            };
+            monitor.Start();
+            return app;
+        }
+
+        public static IApplicationBuilder MonitorProtoFileEnable(this IApplicationBuilder app)
+        {
+            DirectoryMonitor monitor = new DirectoryMonitor(GrpcServiceMethodFactory.PluginPath, "*.proto");
             monitor.Change += (string filePath) =>
             {
                 GrpcServiceMethodFactory.LoadAsync(filePath);

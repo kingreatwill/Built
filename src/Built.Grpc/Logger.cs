@@ -64,5 +64,7 @@ namespace Built.Grpc
     {
         public LoggerLevel Level { get; set; }
         public string Content { get; set; }
+
+        public Exception Err { get; set; }
     }
 }

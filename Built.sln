@@ -64,19 +64,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{B49E4651
 		demos\README.md = demos\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Blazor.Demo", "demos\Built.Blazor.Demo\Built.Blazor.Demo.csproj", "{4D45680C-3DE3-49E2-94DC-779C7F702AE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Blazor.Demo", "demos\Built.Blazor.Demo\Built.Blazor.Demo.csproj", "{4D45680C-3DE3-49E2-94DC-779C7F702AE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.SignalR.Demo", "demos\Built.SignalR.Demo\Built.SignalR.Demo.csproj", "{A5DB0BAF-A0AC-4E9D-B87E-A4B8120494CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.SignalR.Demo", "demos\Built.SignalR.Demo\Built.SignalR.Demo.csproj", "{A5DB0BAF-A0AC-4E9D-B87E-A4B8120494CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Blazor.HostDemo.Server", "demos\Built.Blazor.HostDemo.Server\Built.Blazor.HostDemo.Server.csproj", "{BC3E881C-1C12-4FFB-80C2-E2D3D22DAA98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Blazor.HostDemo.Server", "demos\Built.Blazor.HostDemo.Server\Built.Blazor.HostDemo.Server.csproj", "{BC3E881C-1C12-4FFB-80C2-E2D3D22DAA98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Blazor.HostDemo.Client", "demos\Built.Blazor.HostDemo.Client\Built.Blazor.HostDemo.Client.csproj", "{626E9A12-E979-492F-894C-8338C846E748}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Blazor.HostDemo.Client", "demos\Built.Blazor.HostDemo.Client\Built.Blazor.HostDemo.Client.csproj", "{626E9A12-E979-492F-894C-8338C846E748}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Blazor.HostDemo.Shared", "demos\Built.Blazor.HostDemo.Shared\Built.Blazor.HostDemo.Shared.csproj", "{20F43B5B-6C25-458E-80E1-51FDDD067704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Blazor.HostDemo.Shared", "demos\Built.Blazor.HostDemo.Shared\Built.Blazor.HostDemo.Shared.csproj", "{20F43B5B-6C25-458E-80E1-51FDDD067704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Blazor.ServerSideDemo.Server", "demos\Built.Blazor.ServerSideDemo.Server\Built.Blazor.ServerSideDemo.Server.csproj", "{D5D8A9B7-916C-4519-BDE7-86F942C6C4CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Blazor.ServerSideDemo.Server", "demos\Built.Blazor.ServerSideDemo.Server\Built.Blazor.ServerSideDemo.Server.csproj", "{D5D8A9B7-916C-4519-BDE7-86F942C6C4CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Blazor.ServerSideDemo.App", "demos\Built.Blazor.ServerSideDemo.App\Built.Blazor.ServerSideDemo.App.csproj", "{F87B4389-135A-4746-9B67-47994817373F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Blazor.ServerSideDemo.App", "demos\Built.Blazor.ServerSideDemo.App\Built.Blazor.ServerSideDemo.App.csproj", "{F87B4389-135A-4746-9B67-47994817373F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{505F64A0-20C6-4D3D-9B4A-42E40935E335}"
 EndProject
@@ -84,17 +84,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SignalR", "SignalR", "{76CB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{EBD440FC-D294-4731-BDDB-7039902C9BFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.EventBus.NServiceBus.ServerDemo", "demos\Built.EventBus.NServiceBus.ServerDemo\Built.EventBus.NServiceBus.ServerDemo.csproj", "{D91167F7-97A1-4875-8928-9B80B9B4AA22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.EventBus.NServiceBus.ServerDemo", "demos\Built.EventBus.NServiceBus.ServerDemo\Built.EventBus.NServiceBus.ServerDemo.csproj", "{D91167F7-97A1-4875-8928-9B80B9B4AA22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.EventBus.MassTransit.ServerDemo", "demos\Built.EventBus.MassTransit.ServerDemo\Built.EventBus.MassTransit.ServerDemo.csproj", "{7D4BA524-6C86-4F73-AC5F-8E9D231E3C3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.EventBus.MassTransit.ServerDemo", "demos\Built.EventBus.MassTransit.ServerDemo\Built.EventBus.MassTransit.ServerDemo.csproj", "{7D4BA524-6C86-4F73-AC5F-8E9D231E3C3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.EventBus.CAP.Demo", "demos\Built.EventBus.CAP.Demo\Built.EventBus.CAP.Demo.csproj", "{7921B532-82AB-4618-B5E5-802610AFF56F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.EventBus.CAP.Demo", "demos\Built.EventBus.CAP.Demo\Built.EventBus.CAP.Demo.csproj", "{7921B532-82AB-4618-B5E5-802610AFF56F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actor", "Actor", "{6C2171E0-784E-40B7-A92A-D2DC676E4D4E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Akka", "Akka", "{EF92F1FE-00E0-478E-9ED5-BFC6E6A407B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orleans", "Orleans", "{F5074D73-ADA8-43F6-BAD9-CFF1348F76B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.ConsoleApp1", "samples\Built.ConsoleApp1\Built.ConsoleApp1.csproj", "{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -198,6 +200,10 @@ Global
 		{7921B532-82AB-4618-B5E5-802610AFF56F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7921B532-82AB-4618-B5E5-802610AFF56F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7921B532-82AB-4618-B5E5-802610AFF56F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -230,6 +236,7 @@ Global
 		{6C2171E0-784E-40B7-A92A-D2DC676E4D4E} = {B49E4651-6C30-48FF-A997-67C7B7BADE0C}
 		{EF92F1FE-00E0-478E-9ED5-BFC6E6A407B9} = {6C2171E0-784E-40B7-A92A-D2DC676E4D4E}
 		{F5074D73-ADA8-43F6-BAD9-CFF1348F76B0} = {6C2171E0-784E-40B7-A92A-D2DC676E4D4E}
+		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219} = {D94C7441-7ECE-40A8-9C40-AA875B83BFB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}

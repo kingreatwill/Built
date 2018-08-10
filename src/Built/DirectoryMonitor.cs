@@ -22,10 +22,15 @@ namespace Built
         private readonly Timer m_timer;
         private bool m_timerStarted = false;
 
-        public DirectoryMonitor(string dirPath)
+        public string MonitorPath { get; }
+        public string Filter { get; }
+
+        public DirectoryMonitor(string dirPath, string filter)
         {
+            MonitorPath = dirPath;
+            Filter = filter;
             m_fileSystemWatcher.Path = dirPath;
-            m_fileSystemWatcher.Filter = "*.dll";
+            m_fileSystemWatcher.Filter = filter;// "*.dll";
             m_fileSystemWatcher.IncludeSubdirectories = false;
             m_fileSystemWatcher.Created += new FileSystemEventHandler(OnChange);
             m_fileSystemWatcher.Changed += new FileSystemEventHandler(OnChange);

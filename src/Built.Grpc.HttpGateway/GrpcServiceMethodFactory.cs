@@ -7,10 +7,19 @@ using System.Threading.Tasks;
 
 namespace Built.Grpc.HttpGateway
 {
+    /*
+     * 1,网关启动时，加载protos文件下所有proto文件并且对比MD5是否发生变化
+     * 2,根据proto文件生成对应的cache文件夹，里面存放对应的dll文件以及proto的MD5值，
+
+         */
+
     public static class GrpcServiceMethodFactory
     {
         public static readonly string PluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GatewayClients");
         public static ConcurrentDictionary<string, GrpcServiceMethod> Handers = new ConcurrentDictionary<string, GrpcServiceMethod>();
+
+        // proto文件队列;
+        public static ProducerConsumer<string> ProtoQueue = new ProducerConsumer<string>(fileName => Console.WriteLine("正在消费" + fileName));
 
         public static async Task ReLoadAsync()
         {
