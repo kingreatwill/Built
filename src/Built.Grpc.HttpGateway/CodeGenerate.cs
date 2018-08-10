@@ -12,13 +12,13 @@ namespace Built.Grpc.HttpGateway
     {
         public static bool Generate(string baseDirectory, string protoFile)
         {
-            System.IO.FileInfo fileInfo = new System.IO.FileInfo(protoFile);
             var architecture = RuntimeInformation.OSArchitecture.ToString().ToLower();// 系统架构,x86 x64
-
-            var os = "windows";
+            var bin = string.Empty;
+            var os = string.Empty;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 os = "windows";
+                bin = ".exe";
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
@@ -33,14 +33,15 @@ namespace Built.Grpc.HttpGateway
                 InnerLogger.Log(LoggerLevel.Error, "该平台不支持.");
                 return false;
             }
-            var protocBinPath = Path.Combine(baseDirectory, $"tools/{os}_{architecture}/protoc");
-            var pluginBinPath = Path.Combine(baseDirectory, $"tools/{os}_{architecture}/grpc_csharp_plugin");
-            var csharp_out = Path.Combine(baseDirectory, $".tmp/{fileInfo.Name}");
+            var protocBinPath = Path.Combine(baseDirectory, $"tools/{os}_{architecture}/protoc{bin}");
+            var pluginBinPath = Path.Combine(baseDirectory, $"tools/{os}_{architecture}/grpc_csharp_plugin{bin}");
+            var csharp_out = Path.Combine(baseDirectory, $"plugins/.{Path.GetFileNameWithoutExtension(protoFile)}");
             // 创建文件夹
             if (!Directory.Exists(csharp_out)) Directory.CreateDirectory(csharp_out);
-            FileExtension.GetMD5(protoFile);
+            //protoFile.GetMD5();
+
             var proto_path = Path.Combine(baseDirectory, "protos");
-            var protoc_args = $" --proto_path={proto_path} --csharp_out {csharp_out} {protoFile} --grpc_out {csharp_out} --plugin=protoc-gen-grpc={pluginBinPath}";
+            var protoc_args = $" --proto_path={proto_path} --csharp_out {csharp_out} {Path.GetFileName(protoFile)} --grpc_out {csharp_out} --plugin=protoc-gen-grpc={pluginBinPath}";
             var psi = new ProcessStartInfo(protocBinPath, protoc_args)
             {
                 RedirectStandardOutput = true
@@ -60,7 +61,7 @@ namespace Built.Grpc.HttpGateway
                 {
                     while (!sr.EndOfStream)
                     {
-                        Console.WriteLine(sr.ReadLine());
+                        InnerLogger.Log(LoggerLevel.Debug, sr.ReadLine());
                     }
 
                     if (!proc.HasExited)

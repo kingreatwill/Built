@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,26 +15,12 @@ namespace Built.ConsoleApp1
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("1---" + Thread.CurrentThread.ManagedThreadId);
-
-            for (var i = 0; ; i++)
+            DirectoryMonitor monitor = new DirectoryMonitor(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+            monitor.Change += (string filePath) =>
             {
-                Task.Factory.StartNew(() =>
-                {
-                    Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                    Thread.Sleep(10000);
-                });
-            }
-
-            Task.Factory.StartNew(() =>
-            {
-                Console.WriteLine("3---" + Thread.CurrentThread.ManagedThreadId);
-                for (var i = 0; ; i++)
-                {
-                    ProtoQueue.Enqueue("3-" + i.ToString());
-                }
-            });
-            Console.WriteLine("Hello World!");
+                Console.WriteLine(filePath);
+            };
+            monitor.Start();
             Console.ReadLine();
         }
     }

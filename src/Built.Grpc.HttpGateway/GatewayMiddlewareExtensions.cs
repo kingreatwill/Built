@@ -13,23 +13,25 @@ namespace Built.Grpc.HttpGateway
             return app.HttpGatewayInit().UseMiddleware<GatewayMiddleware>(pipeline);
         }
 
-        public static IApplicationBuilder MonitorDllFileEnable(this IApplicationBuilder app)
+        public static IApplicationBuilder UseGrpcMonitorDllFileEnable(this IApplicationBuilder app)
         {
             DirectoryMonitor monitor = new DirectoryMonitor(GrpcServiceMethodFactory.PluginPath, "*.dll");
             monitor.Change += (string filePath) =>
             {
-                GrpcServiceMethodFactory.LoadAsync(filePath);
+                InnerLogger.Log(LoggerLevel.Debug, filePath);
+                GrpcServiceMethodFactory.DllQueue.Enqueue(filePath);
             };
             monitor.Start();
             return app;
         }
 
-        public static IApplicationBuilder MonitorProtoFileEnable(this IApplicationBuilder app)
+        public static IApplicationBuilder UseGrpcMonitorProtoFileEnable(this IApplicationBuilder app)
         {
-            DirectoryMonitor monitor = new DirectoryMonitor(GrpcServiceMethodFactory.PluginPath, "*.proto");
+            DirectoryMonitor monitor = new DirectoryMonitor(GrpcServiceMethodFactory.ProtoPath, "*.proto");
             monitor.Change += (string filePath) =>
             {
-                GrpcServiceMethodFactory.LoadAsync(filePath);
+                InnerLogger.Log(LoggerLevel.Debug, filePath);
+                GrpcServiceMethodFactory.ProtoQueue.Enqueue(filePath);
             };
             monitor.Start();
             return app;

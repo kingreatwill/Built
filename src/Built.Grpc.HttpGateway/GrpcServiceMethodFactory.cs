@@ -4,6 +4,8 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Built.Grpc.HttpGateway
 {
@@ -15,37 +17,97 @@ namespace Built.Grpc.HttpGateway
 
     public static class GrpcServiceMethodFactory
     {
-        public static readonly string PluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GatewayClients");
+        public static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static readonly string PluginPath = Path.Combine(BaseDirectory, "plugins");
+        public static readonly string ProtoPath = Path.Combine(BaseDirectory, "protos");
         public static ConcurrentDictionary<string, GrpcServiceMethod> Handers = new ConcurrentDictionary<string, GrpcServiceMethod>();
 
+        // dll文件队列;
+        public static ProducerConsumer<string> DllQueue = new ProducerConsumer<string>(fileName => LoadAsync(fileName).Wait());
+
         // proto文件队列;
-        public static ProducerConsumer<string> ProtoQueue = new ProducerConsumer<string>(fileName => Console.WriteLine("正在消费" + fileName));
+        public static ProducerConsumer<string> ProtoQueue = new ProducerConsumer<string>(protoFileName =>
+        {
+            if (CodeGenerate.Generate(BaseDirectory, protoFileName))
+            {
+                var name = Path.GetFileNameWithoutExtension(protoFileName);
+                var csharp_out = Path.Combine(BaseDirectory, $"plugins/.{name}");
+                if (CodeBuild.Build(csharp_out, name))
+                {
+                    var dllPath = Path.Combine(csharp_out, $"{name}.dll");
+                    //生成plugin.yml
+                    var serializer = new SerializerBuilder().Build();
+                    var yaml = serializer.Serialize(new ProtoPluginModel
+                    {
+                        DllFileMD5 = dllPath.GetMD5(),
+                        FileName = name,
+                        ProtoFileMD5 = protoFileName.GetMD5()
+                    });
+                    File.WriteAllText(Path.Combine(csharp_out, "plugin.yml"), yaml);
+                    DllQueue.Enqueue(dllPath);
+                }
+            }
+        });
 
         public static async Task ReLoadAsync()
         {
-            //todo 为了热更新，不能初始化handers
             await InitAsync();
         }
 
-        public static async Task InitAsync()
+        public static Task InitAsync()
         {
+            if (!Directory.Exists(PluginPath)) Directory.CreateDirectory(PluginPath);
+            if (!Directory.Exists(ProtoPath)) Directory.CreateDirectory(ProtoPath);
             Handers = new ConcurrentDictionary<string, GrpcServiceMethod>();
-            var dllFiles = Directory.GetFiles(PluginPath, "*.dll");
-            foreach (var file in dllFiles)
+            return Task.Factory.StartNew(() =>
             {
-                await LoadAsync(file);
-            }
+                var dllFiles = Directory.GetFiles(PluginPath, "*.dll");
+                foreach (var file in dllFiles)
+                {
+                    DllQueue.Enqueue(file);
+                }
+
+                var protoFiles = Directory.GetFiles(ProtoPath, "*.proto");
+                foreach (var file in protoFiles)
+                {
+                    var NeedGenerate = true;
+                    var GenerateDllPath = string.Empty;
+                    var fileName = Path.GetFileNameWithoutExtension(file);
+                    var csharp_out = Path.Combine(BaseDirectory, $"plugins/.{fileName}");
+                    if (Directory.Exists(csharp_out))
+                    {
+                        var pluginYml = Path.Combine(csharp_out, $"plugin.yml");
+                        var pluginDll = Path.Combine(csharp_out, $"{fileName}.dll");
+                        if (File.Exists(pluginYml) && File.Exists(pluginDll))
+                        {
+                            var deserializer = new DeserializerBuilder()
+                            .WithNamingConvention(new CamelCaseNamingConvention())
+                            .Build();
+                            var setting = deserializer.Deserialize<ProtoPluginModel>(File.ReadAllText(pluginYml));
+                            var protoMD5 = file.GetMD5();
+                            var dllMD5 = pluginDll.GetMD5();
+                            if (setting.ProtoFileMD5 == protoMD5 && setting.DllFileMD5 == dllMD5)
+                            {
+                                NeedGenerate = false;
+                            }
+                        }
+                    }
+                    if (NeedGenerate)
+                    {
+                        ProtoQueue.Enqueue(file);
+                    }
+                    else
+                    {
+                        DllQueue.Enqueue(GenerateDllPath);
+                    }
+                }
+            });
         }
 
         public static Task LoadAsync(string fileFullPath)
         {
             return Task.Run(() =>
             {
-                if (!File.Exists(fileFullPath))
-                {
-                    ReLoadAsync().Wait();
-                    return;
-                }
                 byte[] assemblyBuf = File.ReadAllBytes(fileFullPath);
                 var assembly = Assembly.Load(assemblyBuf);
                 HandersAddOrUpdate(assembly);
@@ -81,7 +143,7 @@ namespace Built.Grpc.HttpGateway
                 IMethod method = GrpcReflection.CreateMethod(serviceName, handler, marshallerFactory);
                 var srvMethod = new GrpcServiceMethod(method, handler.RequestType, handler.ResponseType);
                 Handers.AddOrUpdate(srvMethod.GetHashString(), srvMethod);
-                Console.WriteLine(srvMethod.GetHashString());
+                InnerLogger.Log(LoggerLevel.Debug, srvMethod.GetHashString());
             }
         }
     }

@@ -34,7 +34,7 @@ namespace Built
             m_fileSystemWatcher.IncludeSubdirectories = false;
             m_fileSystemWatcher.Created += new FileSystemEventHandler(OnChange);
             m_fileSystemWatcher.Changed += new FileSystemEventHandler(OnChange);
-            m_fileSystemWatcher.Deleted += new FileSystemEventHandler(OnChange);
+            m_fileSystemWatcher.Deleted += new FileSystemEventHandler(OnDelete);
             /*
               NotifyFilter = NotifyFilters.Attributes |
                                    NotifyFilters.CreationTime |
@@ -70,6 +70,23 @@ namespace Built
                     m_timerStarted = true;
                 }
             }
+        }
+
+        private void OnDelete(object sender, FileSystemEventArgs e)
+        {
+            //// Don't want other threads messing with the pending events right now
+            //lock (m_pendingEvents)
+            //{
+            //    // Save a timestamp for the most recent event for this path
+            //    m_pendingEvents[e.FullPath] = DateTime.Now;
+
+            //    // Start a timer if not already started
+            //    if (!m_timerStarted)
+            //    {
+            //        m_timer.Change(100, 100);
+            //        m_timerStarted = true;
+            //    }
+            //}
         }
 
         private void OnTimeout(object state)

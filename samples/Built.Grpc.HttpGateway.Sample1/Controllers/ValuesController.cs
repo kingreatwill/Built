@@ -14,7 +14,7 @@ namespace Built.Grpc.HttpGateway.Sample1.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return GrpcServiceMethodFactory.Handers.Select(t => t.Key).ToArray();
         }
 
         // GET api/values/5

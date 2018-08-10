@@ -14,7 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="GatewayClients\Built.Grpc.ContractsSample1.dll">
+    <None Update="appsettings.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="protos\helloworld.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

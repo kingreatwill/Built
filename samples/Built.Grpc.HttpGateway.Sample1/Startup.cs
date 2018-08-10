@@ -37,6 +37,11 @@ namespace Built.Grpc.HttpGateway.Sample1
             var sd = Configuration.GetValue<string>("datasource:driver-class-name");
             var srvConfig = Configuration.
                GetSection("datasource").Get<DatasourceConfig>();
+
+            InnerLogger.ConsulLog += (obj) =>
+            {
+                Console.WriteLine(obj.Content);
+            };
             // Configuration = configuration;
         }
 
@@ -59,7 +64,9 @@ namespace Built.Grpc.HttpGateway.Sample1
                     await next(ctx);
                     Console.WriteLine($"--------Response--------{ctx.Response.ToString()}-------------------");
                 });
-            app.UseGrpcHttpGateway(pipeline.Build());
+            app.UseGrpcHttpGateway(pipeline.Build())
+                .UseGrpcMonitorDllFileEnable()
+                .UseGrpcMonitorProtoFileEnable();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
