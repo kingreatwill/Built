@@ -111,7 +111,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDD", "DDD", "{202706C1-2FE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emit", "Emit", "{61D74E9E-6088-4E2A-A5A2-E8FE37C95920}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Emit.CreateDynamicProxy", "demos\Built.Emit.CreateDynamicProxy\Built.Emit.CreateDynamicProxy.csproj", "{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Emit.CreateDynamicProxy", "demos\Built.Emit.CreateDynamicProxy\Built.Emit.CreateDynamicProxy.csproj", "{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Emit.CreateMembers", "demos\Built.Emit.CreateMembers\Built.Emit.CreateMembers.csproj", "{C4DFB7F2-8C56-4036-B4FF-E56B456B3943}"
 EndProject
@@ -325,12 +325,14 @@ Global
 		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}.Release|Any CPU.Build.0 = Release|Any CPU
 		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}.Release|x86.ActiveCfg = Release|Any CPU
 		{61D8205C-6EE6-4B63-8AFF-B24CA54DB219}.Release|x86.Build.0 = Release|Any CPU
-		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Debug|x86.ActiveCfg = Debug|x86
-		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Debug|x86.Build.0 = Debug|x86
-		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Release|Any CPU.ActiveCfg = Release|x86
-		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Release|x86.ActiveCfg = Release|x86
-		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Release|x86.Build.0 = Release|x86
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{BDA6268A-ADF2-4DA3-8053-81CA4AD007B0}.Release|x86.Build.0 = Release|Any CPU
 		{C4DFB7F2-8C56-4036-B4FF-E56B456B3943}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{C4DFB7F2-8C56-4036-B4FF-E56B456B3943}.Debug|x86.ActiveCfg = Debug|x86
 		{C4DFB7F2-8C56-4036-B4FF-E56B456B3943}.Debug|x86.Build.0 = Debug|x86

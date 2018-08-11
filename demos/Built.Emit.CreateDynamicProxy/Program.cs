@@ -52,8 +52,7 @@ namespace EmitCreateDynamicProxy
       string nameOfType = typeof(T).Name + "Proxy";
 
       var assemblyName = new AssemblyName(nameOfAssembly);
-      var assembly = AppDomain.CurrentDomain
-        .DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+      var assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
       var moduleBuilder = assembly.DefineDynamicModule(nameOfModule);
 
       var typeBuilder = moduleBuilder.DefineType(

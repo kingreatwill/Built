@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Built.Tool.CodeGenerator
@@ -9,59 +13,22 @@ namespace Built.Tool.CodeGenerator
     {
         private static void Main(string[] args)
         {
-            new Class2().test2();
-            var architecture = RuntimeInformation.OSArchitecture.ToString().ToLower();// 系统架构,x86 x64
-            var os = "windows";
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            var tree = CSharpSyntaxTree.ParseText(@" /// <summary> This is an xml doc comment </summary> class C { }");
+            var root = (CompilationUnitSyntax)tree.GetRoot();
+            var classNode = (ClassDeclarationSyntax)(root.Members.First());
+            var trivias = classNode.GetLeadingTrivia();
+            var enumerator = trivias.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                os = "windows";
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                os = "linux";
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                os = "macosx";
-            }
-
-            var protoc = $@"packages\google.protobuf.tools\3.5.1\tools\{os}_{architecture}\protoc";//windows  exe
-            var protocPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, protoc);
-            // grpc_csharp_plugin
-            var pluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"packages\grpc.tools\1.9.0\tools\{os}_{architecture}\grpc_csharp_plugin.exe");
-            var protoc_args = $" --proto_path={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "protos")} --csharp_out {Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp_gen_grpc_code")} helloworld.proto --grpc_out {Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp_gen_grpc_code")} --plugin=protoc-gen-grpc={pluginPath}";
-            var psi = new ProcessStartInfo(protocPath, protoc_args)
-            {
-                RedirectStandardOutput = true
-            };
-            //启动
-            var proc = Process.Start(psi);
-            if (proc == null)
-            {
-                Console.WriteLine("Can not exec.");
-            }
-            else
-            {
-                Console.WriteLine("-------------Start read standard output--------------");
-                //开始读取
-                using (var sr = proc.StandardOutput)
+                var trivia = enumerator.Current;
+                if (trivia.Kind().Equals(SyntaxKind.SingleLineDocumentationCommentTrivia))
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        Console.WriteLine(sr.ReadLine());
-                    }
-
-                    if (!proc.HasExited)
-                    {
-                        proc.Kill();
-                    }
+                    var xml = trivia.GetStructure(); Console.WriteLine(xml);
                 }
-                Console.WriteLine("---------------Read end------------------");
-                Console.WriteLine($"Total execute time :{(proc.ExitTime - proc.StartTime).TotalMilliseconds} ms");
-                Console.WriteLine($"Exited Code ： {proc.ExitCode}");
             }
-            new Class2().sd();
+
             Console.WriteLine("Hello World!");
+            Console.ReadLine();
         }
     }
 }
