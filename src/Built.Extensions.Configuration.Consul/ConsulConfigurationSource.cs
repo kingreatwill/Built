@@ -24,7 +24,7 @@ namespace Built.Extensions.Configuration.Consul
             CancellationToken = cancellationToken;
             Parser = new JsonConfigurationParser();
         }
-
+        public Action<ConsulClientConfiguration> ConsulClientConfiguration { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public CancellationToken CancellationToken { get; }
 
         public Action<ConsulConfigurationOptions> ConsulConfigurationOptions { get; set; }
@@ -44,6 +44,7 @@ namespace Built.Extensions.Configuration.Consul
         public IConfigurationParser Parser { get; set; }
 
         public bool ReloadOnChange { get; set; } = false;
+       
 
         public IConfigurationProvider Build(IConfigurationBuilder builder)
         {
