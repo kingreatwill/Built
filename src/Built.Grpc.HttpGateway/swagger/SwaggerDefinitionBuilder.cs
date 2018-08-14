@@ -83,7 +83,7 @@ namespace Built.Grpc.HttpGateway.Swagger
                         xmlComment = xDocLookup[Tuple.Create(item.ServiceName, item.Handler.Name)].FirstOrDefault();
                     }
 
-                    var parameters = BuildParameters(doc.definitions, xmlComment, item.Handler);
+                    var parameters = BuildParameters(doc.definitions, xmlComment, item.RequestType);
                     var operation = new Operation
                     {
                         tags = new[] { item.ServiceName },
@@ -115,85 +115,39 @@ namespace Built.Grpc.HttpGateway.Swagger
             }
         }
 
-        private Parameter[] BuildParameters(IDictionary<string, Schema> definitions, XmlCommentStructure xmlComment, MethodInfo method)
+        private Parameter[] BuildParameters(IDictionary<string, Schema> definitions, XmlCommentStructure xmlComment, Type ParameterType)
         {
-            var parameterInfos = method.GetParameters();
-            var parameters = parameterInfos
-                .Select(x =>
-                {
-                    var parameterXmlComment = UnwrapTypeName(x.ParameterType);
-                    if (xmlComment != null)
-                    {
-                        xmlComment.Parameters.TryGetValue(x.Name, out parameterXmlComment);
-                        parameterXmlComment = UnwrapTypeName(x.ParameterType) + " " + parameterXmlComment;
-                    }
+            var parameterXmlComment = UnwrapTypeName(ParameterType);
+            if (xmlComment != null)
+            {
+                xmlComment.Parameters.TryGetValue(ParameterType.Name, out parameterXmlComment);
+                parameterXmlComment = UnwrapTypeName(ParameterType) + " " + parameterXmlComment;
+            }
+            var swaggerDataType = ToSwaggerDataType(ParameterType);
+            Schema refSchema = null;
+            string defaultObjectExample = null;
+            if (swaggerDataType == "object")
+            {
+                BuildSchema(definitions, ParameterType);
+                refSchema = new Schema { @ref = BuildSchema(definitions, ParameterType) };
 
-                    var defaultValue = x.DefaultValue;
-                    if (defaultValue != null && x.ParameterType.GetTypeInfo().IsEnum)
-                    {
-                        defaultValue = defaultValue.ToString();
-                    }
-
-                    var collectionType = GetCollectionType(x.ParameterType);
-                    var items = collectionType != null
-                        ? new PartialSchema { type = ToSwaggerDataType(collectionType), }
-                        : null;
-
-                    string defaultObjectExample = null;
-                    object[] enums = null;
-                    if (x.ParameterType.GetTypeInfo().IsEnum || (collectionType != null && collectionType.GetTypeInfo().IsEnum))
-                    {
-                        var enumType = (x.ParameterType.GetTypeInfo().IsEnum) ? x.ParameterType : collectionType;
-
-                        var enumValues = Enum.GetNames(enumType);
-
-                        if (collectionType != null)
-                        {
-                            // Current Swagger-UI's enum array selector is too buggy...
-                            // items.@enum = enumValues;
-                            defaultObjectExample = string.Join("\r\n", Enum.GetNames(collectionType));
-                        }
-                        else
-                        {
-                            enums = enumValues;
-                        }
-                    }
-
-                    var swaggerDataType = ToSwaggerDataType(x.ParameterType);
-                    Schema refSchema = null;
-                    if (swaggerDataType == "object")
-                    {
-                        BuildSchema(definitions, x.ParameterType);
-                        refSchema = new Schema { @ref = BuildSchema(definitions, x.ParameterType) };
-                        if (parameterInfos.Length != 1)
-                        {
-#if NET_FRAMEWORK
-                            var unknownObj = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(x.ParameterType);
-#else
-                            var unknownObj = Activator.CreateInstance(x.ParameterType);
-#endif
-
-                            defaultObjectExample = JsonConvert.SerializeObject(unknownObj, new[] { new Newtonsoft.Json.Converters.StringEnumConverter() });
-                        }
-                    }
-
-                    return new Parameter
-                    {
-                        name = x.Name,
-                        @in = parameterInfos.Length == 1 ? "body" : "formData",
-                        type = swaggerDataType,
-                        description = parameterXmlComment,
-                        required = !x.IsOptional,
-                        @default = defaultObjectExample ?? ((x.IsOptional) ? defaultValue : null),
-                        items = items,
-                        @enum = enums,
-                        collectionFormat = "multi",
-                        schema = refSchema
-                    };
-                })
-                .ToArray();
-
-            return parameters;
+                var unknownObj = Activator.CreateInstance(ParameterType);
+                defaultObjectExample = JsonConvert.SerializeObject(unknownObj, new[] { new Newtonsoft.Json.Converters.StringEnumConverter() });
+            }
+            return new Parameter[] { };
+            //return new Parameter
+            //{
+            //    name = ParameterType.Name,
+            //    @in = "body",
+            //    type = swaggerDataType,
+            //    description = parameterXmlComment,
+            //    required = !x.IsOptional,
+            //    @default = defaultObjectExample,
+            //    //items = items,
+            //    //@enum = enums,
+            //    collectionFormat = "multi",
+            //    schema = refSchema
+            //};
         }
 
         private string BuildSchema(IDictionary<string, Schema> definitions, Type type)

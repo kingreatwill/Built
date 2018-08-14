@@ -65,7 +65,7 @@ namespace Built.Grpc.HttpGateway.Sample1
                     await next(ctx);
                     Console.WriteLine($"--------Response--------{ctx.Response.ToString()}-------------------");
                 });
-            app.UseBuiltGrpcSwagger(new SwaggerOptions("MagicOnion.Server", "Swagger Integration Test", "/")
+            app.UseBuiltGrpcSwagger(new SwaggerOptions("Built.Grpc.HttpGateway.Sample1", "GRPC 文档", "/")
             {
                 // XmlDocumentPath = xmlPath
             });
@@ -76,7 +76,7 @@ namespace Built.Grpc.HttpGateway.Sample1
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseStaticFiles();
+            // app.UseStaticFiles();
             app.UseMvc();
         }
     }
