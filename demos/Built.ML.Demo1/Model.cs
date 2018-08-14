@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Built.ML.Demo1
 {
-    public class TaxiTrip
+    public class HistoryData
     {
         [Column("0")]
         public int Num1;
@@ -29,7 +29,7 @@ namespace Built.ML.Demo1
         public int Red1;
     }
 
-    public class TaxiTripFarePrediction
+    public class HistoryDataPrediction
     {
         [Column("0")]
         public int Num1;
