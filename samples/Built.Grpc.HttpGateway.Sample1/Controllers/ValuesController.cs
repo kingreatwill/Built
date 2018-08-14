@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Built.Grpc.HttpGateway.Sample1.Controllers
 {
+    /// <summary>
+    /// ValuesController
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase

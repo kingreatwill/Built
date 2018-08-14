@@ -37,13 +37,15 @@ namespace Built.Grpc.HttpGateway
                 if (CodeBuild.Build(csharp_out, name))
                 {
                     var dllPath = Path.Combine(csharp_out, $"{name}.dll");
+                    var xmlDocPath = Path.Combine(csharp_out, $"{name}.xml");
                     //生成plugin.yml
                     var serializer = new SerializerBuilder().Build();
                     var yaml = serializer.Serialize(new ProtoPluginModel
                     {
                         DllFileMD5 = dllPath.GetMD5(),
                         FileName = name,
-                        ProtoFileMD5 = protoFileName.GetMD5()
+                        ProtoFileMD5 = protoFileName.GetMD5(),
+                        XmlFileMD5 = xmlDocPath.GetMD5()
                     });
                     File.WriteAllText(Path.Combine(csharp_out, "plugin.yml"), yaml);
                     DllQueue.Enqueue(dllPath);
@@ -80,7 +82,8 @@ namespace Built.Grpc.HttpGateway
                     {
                         var pluginYml = Path.Combine(csharp_out, $"plugin.yml");
                         GenerateDllPath = Path.Combine(csharp_out, $"{fileName}.dll");
-                        if (File.Exists(pluginYml) && File.Exists(GenerateDllPath))
+                        var xmlDocPath = Path.Combine(csharp_out, $"{fileName}.xml");
+                        if (File.Exists(pluginYml) && File.Exists(GenerateDllPath) && File.Exists(xmlDocPath))
                         {
                             var deserializer = new DeserializerBuilder()
                             .WithNamingConvention(new CamelCaseNamingConvention())
@@ -89,14 +92,24 @@ namespace Built.Grpc.HttpGateway
                             using (FileStream fs = new FileStream(pluginYml, FileMode.Open, FileAccess.Read))
                             {
                                 var dic = (Dictionary<object, object>)deserializer.Deserialize(new StreamReader(fs, Encoding.Default));
-                                setting.FileName = dic["FileName"].ToString();
-                                setting.DllFileMD5 = dic["DllFileMD5"].ToString();
-                                setting.ProtoFileMD5 = dic["ProtoFileMD5"].ToString();
+
+                                dic.TryGetValue("FileName", out object fName);
+                                setting.FileName = fName?.ToString();
+
+                                dic.TryGetValue("FileName", out object dName);
+                                setting.DllFileMD5 = dName?.ToString();
+
+                                dic.TryGetValue("FileName", out object pName);
+                                setting.ProtoFileMD5 = pName?.ToString();
+
+                                dic.TryGetValue("XmlFileMD5", out object xName);
+                                setting.XmlFileMD5 = xName?.ToString();
                                 //var setting = deserializer.Deserialize<ProtoPluginModel>(File.ReadAllText(pluginYml));
                             }
                             var protoMD5 = file.GetMD5();
                             var dllMD5 = GenerateDllPath.GetMD5();
-                            if (setting.ProtoFileMD5 == protoMD5 && setting.DllFileMD5 == dllMD5)
+                            var xmlMD5 = xmlDocPath.GetMD5();
+                            if (setting.ProtoFileMD5 == protoMD5 && setting.DllFileMD5 == dllMD5 && setting.XmlFileMD5 == xmlMD5)
                             {
                                 NeedGenerate = false;
                             }

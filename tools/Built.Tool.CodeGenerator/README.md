@@ -1,6 +1,7 @@
 ﻿根据 proto 生成cs编译成dll
 根据操作系统运行不同的文件
 https://bbs.csdn.net/topics/360024896
+https://docs.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/how-to-create-an-xml-documentation-file-using-codedom
 1,csc
 2,roslyn 跨平台
 3,CSharpCodeProvider

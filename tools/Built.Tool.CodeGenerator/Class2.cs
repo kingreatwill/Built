@@ -40,7 +40,7 @@ namespace Built.Tool.CodeGenerator
                  new[] { sourceTree1, sourceTree2 },
                  references2,
                 options);
-            var result2 = compilation.Emit("GeneratedAssembly.dll");
+            var result2 = compilation.Emit("GeneratedAssembly.dll", xmlDocumentationPath: "GeneratedAssembly.xml");
 
             //var classSymbol = compilation.GlobalNamespace.GetTypeMembers("HelloworldReflection").Single();
             //var docComment = classSymbol.GetDocumentationCommentXml();

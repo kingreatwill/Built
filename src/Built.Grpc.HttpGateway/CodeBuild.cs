@@ -33,7 +33,7 @@ namespace Built.Grpc.HttpGateway
             };
             var options = new CSharpCompilationOptions(outputKind: OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release);
             var compilation = CSharpCompilation.Create(assemblyName, trees, references2, options);
-            var result2 = compilation.Emit(Path.Combine(csPath, $"{assemblyName}.dll"));
+            var result2 = compilation.Emit(Path.Combine(csPath, $"{assemblyName}.dll"), xmlDocPath: Path.Combine(csPath, $"{assemblyName}.xml"));
 
             InnerLogger.Log(
                 result2.Success ? LoggerLevel.Debug : LoggerLevel.Error,
