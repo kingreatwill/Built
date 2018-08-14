@@ -5,6 +5,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="swagger\ui_3.18.1\favicon-16x16.png" />
+    <None Remove="swagger\ui_3.18.1\favicon-32x32.png" />
+    <None Remove="swagger\ui_3.18.1\index.html" />
+    <None Remove="swagger\ui_3.18.1\oauth2-redirect.html" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui-bundle.js" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui-bundle.js.map" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui-standalone-preset.js" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui-standalone-preset.js.map" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui.css" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui.css.map" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui.js" />
+    <None Remove="swagger\ui_3.18.1\swagger-ui.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="swagger\ui_3.18.1\favicon-16x16.png" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\favicon-32x32.png" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\index.html" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\oauth2-redirect.html" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui-bundle.js" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui-bundle.js.map" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui-standalone-preset.js" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui-standalone-preset.js.map" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui.css" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui.css.map" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui.js" />
+    <EmbeddedResource Include="swagger\ui_3.18.1\swagger-ui.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.6.0" />
     <PackageReference Include="Grpc" Version="1.14.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />

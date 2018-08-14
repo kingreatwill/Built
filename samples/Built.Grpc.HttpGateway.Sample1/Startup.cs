@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Built.Grpc.HttpGateway.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,10 @@ namespace Built.Grpc.HttpGateway.Sample1
                     await next(ctx);
                     Console.WriteLine($"--------Response--------{ctx.Response.ToString()}-------------------");
                 });
+            app.UseBuiltGrpcSwagger(new SwaggerOptions("MagicOnion.Server", "Swagger Integration Test", "/")
+            {
+                // XmlDocumentPath = xmlPath
+            });
             app.UseGrpcHttpGateway(pipeline.Build())
                 .UseGrpcMonitorDllFileEnable()
                 .UseGrpcMonitorProtoFileEnable();

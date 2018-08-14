@@ -11,7 +11,7 @@ namespace Built.Grpc.HttpGateway
     /// </summary>
     public static class GrpcReflection
     {
-        public static IEnumerable<GrpcMethodHandlerInfo> EnumerateServiceMethods(Type serviceImplType)
+        public static IEnumerable<GrpcMethodHandlerInfo> EnumerateServiceMethods(string serviceName, Type serviceImplType, IGrpcMarshallerFactory marshallerFactory)
         {
             foreach (MethodInfo method in serviceImplType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -19,7 +19,7 @@ namespace Built.Grpc.HttpGateway
 
                 if (!TryGetServiceMethodInfo(method, out MethodType methodType, out Type requestType, out Type responseType)) { continue; }
 
-                yield return new GrpcMethodHandlerInfo(methodType, requestType, responseType, method);
+                yield return new GrpcMethodHandlerInfo(serviceName, methodType, requestType, responseType, method, marshallerFactory);
             }
         }
 

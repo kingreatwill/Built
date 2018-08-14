@@ -20,6 +20,9 @@
     <None Update="protos\helloworld.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="protos\product_basic.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

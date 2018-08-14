@@ -42,7 +42,7 @@ namespace Built.Grpc.HttpGateway
             {
                 string requestPath = httpContext.Request.Path.Value;
 
-                if (!GrpcServiceMethodFactory.Handers.Any() || !GrpcServiceMethodFactory.Handers.TryGetValue(requestPath, out GrpcServiceMethod method))
+                if (!GrpcServiceMethodFactory.Handers.Any() || !GrpcServiceMethodFactory.Handers.TryGetValue(requestPath, out GrpcMethodHandlerInfo method))
                 {
                     if (_next != null) { await _next(httpContext); }
                     return;
@@ -139,7 +139,7 @@ namespace Built.Grpc.HttpGateway
         /// <param name="headers"></param>
         /// <param name="requestObject"></param>
         /// <returns></returns>
-        public Task<object> CallGrpcAsync(GrpcServiceMethod method, IDictionary<string, string> headers, object requestObject)
+        public Task<object> CallGrpcAsync(GrpcMethodHandlerInfo method, IDictionary<string, string> headers, object requestObject)
         {
             object requests;
 
@@ -161,7 +161,7 @@ namespace Built.Grpc.HttpGateway
             return task;
         }
 
-        private Task<object> CallGrpcAsyncCore<TRequest, TResponse>(GrpcServiceMethod method, IDictionary<string, string> headers, IEnumerable<TRequest> requests) where TRequest : class where TResponse : class
+        private Task<object> CallGrpcAsyncCore<TRequest, TResponse>(GrpcMethodHandlerInfo method, IDictionary<string, string> headers, IEnumerable<TRequest> requests) where TRequest : class where TResponse : class
         {
             Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
             CallInvoker invoker = new MiddlewareCallInvoker(channel, MiddlewarePipeline);

@@ -1,8 +1,10 @@
 ﻿using Grpc.Core;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -20,7 +22,7 @@ namespace Built.Grpc.HttpGateway
         public static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         public static readonly string PluginPath = Path.Combine(BaseDirectory, "plugins");
         public static readonly string ProtoPath = Path.Combine(BaseDirectory, "protos");
-        public static ConcurrentDictionary<string, GrpcServiceMethod> Handers = new ConcurrentDictionary<string, GrpcServiceMethod>();
+        public static ConcurrentDictionary<string, GrpcMethodHandlerInfo> Handers = new ConcurrentDictionary<string, GrpcMethodHandlerInfo>();
 
         // dll文件队列;
         public static ProducerConsumer<string> DllQueue = new ProducerConsumer<string>(fileName => LoadAsync(fileName).Wait());
@@ -58,7 +60,7 @@ namespace Built.Grpc.HttpGateway
         {
             if (!Directory.Exists(PluginPath)) Directory.CreateDirectory(PluginPath);
             if (!Directory.Exists(ProtoPath)) Directory.CreateDirectory(ProtoPath);
-            Handers = new ConcurrentDictionary<string, GrpcServiceMethod>();
+            Handers = new ConcurrentDictionary<string, GrpcMethodHandlerInfo>();
             return Task.Factory.StartNew(() =>
             {
                 var dllFiles = Directory.GetFiles(PluginPath, "*.dll");
@@ -77,15 +79,23 @@ namespace Built.Grpc.HttpGateway
                     if (Directory.Exists(csharp_out))
                     {
                         var pluginYml = Path.Combine(csharp_out, $"plugin.yml");
-                        var pluginDll = Path.Combine(csharp_out, $"{fileName}.dll");
-                        if (File.Exists(pluginYml) && File.Exists(pluginDll))
+                        GenerateDllPath = Path.Combine(csharp_out, $"{fileName}.dll");
+                        if (File.Exists(pluginYml) && File.Exists(GenerateDllPath))
                         {
                             var deserializer = new DeserializerBuilder()
                             .WithNamingConvention(new CamelCaseNamingConvention())
                             .Build();
-                            var setting = deserializer.Deserialize<ProtoPluginModel>(File.ReadAllText(pluginYml));
+                            var setting = new ProtoPluginModel();
+                            using (FileStream fs = new FileStream(pluginYml, FileMode.Open, FileAccess.Read))
+                            {
+                                var dic = (Dictionary<object, object>)deserializer.Deserialize(new StreamReader(fs, Encoding.Default));
+                                setting.FileName = dic["FileName"].ToString();
+                                setting.DllFileMD5 = dic["DllFileMD5"].ToString();
+                                setting.ProtoFileMD5 = dic["ProtoFileMD5"].ToString();
+                                //var setting = deserializer.Deserialize<ProtoPluginModel>(File.ReadAllText(pluginYml));
+                            }
                             var protoMD5 = file.GetMD5();
-                            var dllMD5 = pluginDll.GetMD5();
+                            var dllMD5 = GenerateDllPath.GetMD5();
                             if (setting.ProtoFileMD5 == protoMD5 && setting.DllFileMD5 == dllMD5)
                             {
                                 NeedGenerate = false;
@@ -138,12 +148,10 @@ namespace Built.Grpc.HttpGateway
 
         public static void GetGrpcMethods(string serviceName, Type serviceType, IGrpcMarshallerFactory marshallerFactory)
         {
-            foreach (GrpcMethodHandlerInfo handler in GrpcReflection.EnumerateServiceMethods(serviceType))
+            foreach (GrpcMethodHandlerInfo handler in GrpcReflection.EnumerateServiceMethods(serviceName, serviceType, marshallerFactory))
             {
-                IMethod method = GrpcReflection.CreateMethod(serviceName, handler, marshallerFactory);
-                var srvMethod = new GrpcServiceMethod(method, handler.RequestType, handler.ResponseType);
-                Handers.AddOrUpdate(srvMethod.GetHashString(), srvMethod);
-                InnerLogger.Log(LoggerLevel.Debug, srvMethod.GetHashString());
+                Handers.AddOrUpdate(handler.GetHashString(), handler);
+                InnerLogger.Log(LoggerLevel.Debug, handler.GetHashString());
             }
         }
     }
