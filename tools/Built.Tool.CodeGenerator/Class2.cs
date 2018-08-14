@@ -5,6 +5,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime;
 using System.Text;
@@ -40,6 +41,9 @@ namespace Built.Tool.CodeGenerator
                  references2,
                 options);
             var result2 = compilation.Emit("GeneratedAssembly.dll");
+
+            //var classSymbol = compilation.GlobalNamespace.GetTypeMembers("HelloworldReflection").Single();
+            //var docComment = classSymbol.GetDocumentationCommentXml();
             //Assembly assembly = null;
             //using (var stream = new System.IO.MemoryStream())
             //{

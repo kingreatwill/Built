@@ -13,19 +13,16 @@ namespace Built.Tool.CodeGenerator
     {
         private static void Main(string[] args)
         {
-            var tree = CSharpSyntaxTree.ParseText(@" /// <summary> This is an xml doc comment </summary> class C { }");
-            var root = (CompilationUnitSyntax)tree.GetRoot();
-            var classNode = (ClassDeclarationSyntax)(root.Members.First());
-            var trivias = classNode.GetLeadingTrivia();
-            var enumerator = trivias.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var trivia = enumerator.Current;
-                if (trivia.Kind().Equals(SyntaxKind.SingleLineDocumentationCommentTrivia))
-                {
-                    var xml = trivia.GetStructure(); Console.WriteLine(xml);
-                }
-            }
+            //Helloworld.txt
+            string csPaths = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp_gen_grpc_code");
+            CSharpSyntaxTree.ParseText(@" /// <summary> This is an xml doc comment </summary>
+                class C { }");
+            var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(Path.Combine(csPaths, "Helloworld.txt")));
+
+            var compilation = CSharpCompilation.Create("test", syntaxTrees: new[] { tree });
+            var classSymbol = compilation.GlobalNamespace.GetNamespaceMembers();
+            var df = compilation.GlobalNamespace.GetTypeMembers("HelloworldReflection");
+            // var docComment = classSymbol.GetDocumentationCommentXml();
 
             Console.WriteLine("Hello World!");
             Console.ReadLine();

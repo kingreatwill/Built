@@ -109,10 +109,9 @@
     <None Update="protos\product_basic.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="temp_gen_grpc_code\" />
+    <None Update="temp_gen_grpc_code\Helloworld.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
