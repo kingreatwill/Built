@@ -19,6 +19,20 @@ namespace Built.Grpc.HttpGateway.Sample1
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                //.ConfigureAppConfiguration((hostingContext, config) => {
+                //    var env = hostingContext.HostingEnvironment;
+                //    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                //        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                //    config.AddEnvironmentVariables();
+                //})
+                //.ConfigureLogging((hostingContext, logging) =>
+                //{
+                //    var loggingCfig = hostingContext.Configuration.GetSection("Logging");
+                //    logging.AddConfiguration(loggingCfig);
+                //    logging.AddConsole();
+                //    logging.AddDebug();
+                //})
                 //.ConfigureAppConfiguration(
                 //       (hostingContext, builder) =>
                 //       {
