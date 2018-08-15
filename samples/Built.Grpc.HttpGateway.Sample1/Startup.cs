@@ -29,6 +29,7 @@ namespace Built.Grpc.HttpGateway.Sample1
     /// </summary>
     public class Startup
     {
+        //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             var builderJson = new ConfigurationBuilder()
