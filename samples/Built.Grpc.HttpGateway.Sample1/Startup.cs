@@ -24,6 +24,9 @@ namespace Built.Grpc.HttpGateway.Sample1
         public string DriverClassName { get; set; }
     }
 
+    /// <summary>
+    /// 你好啊
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration, IHostingEnvironment env)

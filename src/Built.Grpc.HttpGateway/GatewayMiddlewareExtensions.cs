@@ -9,6 +9,8 @@ namespace Built.Grpc.HttpGateway
     {
         public static IApplicationBuilder UseGrpcHttpGateway(this IApplicationBuilder app, Pipeline pipeline)
         {
+            // 注册编码;
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             // 启用插件;
             return app.HttpGatewayInit().UseMiddleware<GatewayMiddleware>(pipeline);
         }

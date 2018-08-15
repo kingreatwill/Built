@@ -20,7 +20,9 @@ namespace Built.Grpc.HttpGateway
             List<SyntaxTree> trees = new List<SyntaxTree>();
             foreach (var file in dllFiles)
             {
-                trees.Add(CSharpSyntaxTree.ParseText(File.ReadAllText(file)));
+                // https://www.cnblogs.com/wolf-sun/p/6136482.html
+                var csStr = File.ReadAllText(file, encoding: Encoding.GetEncoding("GB2312"));
+                trees.Add(CSharpSyntaxTree.ParseText(csStr, encoding: Encoding.UTF8));
             }
             var references2 = new[]{
                 MetadataReference.CreateFromFile(Assembly.Load("netstandard, Version=2.0.0.0").Location),
@@ -33,12 +35,16 @@ namespace Built.Grpc.HttpGateway
             };
             var options = new CSharpCompilationOptions(outputKind: OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release);
             var compilation = CSharpCompilation.Create(assemblyName, trees, references2, options);
-            var result2 = compilation.Emit(Path.Combine(csPath, $"{assemblyName}.dll"), xmlDocPath: Path.Combine(csPath, $"{assemblyName}.xml"));
+            var result2 = compilation.Emit(Path.Combine(csPath, $"{assemblyName}.dll"), xmlDocumentationPath: Path.Combine(csPath, $"{assemblyName}.xml"));
+            //, xmlDocPath: Path.Combine(csPath, $"{assemblyName}.xml")
+            //var classSymbol = compilation.GlobalNamespace.GetTypeMembers("C").Single();
+            //var docComment = classSymbol.GetDocumentationCommentXml();
+            //Console.WriteLine(docComment);
 
             InnerLogger.Log(
-                result2.Success ? LoggerLevel.Debug : LoggerLevel.Error,
-                string.Join(",", result2.Diagnostics.Select(d => string.Format("[{0}]:{1}({2})", d.Id, d.GetMessage(), d.Location.GetLineSpan().StartLinePosition)))
-                );
+                 result2.Success ? LoggerLevel.Debug : LoggerLevel.Error,
+                 string.Join(",", result2.Diagnostics.Select(d => string.Format("[{0}]:{1}({2})", d.Id, d.GetMessage(), d.Location.GetLineSpan().StartLinePosition)))
+                 );
             Thread.Sleep(100);
             return result2.Success;
         }

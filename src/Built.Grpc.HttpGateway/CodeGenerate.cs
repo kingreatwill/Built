@@ -41,7 +41,7 @@ namespace Built.Grpc.HttpGateway
             //protoFile.GetMD5();
 
             var proto_path = Path.Combine(baseDirectory, "protos");
-            var protoc_args = $" --proto_path={proto_path} --csharp_out {csharp_out} {Path.GetFileName(protoFile)} --grpc_out {csharp_out} --plugin=protoc-gen-grpc={pluginBinPath}";
+            var protoc_args = $" --UTF8 --proto_path={proto_path} --csharp_out {csharp_out} {Path.GetFileName(protoFile)} --grpc_out {csharp_out} --plugin=protoc-gen-grpc={pluginBinPath}";
             var psi = new ProcessStartInfo(protocBinPath, protoc_args)
             {
                 RedirectStandardOutput = true

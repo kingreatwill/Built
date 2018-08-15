@@ -96,10 +96,10 @@ namespace Built.Grpc.HttpGateway
                                 dic.TryGetValue("FileName", out object fName);
                                 setting.FileName = fName?.ToString();
 
-                                dic.TryGetValue("FileName", out object dName);
+                                dic.TryGetValue("DllFileMD5", out object dName);
                                 setting.DllFileMD5 = dName?.ToString();
 
-                                dic.TryGetValue("FileName", out object pName);
+                                dic.TryGetValue("ProtoFileMD5", out object pName);
                                 setting.ProtoFileMD5 = pName?.ToString();
 
                                 dic.TryGetValue("XmlFileMD5", out object xName);
