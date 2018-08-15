@@ -41,39 +41,44 @@ namespace Built.Grpc.HttpGateway
             //protoFile.GetMD5();
 
             var proto_path = Path.Combine(baseDirectory, "protos");
-            var protoc_args = $" --UTF8 --proto_path={proto_path} --csharp_out {csharp_out} {Path.GetFileName(protoFile)} --grpc_out {csharp_out} --plugin=protoc-gen-grpc={pluginBinPath}";
+            var protoc_args = $" --proto_path={proto_path} --csharp_out {csharp_out} {Path.GetFileName(protoFile)} --grpc_out {csharp_out} --plugin=protoc-gen-grpc={pluginBinPath}";
+            Console.WriteLine(protocBinPath + "     " + protoc_args);
             var psi = new ProcessStartInfo(protocBinPath, protoc_args)
             {
                 RedirectStandardOutput = true
             };
             //启动
-            var proc = Process.Start(psi);
-            if (proc == null)
+            using (var proc = System.Diagnostics.Process.Start(psi))
             {
-                InnerLogger.Log(LoggerLevel.Debug, "-------------Can not exec.--------------");
-                return false;
-            }
-            else
-            {
-                InnerLogger.Log(LoggerLevel.Debug, "-------------Start read standard output--------------");
-                //开始读取
-                using (var sr = proc.StandardOutput)
+                if (proc == null)
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        InnerLogger.Log(LoggerLevel.Debug, sr.ReadLine());
-                    }
-
-                    if (!proc.HasExited)
-                    {
-                        proc.Kill();
-                    }
+                    InnerLogger.Log(LoggerLevel.Debug, "-------------Can not exec.--------------");
+                    return false;
                 }
-                InnerLogger.Log(LoggerLevel.Debug, "---------------Read end------------------");
-                InnerLogger.Log(LoggerLevel.Debug, $"Total execute time :{(proc.ExitTime - proc.StartTime).TotalMilliseconds} ms");
-                InnerLogger.Log(LoggerLevel.Debug, $"Exited Code ： {proc.ExitCode}");
+                else
+                {
+                    var output = proc.StandardOutput.ReadToEnd();
+
+                    InnerLogger.Log(LoggerLevel.Debug, "-------------Start read standard output--------------");
+                    InnerLogger.Log(LoggerLevel.Debug, "-------------" + output + "--------------");
+                    ////开始读取
+                    //using (var sr = proc.StandardOutput)
+                    //{
+                    //    while (!sr.EndOfStream)
+                    //    {
+                    //        InnerLogger.Log(LoggerLevel.Debug, sr.ReadLine());
+                    //    }
+
+                    //    if (!proc.HasExited)
+                    //    {
+                    //        proc.Kill();
+                    //    }
+                    //}
+                    InnerLogger.Log(LoggerLevel.Debug, "---------------Read end------------------");
+                    InnerLogger.Log(LoggerLevel.Debug, $"Exited Code ： {proc.ExitCode}");
+                }
+                Thread.Sleep(100);
             }
-            Thread.Sleep(100);
             return true;
         }
     }

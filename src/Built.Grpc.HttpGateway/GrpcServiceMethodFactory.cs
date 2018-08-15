@@ -30,26 +30,44 @@ namespace Built.Grpc.HttpGateway
         // proto文件队列;
         public static ProducerConsumer<string> ProtoQueue = new ProducerConsumer<string>(protoFileName =>
         {
-            if (CodeGenerate.Generate(BaseDirectory, protoFileName))
+            InnerLogger.Log(LoggerLevel.Debug, "出队:" + protoFileName);
+            try
             {
-                var name = Path.GetFileNameWithoutExtension(protoFileName);
-                var csharp_out = Path.Combine(BaseDirectory, $"plugins/.{name}");
-                if (CodeBuild.Build(csharp_out, name))
+                if (CodeGenerate.Generate(BaseDirectory, protoFileName))
                 {
-                    var dllPath = Path.Combine(csharp_out, $"{name}.dll");
-                    var xmlDocPath = Path.Combine(csharp_out, $"{name}.xml");
-                    //生成plugin.yml
-                    var serializer = new SerializerBuilder().Build();
-                    var yaml = serializer.Serialize(new ProtoPluginModel
+                    InnerLogger.Log(LoggerLevel.Debug, "生成成功:" + protoFileName);
+                    var name = Path.GetFileNameWithoutExtension(protoFileName);
+                    var csharp_out = Path.Combine(BaseDirectory, $"plugins/.{name}");
+                    if (CodeBuild.Build(csharp_out, name))
                     {
-                        DllFileMD5 = dllPath.GetMD5(),
-                        FileName = name,
-                        ProtoFileMD5 = protoFileName.GetMD5(),
-                        XmlFileMD5 = xmlDocPath.GetMD5()
-                    });
-                    File.WriteAllText(Path.Combine(csharp_out, "plugin.yml"), yaml);
-                    DllQueue.Enqueue(dllPath);
+                        InnerLogger.Log(LoggerLevel.Debug, "Build成功:" + protoFileName);
+                        var dllPath = Path.Combine(csharp_out, $"{name}.dll");
+                        var xmlDocPath = Path.Combine(csharp_out, $"{name}.xml");
+                        //生成plugin.yml
+                        var serializer = new SerializerBuilder().Build();
+                        var yaml = serializer.Serialize(new ProtoPluginModel
+                        {
+                            DllFileMD5 = dllPath.GetMD5(),
+                            FileName = name,
+                            ProtoFileMD5 = protoFileName.GetMD5(),
+                            XmlFileMD5 = xmlDocPath.GetMD5()
+                        });
+                        File.WriteAllText(Path.Combine(csharp_out, "plugin.yml"), yaml);
+                        DllQueue.Enqueue(dllPath);
+                    }
+                    else
+                    {
+                        InnerLogger.Log(LoggerLevel.Debug, "Build失败:" + protoFileName);
+                    }
                 }
+                else
+                {
+                    InnerLogger.Log(LoggerLevel.Debug, "生成失败:" + protoFileName);
+                }
+            }
+            catch (Exception er)
+            {
+                InnerLogger.Log(LoggerLevel.Debug, "出队:" + er.StackTrace);
             }
         });
 
