@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Built.Grpc.HttpGateway.Sample1.Controllers
 {
@@ -13,6 +14,13 @@ namespace Built.Grpc.HttpGateway.Sample1.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private IConfiguration _configuration;
+
+        public ValuesController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -22,9 +30,9 @@ namespace Built.Grpc.HttpGateway.Sample1.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<IEnumerable<KeyValuePair<string, string>>> Get(int id)
         {
-            return "value";
+            return _configuration.AsEnumerable().ToArray();
         }
 
         // POST api/values

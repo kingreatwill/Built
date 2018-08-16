@@ -32,17 +32,18 @@ namespace Built.Grpc.HttpGateway.Sample1
         //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            var builderJson = new ConfigurationBuilder()
-               .SetBasePath(env.ContentRootPath)
-               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-            var ConfigurationJson = builderJson.Build();
+            //var builderJson = new ConfigurationBuilder()
+            //   .SetBasePath(env.ContentRootPath)
+            //   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            ////.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            ////.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+            //var ConfigurationJson = builderJson.Build();
 
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddYamlFile("appsettings.yml", optional: false, reloadOnChange: true);
-            configuration = builder.Build();
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(env.ContentRootPath)
+            //    .AddYamlFile("appsettings.yml", optional: false, reloadOnChange: true);
+            //configuration = builder.Build();
+            //configuration.
             //var sd = Configuration.GetValue<string>("datasource:driver-class-name");
             //var srvConfig = Configuration.
             //   GetSection("datasource").Get<DatasourceConfig>();

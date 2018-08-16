@@ -19,6 +19,11 @@ namespace Built.Grpc.HttpGateway.Sample1
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config.SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
+                .AddYamlFile("appsettings.yml", optional: false, reloadOnChange: true);
+            })
                 //.UseContentRoot(Directory.GetCurrentDirectory())
                 //.ConfigureAppConfiguration((hostingContext, config) => {
                 //    var env = hostingContext.HostingEnvironment;
