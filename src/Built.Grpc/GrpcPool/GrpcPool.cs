@@ -7,29 +7,76 @@ using Grpc.Core;
 
 namespace Built.Grpc
 {
+    /*
+     Example
+
+Following an example of client to sync get pool :
+
+IEnumerable<string> emptyScopes = Enumerable.Empty<string>();
+ServiceEndpoint endpoint = new ServiceEndpoint(TestCredentials.DefaultHostOverride, Port);
+var pool = new GrpcPool(emptyScopes);
+var channel = pool.GetChannel(endpoint);
+var client = new Greeter.GreeterClient(channel);
+String user = "you";
+
+var reply = client.SayHello(new HelloRequest { Name = user });
+Console.WriteLine("Greeting: " + reply.Message);
+
+channel.ShutdownAsync().Wait();
+Following an example of client to sync get SSL pool :
+
+IEnumerable<string> emptyScopes = Enumerable.Empty<string>();
+ServiceEndpoint endpoint = new ServiceEndpoint(TestCredentials.DefaultHostOverride, SslPort);
+var pool = new GrpcPool(emptyScopes);
+var channel = pool.GetChannel(endpoint, clientCredentials);
+var client = new Greeter.GreeterClient(channel);
+String user = "you";
+
+var reply = client.SayHello(new HelloRequest { Name = user });
+Console.WriteLine("Greeting: " + reply.Message);
+
+channel.ShutdownAsync().Wait();
+Following an example of client to async get pool :
+
+await Task.Run(async () =>
+{
+    IEnumerable<string> emptyScopes = Enumerable.Empty<string>();
+    ServiceEndpoint endpoint = new ServiceEndpoint(TestCredentials.DefaultHostOverride, Port);
+    var pool = new GrpcPool(emptyScopes);
+    var channel = await pool.GetChannelAsync(endpoint);
+    var client = new Greeter.GreeterClient(channel);
+    String user = "you";
+
+    var reply = await client.SayHelloAsync(new HelloRequest { Name = user });
+    Console.WriteLine("Greeting: " + reply.Message);
+
+    await channel.ShutdownAsync();
+});
+Following an example of client to async get SSL pool :
+
+await Task.Run(async () =>
+{
+    IEnumerable<string> emptyScopes = Enumerable.Empty<string>();
+    ServiceEndpoint endpoint = new ServiceEndpoint(TestCredentials.DefaultHostOverride, SslPort);
+    var pool = new GrpcPool(emptyScopes);
+    var channel = await pool.GetChannelAsync(endpoint, clientCredentials);
+    var client = new Greeter.GreeterClient(channel);
+    String user = "you";
+
+    var reply = await client.SayHelloAsync(new HelloRequest { Name = user });
+    Console.WriteLine("Greeting: " + reply.Message);
+
+    await channel.ShutdownAsync();
+});
+         */
+
     public class GrpcPool
     {
-        private readonly IEnumerable<string> _scopes;
-
         // TODO: See if we could use ConcurrentDictionary instead of locking. I suspect the issue would be making an atomic
         // "clear and fetch values" for shutdown.
         private readonly Dictionary<ServiceEndpoint, Channel> _channels = new Dictionary<ServiceEndpoint, Channel>();
 
         private readonly object _lock = new object();
-
-        /// <summary>
-        /// Creates a channel pool which will apply the specified scopes to the default application credentials
-        /// if they require any.
-        /// </summary>
-        /// <param name="scopes">The scopes to apply. Must not be null, and must not contain null references. May be empty.</param>
-        public GrpcPool(IEnumerable<string> scopes)
-        {
-            // Always take a copy of the provided scopes, then check the copy doesn't contain any nulls.
-            _scopes = GaxPreconditions.CheckNotNull(scopes, nameof(scopes)).ToList();
-            GaxPreconditions.CheckArgument(!_scopes.Any(x => x == null), nameof(scopes), "Scopes must not contain any null references");
-            // In theory, we don't actually need to store the scopes as field in this class. We could capture a local variable here.
-            // However, it won't be any more efficient, and having the scopes easily available when debugging could be handy.
-        }
 
         /// <summary>
         /// Shuts down all the currently-allocated channels asynchronously. This does not prevent the channel
@@ -141,7 +188,17 @@ namespace Built.Grpc
                     Channel channel;
                     if (!_channels.TryGetValue(endpoint, out channel))
                     {
-                        channel = new Channel(endpoint.Host, endpoint.Port, credentials);
+                        var options = new[]
+                       {
+                            // "After a duration of this time the client/server pings its peer to see if the
+                            // transport is still alive. Int valued, milliseconds."
+                            // Required for any channel using a streaming RPC, to ensure an idle stream doesn't
+                            // allow the TCP connection to be silently dropped by any intermediary network devices.
+                            // 60 second keepalive time is reasonable. This will only add minimal network traffic,
+                            // and only if the channel is idle for more than 60 seconds.
+                            new ChannelOption("grpc.keepalive_time_ms", 60_000)
+                        };
+                        channel = new Channel(endpoint.Host, endpoint.Port, credentials, options);
                         _channels[endpoint] = channel;
                     }
 

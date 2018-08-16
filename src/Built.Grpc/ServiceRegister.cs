@@ -19,8 +19,7 @@ namespace Built.Grpc
         /// <summary>
         /// The consul service TTL register timer
         /// </summary>
-        static System.Timers.Timer consulServiceTTLRegisterTimer;
-
+        private static System.Timers.Timer consulServiceTTLRegisterTimer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceRegister"/>
@@ -33,9 +32,7 @@ namespace Built.Grpc
         public ServiceRegister(string connectionString) : this(connectionString
             .ParseConnectionString<ConsulLocalServiceConfig>())
         {
-
         }
-
 
         /// <summary>
         /// Registers the specified agent service registration.
@@ -91,7 +88,15 @@ namespace Built.Grpc
             /*
              * timer本身的精度就不够
              * 不能再timer里面做更多的耗时的操作
+             * System.Threading.Timer
+             * Timer myTimer = new Timer(p.Display,"Processing timer event", 2000, 1000);//2秒后第一次调用，每1秒调用一次
+             * Timer myTimer1 = new Timer(p.Display, "Processing timer event", Timeout.Infinite, 1000);//永远不会被调用
+             * Timer myTimer2 = new Timer(p.Display, "Processing timer event", 2000, Timeout.Infinite);//2秒后第一次调用，之后再不调用
+             *
+             *
+             *
              */
+
             consulServiceTTLRegisterTimer = new System.Timers.Timer
             {
                 AutoReset = false,
@@ -123,7 +128,7 @@ namespace Built.Grpc
                      *          这种情况下，不去处理，等consul服务重启之后就好了
                      * 2. consul服务重启之后，会丢失之前的service，check，会有如下的错误：
                      *          Unexpected response, status code InternalServerError: CheckID "followme.srv.sms-192.168.3.10-10086-07f21040-0be9-4a73-b0a1-71755c6d6d46:ttlcheck" does not have associated TTL
-                     *          在这种情况下，需要处理，重新注册服务，check；     
+                     *          在这种情况下，需要处理，重新注册服务，check；
                      */
                     if (content
                         .Contains(
