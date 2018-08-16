@@ -177,10 +177,10 @@ namespace Built.Grpc.HttpGateway.Sample1
                     await next(ctx);
                     Console.WriteLine($"--------Response--------{ctx.Response.ToString()}-------------------");
                 });
-            //app.UseBuiltGrpcSwagger(new SwaggerOptions("Built.Grpc.HttpGateway.Sample1", "GRPC 文档", "/")
-            //{
-            //    // XmlDocumentPath = xmlPath
-            //});
+            app.UseBuiltGrpcSwagger(new Swagger.SwaggerOptions("Built.GrpcGateway", "GRPC 文档", "/", "/swagger/grpc/swagger.json")
+            {
+                // XmlDocumentPath = xmlPath
+            });
             app.UseGrpcHttpGateway(pipeline.Build())
                 .UseGrpcMonitorDllFileEnable()
                 .UseGrpcMonitorProtoFileEnable();
@@ -199,7 +199,8 @@ namespace Built.Grpc.HttpGateway.Sample1
             app.UseSwagger()
               .UseSwaggerUI(options =>
               {
-                  options.SwaggerEndpoint("/swagger/Gateway/swagger.json", "Built.Grpc.HttpGateway.Sample1");
+                  options.SwaggerEndpoint("/swagger/grpc/swagger.json", "grpc 网关");//grpc 网关
+                  options.SwaggerEndpoint("/swagger/Gateway/swagger.json", "webapi");//webapi
                   options.SwaggerEndpoint($"/a/swagger.json", $"A");
                   options.SwaggerEndpoint($"/b/swagger.json", $"B");
                   options.DocumentTitle = "Swagger测试平台";

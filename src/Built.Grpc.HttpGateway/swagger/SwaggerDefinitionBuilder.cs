@@ -92,7 +92,7 @@ namespace Built.Grpc.HttpGateway.Swagger
                         parameters = parameters
                     };
 
-                    doc.paths.Add("/" + item.ToString(), new PathItem { post = operation }); // everything post.
+                    doc.paths.Add(item.Method.FullName, new PathItem { post = operation }); // everything post.
                 }
 
                 using (var ms = new MemoryStream())

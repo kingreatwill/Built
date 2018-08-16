@@ -14,84 +14,89 @@ namespace Built.Grpc.HttpGateway
     {
         private static readonly Task EmptyTask = Task.FromResult(0);
 
-        private readonly RequestDelegate next;
+        private readonly RequestDelegate _next;
 
         //private readonly IReadOnlyList<GrpcMethodHandlerInfo> handlers;
         private readonly SwaggerOptions options;
 
         public SwaggerMiddleware(RequestDelegate next, SwaggerOptions options)
         {
-            this.next = next;
+            this._next = next;
             this.options = options;
         }
 
-        public Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext httpContext)
         {
-            // reference embedded resouces
-            const string prefix = "Built.Grpc.HttpGateway.swagger.ui_3._18._1.";
-            //Type type = MethodBase.GetCurrentMethod().DeclaringType;
-            //string _namespace = type.Namespace;
-
-            var path = httpContext.Request.Path.Value.Trim('/');
-            if (path == "") path = "index.html";
-            var filePath = prefix + path.Replace("/", ".");
-            var mediaType = GetMediaType(filePath);
-
-            if (path.EndsWith(options.JsonName))
+            if (httpContext.Request.Path.Value.Equals(options.JsonName))
             {
                 var builder = new SwaggerDefinitionBuilder(options, httpContext, GrpcServiceMethodFactory.Handers);
                 var bytes = builder.BuildSwaggerJson();
                 httpContext.Response.Headers["Content-Type"] = new[] { "application/json" };
                 httpContext.Response.StatusCode = 200;
                 httpContext.Response.Body.Write(bytes, 0, bytes.Length);
-                return EmptyTask;
+                return;
             }
-            var myAssembly = typeof(SwaggerMiddleware).GetTypeInfo().Assembly;
-            using (var stream = myAssembly.GetManifestResourceStream(filePath))
+            else
             {
-                if (options.ResolveCustomResource == null)
-                {
-                    if (stream == null)
-                    {
-                        // not found, standard request.
-                        return next(httpContext);
-                    }
-
-                    httpContext.Response.Headers["Content-Type"] = new[] { mediaType };
-                    httpContext.Response.StatusCode = 200;
-                    var response = httpContext.Response.Body;
-                    stream.CopyTo(response);
-                }
-                else
-                {
-                    byte[] bytes;
-                    if (stream == null)
-                    {
-                        bytes = options.ResolveCustomResource(path, null);
-                    }
-                    else
-                    {
-                        using (var ms = new MemoryStream())
-                        {
-                            stream.CopyTo(ms);
-                            bytes = options.ResolveCustomResource(path, ms.ToArray());
-                        }
-                    }
-
-                    if (bytes == null)
-                    {
-                        // not found, standard request.
-                        return next(httpContext);
-                    }
-
-                    httpContext.Response.Headers["Content-Type"] = new[] { mediaType };
-                    httpContext.Response.StatusCode = 200;
-                    var response = httpContext.Response.Body;
-                    response.Write(bytes, 0, bytes.Length);
-                }
+                if (_next != null) { await _next(httpContext); }
+                return;
             }
+            //// reference embedded resouces
+            //const string prefix = "Built.Grpc.HttpGateway.swagger.ui_3._18._1.";
+            ////Type type = MethodBase.GetCurrentMethod().DeclaringType;
+            ////string _namespace = type.Namespace;
 
-            return EmptyTask;
+            //var path = httpContext.Request.Path.Value.Trim('/');
+            //if (path == "") path = "index.html";
+            //var filePath = prefix + path.Replace("/", ".");
+            //var mediaType = GetMediaType(filePath);
+
+            //var myAssembly = typeof(SwaggerMiddleware).GetTypeInfo().Assembly;
+            //using (var stream = myAssembly.GetManifestResourceStream(filePath))
+            //{
+            //    if (options.ResolveCustomResource == null)
+            //    {
+            //        if (stream == null)
+            //        {
+            //            // not found, standard request.
+            //            return _next(httpContext);
+            //        }
+
+            //        httpContext.Response.Headers["Content-Type"] = new[] { mediaType };
+            //        httpContext.Response.StatusCode = 200;
+            //        var response = httpContext.Response.Body;
+            //        stream.CopyTo(response);
+            //    }
+            //    else
+            //    {
+            //        byte[] bytes;
+            //        if (stream == null)
+            //        {
+            //            bytes = options.ResolveCustomResource(path, null);
+            //        }
+            //        else
+            //        {
+            //            using (var ms = new MemoryStream())
+            //            {
+            //                stream.CopyTo(ms);
+            //                bytes = options.ResolveCustomResource(path, ms.ToArray());
+            //            }
+            //        }
+
+            //        if (bytes == null)
+            //        {
+            //            // not found, standard request.
+            //            return _next(httpContext);
+            //        }
+
+            //        httpContext.Response.Headers["Content-Type"] = new[] { mediaType };
+            //        httpContext.Response.StatusCode = 200;
+            //        var response = httpContext.Response.Body;
+            //        response.Write(bytes, 0, bytes.Length);
+            //    }
+            //}
+
+            //return EmptyTask;
         }
 
         private static string GetMediaType(string path)

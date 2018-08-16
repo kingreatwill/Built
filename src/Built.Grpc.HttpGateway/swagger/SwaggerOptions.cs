@@ -18,10 +18,10 @@ namespace Built.Grpc.HttpGateway.Swagger
         public string JsonName { get; set; }
         public string[] ForceSchemas { get; set; }
 
-        public SwaggerOptions(string title, string description, string apiBasePath)
+        public SwaggerOptions(string title, string description, string apiBasePath, string jsonName = "/swagger.json")
         {
             ApiBasePath = apiBasePath;
-            JsonName = "swagger.json";
+            JsonName = jsonName;
             Info = new Info { description = description, title = title };
             ForceSchemas = new string[0];
         }
