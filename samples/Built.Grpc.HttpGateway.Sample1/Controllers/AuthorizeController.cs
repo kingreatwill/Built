@@ -2,55 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace Built.Grpc.HttpGateway.Sample1.Controllers
 {
     /// <summary>
-    /// ValuesController AuthorizeController
+    /// 授权
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AuthorizeController : ControllerBase
     {
         private IConfiguration _configuration;
 
-        public ValuesController(IConfiguration configuration)
+        /// <summary>
+        /// AuthorizeController
+        /// </summary>
+        /// <param name="configuration"></param>
+        public AuthorizeController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        // GET api/values
+        /// <summary>
+        /// GET api/Authorize
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<string>> Get()
         {
             return GrpcServiceMethodFactory.Handers.Select(t => t.Key).ToArray();
         }
 
-        // GET api/values/5
+        /// <summary>
+        /// GET api/Authorize/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<KeyValuePair<string, string>>> Get(int id)
         {
             return _configuration.AsEnumerable().ToArray();
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
