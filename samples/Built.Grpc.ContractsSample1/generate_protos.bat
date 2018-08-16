@@ -10,3 +10,4 @@ dotnet restore
 
 %PROTOC% -I protos --csharp_out gen_grpc_code  protos/helloworld.proto --grpc_out gen_grpc_code --plugin=protoc-gen-grpc=%PLUGIN%
 %PROTOC% -I protos --csharp_out gen_grpc_code  protos/product_basic.proto --grpc_out gen_grpc_code --plugin=protoc-gen-grpc=%PLUGIN%
+%PROTOC% -I protos --csharp_out gen_grpc_code  protos/helloworld_api.proto --grpc_out gen_grpc_code --plugin=protoc-gen-grpc=%PLUGIN%

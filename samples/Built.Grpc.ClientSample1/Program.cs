@@ -1,4 +1,5 @@
-﻿using Built.Grpc.ContractsSample1.HelloDemo;
+﻿using Built.Grpc.ContractsSample1.HelloApiDemo;
+using Built.Grpc.ContractsSample1.HelloDemo;
 using Built.Grpc.ContractsSample1.ProductBasic;
 using Grpc.Core;
 using System;
@@ -33,6 +34,11 @@ namespace Built.Grpc.ClientSample1
             Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
             MiddlewareCallInvoker callInvoker = new MiddlewareCallInvoker(channel, pipeline.Build());
 
+            var clientApi = new Get.GetClient(callInvoker);
+
+            var replyApi = clientApi.SayHello(new ContractsSample1.HelloApiDemo.HelloRequest { Name = " APII" });
+            Console.WriteLine("Greeting: " + replyApi.Message);
+
             var client2 = new ProductBasicSrv.ProductBasicSrvClient(callInvoker);
             var request = new ProductBasicGetsRequest
             {
@@ -53,7 +59,7 @@ namespace Built.Grpc.ClientSample1
             var client = new BuiltHelloDemoSrv.BuiltHelloDemoSrvClient(callInvoker);
             String user = "you";
 
-            var reply = client.SayHello(new HelloRequest { Name = user });
+            var reply = client.SayHello(new ContractsSample1.HelloDemo.HelloRequest { Name = user });
             Console.WriteLine("Greeting: " + reply.Message);
 
             channel.ShutdownAsync().Wait();
@@ -68,7 +74,7 @@ namespace Built.Grpc.ClientSample1
             var client = new BuiltHelloDemoSrv.BuiltHelloDemoSrvClient(channel);
             String user = "you";
 
-            var reply = client.SayHello(new HelloRequest { Name = user });
+            var reply = client.SayHello(new ContractsSample1.HelloDemo.HelloRequest { Name = user });
             Console.WriteLine("Greeting: " + reply.Message);
 
             channel.ShutdownAsync().Wait();

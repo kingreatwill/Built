@@ -170,6 +170,7 @@ namespace Built.Grpc.HttpGateway
                     GetGrpcMethods(ServiceName.ToString(), type);
                 }
             }
+            // 通过 ProductBasicReflection.Descriptor 获取方法列表也是可以的
         }
 
         public static void GetGrpcMethods(string serviceName, Type serviceType)
