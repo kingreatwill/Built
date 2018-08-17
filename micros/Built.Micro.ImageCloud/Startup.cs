@@ -22,7 +22,7 @@ using SixLabors.ImageSharp.Web.Resolvers;
 namespace Built.Micro.ImageCloud
 {
     /// <summary>
-    /// ImageResizer ImageSharp SixLabors.ImageSharp还不是正式版，nuget默认没有；SixLabors.ImageSharp.Web
+    /// Magick.NET ImageResizer ImageSharp SixLabors.ImageSharp还不是正式版，nuget默认没有；SixLabors.ImageSharp.Web
     /// </summary>
     public class Startup
     {
