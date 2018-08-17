@@ -5,7 +5,7 @@ Logging:
     Default: Warning
 
 DataSource:
-  DatabaseName: CMS_FS
-  ConnectionString: mongodb://192.168.113.165:27017
+  DatabaseName: ImageCloud
+  ConnectionString: mongodb://192.168.1.230:27017
   UserName: root
   Password: root
