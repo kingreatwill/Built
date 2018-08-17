@@ -1,0 +1,11 @@
+﻿AllowedHosts: "*"
+
+Logging:
+  LogLevel:
+    Default: Warning
+
+DataSource:
+  DatabaseName: CMS_FS
+  ConnectionString: mongodb://192.168.113.165:27017
+  UserName: root
+  Password: root

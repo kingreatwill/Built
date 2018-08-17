@@ -21,6 +21,12 @@ using SixLabors.ImageSharp.Web.Resolvers;
 
 namespace Built.Micro.ImageCloud
 {
+    /*
+     docker run -itd -p 27017:27017 --restart always mongo
+     docker run -itd -p 8081:8081 --link mongodb:mongo  --restart always  mongo-express
+     http://192.168.1.230:8081/
+    */
+
     /// <summary>
     /// Magick.NET ImageResizer ImageSharp SixLabors.ImageSharp还不是正式版，nuget默认没有；SixLabors.ImageSharp.Web
     /// </summary>
