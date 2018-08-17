@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="SixLabors.ImageSharp.Web" Version="1.0.0-beta0003" />
   </ItemGroup>
 
 </Project>
