@@ -16,6 +16,7 @@ using static IdentityServer4.IdentityServerConstants;
 
 namespace Built.Micro.OAuthCloud
 {
+    //http://docs.identityserver.io/en/release/quickstarts/6_aspnet_identity.html
     /// <summary>
     /// DotNetOpenAuth(有灰) IdentityServer4
     /// (OpenID/OAuth/OAuth2)
