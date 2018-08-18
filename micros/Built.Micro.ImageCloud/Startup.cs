@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Built.Micro.ImageCloud.Domain.Services;
+using Built.Micro.ImageCloud.Mongo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -132,6 +134,11 @@ namespace Built.Micro.ImageCloud
             //    .AddProcessor<ResizeWebProcessor>()
             //    .AddProcessor<FormatWebProcessor>()
             //    .AddProcessor<BackgroundColorWebProcessor>();
+
+            // 注册自定义用户类
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            //services.AddScoped(typeof(MaterialRepository));
+            services.AddScoped(typeof(IMaterialService), typeof(MaterialService));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

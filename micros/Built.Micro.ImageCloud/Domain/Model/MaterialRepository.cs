@@ -1,4 +1,5 @@
 ﻿using Built.Micro.ImageCloud.Mongo;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,20 +66,14 @@ Each method has multiple overloads, read method summary for additional parameter
 
     public class MaterialRepository : Repository<Material>
     {
-        public MaterialRepository(string connectionString) : base(connectionString)
+        public MaterialRepository(IConfiguration config) : base(config)
         {
         }
 
         //custom method
-        public Material FindbyUsername(string username)
-        {
-            return First(i => i.Username == username);
-        }
-
-        //custom method2
-        public void UpdatePassword(Material item, string newPassword)
-        {
-            Update(item, i => i.Password, newPassword);
-        }
+        //public Material FindbyUsername(string username)
+        //{
+        //    return First(i => i.Username == username);
+        //}
     }
 }
