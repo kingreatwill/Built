@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Built.Micro.ImageCloud.Domain.Services;
 using Built.Micro.ImageCloud.Mongo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Built.Micro.ImageCloud.Controllers
 {
@@ -19,24 +23,20 @@ namespace Built.Micro.ImageCloud.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IMaterialService _materialService;
+        private readonly GridFSBucket _bucket;
 
         public ValuesController(IMaterialService materialService)
         {
             _materialService = materialService;
+            _bucket = new GridFSBucket(_materialService.Repository.Collection.Database);
         }
 
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        // GET /api/values/5b7795bc6174c70a8cec2468
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetByMaterialId(string id)
         {
-            _materialService.Repository.Insert(new Material { Name = "呵呵" });
-            //repo.Collection.Database
-            //bucket = new GridFSBucket(_database); //这个是初始化gridFs存储的
-            //GridFSFileInfo
-            //var id = bucket.UploadFromBytes("filename", null); //source字节数组
-            //var id = await bucket.UploadFromBytesAsync("filename", source);
-
-            return new string[] { "" };
+            var material = _materialService.Repository.Get(id);
+            return File(await _bucket.OpenDownloadStreamAsync(new ObjectId(material.FileId)), material.ContentType);
         }
 
         // POST api/values
@@ -44,37 +44,59 @@ namespace Built.Micro.ImageCloud.Controllers
         [Consumes("multipart/form-data")]
         public async Task<ActionResult> Post(IFormCollection files)
         {
+            var result = new List<ObjectId>();
             foreach (var formFile in files.Files)
             {
                 if (formFile.Length > 0)
                 {
-                    string fileExt = Path.GetExtension(formFile.FileName); //文件扩展名，不含“.”
-                    long fileSize = formFile.Length; //获得文件大小，以字节为单位
-
-                    using (var stream = new MemoryStream())
+                    // 计算MD5;
+                    System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                    var hash = md5.ComputeHash(formFile.OpenReadStream());
+                    StringBuilder md5sb = new StringBuilder();
+                    for (int i = 0; i < hash.Length; i++)
                     {
-                        await formFile.CopyToAsync(stream);
-                        await stream.FlushAsync();
-                        byte[] bytes = new byte[stream.Length];
-                        stream.Read(bytes, 0, bytes.Length);
-                        stream.Seek(0, SeekOrigin.Begin);
-                        var id = await _materialService.UploadAsync(formFile.FileName, bytes);
+                        md5sb.Append(hash[i].ToString("x2"));
                     }
+                    var md5Str = md5sb.ToString();
+                    // 处理重复文件;
+                    ObjectId fileId;
+                    var fileList = _bucket.Find(new { md5 = md5Str }.ToBsonDocument(), new GridFSFindOptions
+                    {
+                        Limit = 1
+                    }).ToList();
+                    if (fileList.Any())
+                    {
+                        var fInfo = fileList.First();
+                        fileId = fInfo.Id;
+                    }
+                    else
+                    {
+                        fileId = await _bucket.UploadFromStreamAsync(formFile.FileName, formFile.OpenReadStream(), new GridFSUploadOptions
+                        {
+                            Metadata = new BsonDocument().AddRange(formFile.Headers?.Select(t => new BsonElement(t.Key, t.Value.ToString())))
+                        });
+                    }
+
+                    var suffix = Path.GetExtension(formFile.FileName).ToLower();
+                    var material = new Material
+                    {
+                        Author = "Enter",
+                        Content = "描述",
+                        ContentType = formFile.ContentType,
+                        FileId = fileId.ToString(),
+                        FileName = formFile.FileName,
+                        FileSize = formFile.Length,
+                        MD5 = md5Str,
+                        Name = string.IsNullOrWhiteSpace(formFile.Name) ? Path.GetFileNameWithoutExtension(formFile.FileName) : formFile.Name,
+                        Suffix = suffix,
+                        Type = MaterialExtension.GetMaterialTypeBySuffix(suffix),
+                        Version = 1
+                    };
+                    await _materialService.Repository.InsertAsync(material);
+                    result.Add(fileId);
                 }
             }
-            return new JsonResult(0);
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return new JsonResult(result);
         }
     }
 }

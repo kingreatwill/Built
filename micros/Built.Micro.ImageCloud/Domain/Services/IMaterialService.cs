@@ -13,6 +13,8 @@ namespace Built.Micro.ImageCloud.Domain.Services
     public interface IMaterialService : IService<Material>
     {
         Task<ObjectId> UploadAsync(string filename, byte[] bytes);
+
+        Task<byte[]> DownloadAsync(string fileId);
     }
 
     public class MaterialService : IMaterialService
@@ -22,11 +24,22 @@ namespace Built.Micro.ImageCloud.Domain.Services
         public MaterialService(IRepository<Material> materialRepository)
         {
             Repository = materialRepository;
+            // 创建索引;
+            //Repository.Collection.Indexes.CreateOne(
+            //       new CreateIndexModel<Material>(
+            //           Builders<Material>.IndexKeys.Ascending(x => x.MD5),
+            //           new CreateIndexOptions
+            //           {
+            //               Unique = true
+            //           }
+            //       )
+            //   );
         }
 
         public async Task<ObjectId> UploadAsync(string filename, byte[] bytes)
         {
             var bucket = new GridFSBucket(Repository.Collection.Database); //这个是初始化gridFs存储的
+
             // 计算MD5;
             System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
             var hash = md5.ComputeHash(bytes);
@@ -63,6 +76,12 @@ namespace Built.Micro.ImageCloud.Domain.Services
             };
             Repository.Insert(entity);
             return entity.ObjectId;
+        }
+
+        public async Task<byte[]> DownloadAsync(string fileId)
+        {
+            var bucket = new GridFSBucket(Repository.Collection.Database);
+            return await bucket.DownloadAsBytesAsync(new ObjectId(fileId));
         }
     };
 }

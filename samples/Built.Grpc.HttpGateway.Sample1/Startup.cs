@@ -40,6 +40,7 @@ namespace Built.Grpc.HttpGateway.Sample1
         /// <param name="env"></param>
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
+            //http://www.cnblogs.com/yilezhu/p/9297009.html
             //var builderJson = new ConfigurationBuilder()
             //   .SetBasePath(env.ContentRootPath)
             //   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);

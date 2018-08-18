@@ -64,10 +64,26 @@ Each method has multiple overloads, read method summary for additional parameter
 	var any = repo.Any(i => i.Username.Contains("user"));
          */
 
+    /*
+     var collection = __database.GetCollection<BsonDocument>("restaurants");
+        var keys = Builders<BsonDocument>.IndexKeys.Ascending("cuisine").Ascending("address.zipcode");
+        var model = new CreateIndexModel<BsonDocument>(keys);
+        await collection.Indexes.CreateOneAsync(model);
+        // @code: end
+
+        // @results: start
+        using (var cursor = await collection.Indexes.ListAsync())
+        {
+            var indexes = await cursor.ToListAsync();
+            indexes.Should().Contain(index => index["name"] == "cuisine_1_address.zipcode_1");
+        }
+     */
+
     public class MaterialRepository : Repository<Material>
     {
         public MaterialRepository(IConfiguration config) : base(config)
         {
+            //e.g. "mongodb://username:password@localhost:27017/databaseName"
         }
 
         //custom method

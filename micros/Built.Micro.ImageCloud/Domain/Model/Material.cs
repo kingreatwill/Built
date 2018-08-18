@@ -74,34 +74,14 @@ content_source_url	是	图文消息的原文地址，即点击“阅读原文”
         public long FileSize { get; set; }
 
         /// <summary>
-        /// 文件创建时间
-        /// </summary>
-        public DateTime FileCreated { get; set; }
-
-        /// <summary>
-        /// 文件修改时间
-        /// </summary>
-        public DateTime FileUpdated { get; set; }
-
-        /// <summary>
         /// 文件版本
         /// </summary>
-        public string Version { get; set; }
+        public int Version { get; set; }
 
         /// <summary>
         /// MD5
         /// </summary>
         public string MD5 { get; set; }
-
-        /// <summary>
-        /// SHA1
-        /// </summary>
-        public string SHA1 { get; set; }
-
-        /// <summary>
-        /// CRC32
-        /// </summary>
-        public string CRC32 { get; set; }
     }
 
     public enum MaterialType
@@ -113,6 +93,8 @@ content_source_url	是	图文消息的原文地址，即点击“阅读原文”
         Video = 5,
 
         Doc = 7,
+
+        Ppt = 8,
 
         Execl = 9,
 
@@ -127,5 +109,65 @@ content_source_url	是	图文消息的原文地址，即点击“阅读原文”
         CompressFiles = 19,
 
         Other = 999,
+    }
+
+    public class MaterialExtension
+    {
+        public static MaterialType GetMaterialTypeBySuffix(string suffix)
+        {
+            MaterialType type = MaterialType.Other;
+            switch (suffix)
+            {
+                case ".png":
+                case ".jpg":
+                case ".jpeg":
+                case ".gif":
+                    type = MaterialType.Image;
+                    break;
+
+                case ".zip":
+                case ".rar":
+                    type = MaterialType.CompressFiles;
+                    break;
+
+                case ".xlsx":
+                case ".xls":
+                    type = MaterialType.Execl;
+                    break;
+
+                case ".docx":
+                case ".doc":
+                    type = MaterialType.Doc;
+                    break;
+
+                case ".pptx":
+                case ".ppt":
+                    type = MaterialType.Ppt;
+                    break;
+
+                case ".pdf":
+                    type = MaterialType.Pdf;
+                    break;
+
+                case ".mp4":
+                case ".avi":
+                    type = MaterialType.Video;
+                    break;
+
+                case ".mp3":
+                    type = MaterialType.Audio;
+                    break;
+
+                case ".md":
+                    type = MaterialType.Markdown;
+                    break;
+
+                case ".html":
+                case ".htm":
+                    type = MaterialType.Html;
+                    break;
+            }
+            return type;
+        }
     }
 }
