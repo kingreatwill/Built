@@ -32,7 +32,11 @@ content_source_url	是	图文消息的原文地址，即点击“阅读原文”
         [BsonElement("_fid", Order = 3)]
         [BsonRepresentation(BsonType.ObjectId)]
         public string FileId { get; set; }
-
+        
+        /// <summary>
+        /// 目录
+        /// </summary>
+        public string Catalog { get; set; }
         /// <summary>
         /// 素材名称
         /// </summary>
