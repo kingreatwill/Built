@@ -1,4 +1,4 @@
-﻿using Built.Micro.ImageCloud.Mongo;
+﻿using Built.Mongo;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

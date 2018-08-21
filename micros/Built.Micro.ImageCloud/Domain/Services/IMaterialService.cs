@@ -1,4 +1,4 @@
-﻿using Built.Micro.ImageCloud.Mongo;
+﻿using Built.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Built.Micro.ImageCloud.Domain.Services;
-using Built.Micro.ImageCloud.Mongo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,20 +22,18 @@ namespace Built.Micro.ImageCloud.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IMaterialService _materialService;
-        private readonly GridFSBucket _bucket;
 
         public ValuesController(IMaterialService materialService)
         {
             _materialService = materialService;
-            _bucket = new GridFSBucket(_materialService.Repository.Collection.Database);
         }
 
-        // GET /api/values/5b7795bc6174c70a8cec2468
+        // GET /api/values/5b77ce8e6e527040a04c9471
         [HttpGet("{id}")]
         public async Task<ActionResult> GetByMaterialId(string id)
         {
             var material = _materialService.Repository.Get(id);
-            return File(await _bucket.OpenDownloadStreamAsync(new ObjectId(material.FileId)), material.ContentType);
+            return File(await _materialService.Repository.Bucket.OpenDownloadStreamAsync(new ObjectId(material.FileId)), material.ContentType);
         }
 
         // POST api/values
@@ -60,7 +57,7 @@ namespace Built.Micro.ImageCloud.Controllers
                     var md5Str = md5sb.ToString();
                     // 处理重复文件;
                     ObjectId fileId;
-                    var fileList = _bucket.Find(new { md5 = md5Str }.ToBsonDocument(), new GridFSFindOptions
+                    var fileList = _materialService.Repository.Bucket.Find(new { md5 = md5Str }.ToBsonDocument(), new GridFSFindOptions
                     {
                         Limit = 1
                     }).ToList();
@@ -71,7 +68,7 @@ namespace Built.Micro.ImageCloud.Controllers
                     }
                     else
                     {
-                        fileId = await _bucket.UploadFromStreamAsync(formFile.FileName, formFile.OpenReadStream(), new GridFSUploadOptions
+                        fileId = await _materialService.Repository.Bucket.UploadFromStreamAsync(formFile.FileName, formFile.OpenReadStream(), new GridFSUploadOptions
                         {
                             Metadata = new BsonDocument().AddRange(formFile.Headers?.Select(t => new BsonElement(t.Key, t.Value.ToString())))
                         });
