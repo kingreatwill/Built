@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using Polly;
 using Polly.Retry;
 using System;
@@ -11,7 +12,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Built.Micro.ImageCloud.Mongo
+namespace Built.Mongo
 {
     /// <summary>
     /// Built.Mongo.Repository implementation for mongo
@@ -102,6 +103,14 @@ namespace Built.Micro.ImageCloud.Mongo
         }
 
         #endregion MongoSpecific
+
+        public GridFSBucket Bucket
+        {
+            get
+            {
+                return new GridFSBucket(Collection.Database);
+            }
+        }
 
         #region CRUD
 

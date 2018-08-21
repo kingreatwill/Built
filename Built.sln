@@ -161,7 +161,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exceptionless", "Exceptionl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ELMAH", "ELMAH", "{749F7286-5EA5-4A9F-996C-274372A07D10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Micro.OAuthCloud", "micros\Built.Micro.OAuthCloud\Built.Micro.OAuthCloud.csproj", "{574372B6-33AD-4E33-A6A4-B65337CED43D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Micro.OAuthCloud", "micros\Built.Micro.OAuthCloud\Built.Micro.OAuthCloud.csproj", "{574372B6-33AD-4E33-A6A4-B65337CED43D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Mongo.Repository", "src\Built.Mongo.Repository\Built.Mongo.Repository.csproj", "{432966AB-F5A4-4598-95C8-A347C48B45ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -431,6 +433,14 @@ Global
 		{574372B6-33AD-4E33-A6A4-B65337CED43D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{574372B6-33AD-4E33-A6A4-B65337CED43D}.Release|x86.ActiveCfg = Release|Any CPU
 		{574372B6-33AD-4E33-A6A4-B65337CED43D}.Release|x86.Build.0 = Release|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Debug|x86.Build.0 = Debug|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Release|x86.ActiveCfg = Release|Any CPU
+		{432966AB-F5A4-4598-95C8-A347C48B45ED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -493,6 +503,7 @@ Global
 		{C31313CD-A5B9-4AF7-98B6-31031894FE93} = {D7DB45E1-06C1-4EFB-971F-C360DC75C4E6}
 		{749F7286-5EA5-4A9F-996C-274372A07D10} = {D7DB45E1-06C1-4EFB-971F-C360DC75C4E6}
 		{574372B6-33AD-4E33-A6A4-B65337CED43D} = {C8A38ED4-DD14-41EB-9E25-E045CD2E7E55}
+		{432966AB-F5A4-4598-95C8-A347C48B45ED} = {68410025-D500-4DAC-A564-04EA8D0E59E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}
