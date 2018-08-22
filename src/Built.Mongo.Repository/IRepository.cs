@@ -16,6 +16,11 @@ namespace Built.Mongo
         #region MongoSpecific
 
         /// <summary>
+        /// Session
+        /// </summary>
+        IClientSessionHandle Session { get; set; }
+
+        /// <summary>
         /// mongo collection
         /// </summary>
         IMongoCollection<T> Collection { get; }

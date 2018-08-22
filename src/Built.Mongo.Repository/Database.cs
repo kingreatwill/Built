@@ -81,7 +81,7 @@ namespace Built.Mongo
         /// Determines the collection name for T and assures it is not empty
         /// </summary>
         /// <returns>Returns the collection name for T.</returns>
-        private static string GetCollectionName()
+        internal static string GetCollectionName()
         {
             string collectionName;
             collectionName = typeof(T).GetTypeInfo().BaseType.Equals(typeof(object)) ?
@@ -210,5 +210,41 @@ namespace Built.Mongo
         }
 
         #endregion Connection String
+    }
+
+    internal class Database
+    {
+        private string DatabaseName { get; }
+        public IMongoClient Client { get; }
+
+        public MongoUrl Url { get; }
+
+        /// <summary>
+        /// mongodb://username:password@localhost:27017/databaseName
+        /// mongodb://username:password@localhost:27017
+        /// mongodb://localhost:27017
+        /// mongodb://localhost:27017/databaseName
+        /// </summary>
+        public Database(string connectionString, string databaseName = "")
+        {
+            Url = new MongoUrl(connectionString);
+            DatabaseName = string.IsNullOrWhiteSpace(databaseName) ? (string.IsNullOrWhiteSpace(Url.DatabaseName) ? string.Empty : Url.DatabaseName) : databaseName;
+            Client = new MongoClient(Url);
+        }
+
+        internal IMongoDatabase GetDatabase(string databaseName = "")
+        {
+            if (!string.IsNullOrWhiteSpace(databaseName))
+                return Client.GetDatabase(databaseName);
+            else if (!string.IsNullOrWhiteSpace(DatabaseName))
+                return Client.GetDatabase(DatabaseName);
+            else
+                throw new ArgumentNullException("not databaseName");
+        }
+
+        internal IMongoCollection<T> GetCollection<T>(string databaseName = "") where T : IEntity
+        {
+            return GetDatabase(databaseName).GetCollection<T>(Database<T>.GetCollectionName());
+        }
     }
 }

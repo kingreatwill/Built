@@ -24,6 +24,7 @@ namespace Built.Micro.ImageCloud.Domain.Services
         public MaterialService(IRepository<Material> materialRepository)
         {
             Repository = materialRepository;
+
             // 创建索引;
             //Repository.Collection.Indexes.CreateOne(
             //       new CreateIndexModel<Material>(

@@ -32,6 +32,15 @@ namespace Built.Mongo
         }
 
         /// <summary>
+        /// Repository IMongoCollection
+        /// </summary>
+        /// <param name="collection">collection</param>
+        public Repository(IMongoCollection<T> collection)
+        {
+            Collection = collection;
+        }
+
+        /// <summary>
         /// where collection name will be name of the repository
         /// </summary>
         /// <param name="connectionString">connection string</param>
@@ -93,11 +102,19 @@ namespace Built.Mongo
 
         private IFindFluent<T, T> Query(Expression<Func<T, bool>> filter)
         {
+            if (Session != null)
+            {
+                return Collection.Find(Session, filter);
+            }
             return Collection.Find(filter);
         }
 
         private IFindFluent<T, T> Query()
         {
+            if (Session != null)
+            {
+                return Collection.Find(Session, Filter.Empty);
+            }
             return Collection.Find(Filter.Empty);
         }
 
@@ -110,6 +127,8 @@ namespace Built.Mongo
                 return new GridFSBucket(Collection.Database);
             }
         }
+
+        public IClientSessionHandle Session { get; set; }
 
         #region CRUD
 
@@ -144,6 +163,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.DeleteOne(Session, i => i.Id == id).IsAcknowledged;
+                }
                 return Collection.DeleteOne(i => i.Id == id).IsAcknowledged;
             });
         }
@@ -171,6 +194,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.DeleteMany(Session, filter).IsAcknowledged;
+                }
                 return Collection.DeleteMany(filter).IsAcknowledged;
             });
         }
@@ -197,6 +224,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.DeleteMany(Session, Filter.Empty).IsAcknowledged;
+                }
                 return Collection.DeleteMany(Filter.Empty).IsAcknowledged;
             });
         }
@@ -405,6 +436,11 @@ namespace Built.Mongo
         {
             Retry(() =>
             {
+                if (Session != null)
+                {
+                    Collection.InsertOne(Session, entity);
+                    return true;
+                }
                 Collection.InsertOne(entity);
                 return true;
             });
@@ -418,6 +454,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.InsertOneAsync(Session, entity);
+                }
                 return Collection.InsertOneAsync(entity);
             });
         }
@@ -430,6 +470,11 @@ namespace Built.Mongo
         {
             Retry(() =>
             {
+                if (Session != null)
+                {
+                    Collection.InsertMany(Session, entities);
+                    return true;
+                }
                 Collection.InsertMany(entities);
                 return true;
             });
@@ -443,6 +488,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.InsertManyAsync(Session, entities);
+                }
                 return Collection.InsertManyAsync(entities);
             });
         }
@@ -505,6 +554,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.ReplaceOne(Session, i => i.Id == entity.Id, entity).IsAcknowledged;
+                }
                 return Collection.ReplaceOne(i => i.Id == entity.Id, entity).IsAcknowledged;
             });
         }
@@ -655,6 +708,10 @@ namespace Built.Mongo
             return Retry(() =>
             {
                 var update = Updater.Combine(updates).CurrentDate(i => i.ModifiedOn);
+                if (Session != null)
+                {
+                    return Collection.UpdateMany(Session, filter, update.CurrentDate(i => i.ModifiedOn)).IsAcknowledged;
+                }
                 return Collection.UpdateMany(filter, update.CurrentDate(i => i.ModifiedOn)).IsAcknowledged;
             });
         }
@@ -686,6 +743,10 @@ namespace Built.Mongo
             return Retry(() =>
             {
                 var update = Updater.Combine(updates).CurrentDate(i => i.ModifiedOn);
+                if (Session != null)
+                {
+                    return Collection.UpdateMany(Session, filter, update).IsAcknowledged;
+                }
                 return Collection.UpdateMany(filter, update).IsAcknowledged;
             });
         }
@@ -736,6 +797,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.CountDocuments(Session, filter);
+                }
                 return Collection.CountDocuments(filter);//EstimatedDocumentCount
             });
         }
@@ -749,6 +814,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.CountDocumentsAsync(Session, filter);
+                }
                 return Collection.CountDocumentsAsync(filter);
             });
         }
@@ -761,6 +830,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.CountDocuments(Session, Filter.Empty);
+                }
                 return Collection.CountDocuments(Filter.Empty);
             });
         }
@@ -773,6 +846,10 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
+                if (Session != null)
+                {
+                    return Collection.CountDocumentsAsync(Session, Filter.Empty);
+                }
                 return Collection.CountDocumentsAsync(Filter.Empty);
             });
         }

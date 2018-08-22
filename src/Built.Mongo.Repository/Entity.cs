@@ -64,9 +64,36 @@ namespace Built.Mongo
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime ModifiedOn { get; set; }
 
+        ///// <summary>
+        ///// 动态字段
+        ///// </summary>
+        //[BsonExtraElements]
+        //public BsonDocument Metadata { get; set; }
+
         /// <summary>
         /// id in objectId format
         /// </summary>
         public ObjectId ObjectId => ObjectId.Parse(Id);
     }
 }
+
+/*
+ Using the following code to create Post:
+
+var post = new Post
+{
+    Content = "My Post Content",
+    CreatedAtUtc = DateTime.UtcNow,
+    Tags = new List<string> { "first", "post" },
+    Metadata = new BsonDocument("rel", "mongodb")
+};
+Our document in the database would look like this:
+
+{
+    "_id" : ObjectId("5564b6c11de315e733f173cf"),
+    "Content": "My Post Content",
+    "CreatedAtUtc" : ISODate("2015-05-26T18:09:05.883Z"),
+    "Tags" : ["first", "post"],
+    "rel": "mongodb"
+}
+*/

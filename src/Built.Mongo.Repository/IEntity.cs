@@ -30,5 +30,11 @@ namespace Built.Mongo
         /// </summary>
         [BsonIgnore]
         ObjectId ObjectId { get; }
+
+        ///// <summary>
+        ///// Extra Elements
+        ///// </summary>
+        //[BsonExtraElements]
+        //BsonDocument Metadata { get; set; }
     }
 }
