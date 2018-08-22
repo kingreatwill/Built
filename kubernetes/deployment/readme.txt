@@ -10,3 +10,10 @@ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
 kubectl edit deployment/nginx-deployment
 
 kubectl describe deployments
+
+查看pod日志，访问curl  查看负载情况
+kubectl logs -f pod-name
+kubectl describe pod pod-name
+kubectl describe svc svc-name
+==
+kubectl describe svc/svc-name
