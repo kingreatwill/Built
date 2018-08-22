@@ -1,4 +1,4 @@
-kubectl 命令来创建简单的 kubernetes-dashboard 服务：
+kubectl 命令来创建简单的 kubernetes-dashboard 服务：（Quick language switcher chrome插件可以切换中英文，或者设置将你想要的语言置顶到第一个就可以了，不用选择该语言）
 1，
 kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 查看
