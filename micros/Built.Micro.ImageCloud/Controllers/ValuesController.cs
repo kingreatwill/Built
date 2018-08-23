@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Built.Micro.ImageCloud.Domain.Services;
+using Built.Mongo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
@@ -22,10 +24,28 @@ namespace Built.Micro.ImageCloud.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IMaterialService _materialService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ValuesController(IMaterialService materialService)
+        public ValuesController(IUnitOfWork unitOfWork)
         {
-            _materialService = materialService;
+            // _materialService = materialService;
+            _unitOfWork = unitOfWork;
+        }
+
+        // GET /api/values/unit
+        [Route("unit")]
+        [HttpGet]
+        public async Task<ActionResult> Unit()
+        {
+            var rpo = _unitOfWork.GetRepository<Material>();
+            var material = new Material
+            {
+                Author = "Enter" + DateTime.Now,
+                Version = 1
+            };
+            await rpo.InsertAsync(material);
+            _unitOfWork.AbortTransaction();
+            return new JsonResult(material);
         }
 
         // GET /api/values/5b77ce8e6e527040a04c9471

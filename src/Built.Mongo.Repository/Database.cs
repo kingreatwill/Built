@@ -133,6 +133,63 @@ namespace Built.Mongo
 
         #endregion Collection Name
 
+        #region Database Name
+
+        /// <summary>
+        /// Determines the Database name for T and assures it is not empty
+        /// </summary>
+        /// <returns>Returns the Database name for T.</returns>
+        internal static string GetDatabaseName()
+        {
+            string databaseName = typeof(T).GetTypeInfo().BaseType.Equals(typeof(object)) ?
+                                      GetDatabaseNameFromInterface() :
+                                      GetDatabaseNameFromType();
+
+            if (string.IsNullOrEmpty(databaseName))
+            {
+                throw new Exception("GetDatabaseName null");
+            }
+            return databaseName.ToLowerInvariant();
+        }
+
+        /// <summary>
+        /// Determines the Database name from the specified type.
+        /// </summary>
+        /// <returns>Returns the Database name from the specified type.</returns>
+        private static string GetDatabaseNameFromInterface()
+        {
+            // Check to see if the object (inherited from Entity) has a CollectionName attribute
+            var att = CustomAttributeExtensions.GetCustomAttribute<DatabaseNameAttribute>(typeof(T).GetTypeInfo());
+
+            return att?.Name ?? typeof(T).Name;
+        }
+
+        /// <summary>
+        /// Determines the Database name from the specified type.
+        /// </summary>
+        /// <returns>Returns the Database name from the specified type.</returns>
+        private static string GetDatabaseNameFromType()
+        {
+            Type entitytype = typeof(T);
+            string name;
+
+            // Check to see if the object (inherited from Entity) has a CollectionName attribute
+            var att = CustomAttributeExtensions.GetCustomAttribute<DatabaseNameAttribute>(typeof(T).GetTypeInfo());
+            if (att != null)
+            {
+                // It does! Return the value specified by the CollectionName attribute
+                name = att.Name;
+            }
+            else
+            {
+                name = entitytype.Name;
+            }
+
+            return name;
+        }
+
+        #endregion Database Name
+
         #region Connection Name
 
         /// <summary>
@@ -225,9 +282,13 @@ namespace Built.Mongo
         /// mongodb://localhost:27017
         /// mongodb://localhost:27017/databaseName
         /// </summary>
-        public Database(string connectionString, string databaseName = "")
+        public Database(string connectionString, string databaseName = "") : this(new MongoUrl(connectionString), databaseName)
         {
-            Url = new MongoUrl(connectionString);
+        }
+
+        public Database(MongoUrl url, string databaseName = "")
+        {
+            Url = url;
             DatabaseName = string.IsNullOrWhiteSpace(databaseName) ? (string.IsNullOrWhiteSpace(Url.DatabaseName) ? string.Empty : Url.DatabaseName) : databaseName;
             Client = new MongoClient(Url);
         }
@@ -244,6 +305,8 @@ namespace Built.Mongo
 
         internal IMongoCollection<T> GetCollection<T>(string databaseName = "") where T : IEntity
         {
+            if (string.IsNullOrWhiteSpace(databaseName) && string.IsNullOrWhiteSpace(DatabaseName))
+                databaseName = Database<T>.GetDatabaseName();
             return GetDatabase(databaseName).GetCollection<T>(Database<T>.GetCollectionName());
         }
     }

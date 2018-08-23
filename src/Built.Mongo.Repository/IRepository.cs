@@ -46,6 +46,10 @@ namespace Built.Mongo
 
         GridFSBucket Bucket { get; }
 
+        TResult RunCommand<TResult>(Command<TResult> command, ReadPreference readPreference = null);
+
+        Task<TResult> RunCommandAsync<TResult>(Command<TResult> command, ReadPreference readPreference = null);
+
         #endregion GridFSBucket
 
         #region CRUD

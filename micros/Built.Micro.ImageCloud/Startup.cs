@@ -44,12 +44,18 @@ namespace Built.Micro.ImageCloud
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBuilt(options =>
+            {
+                options.UseMongodb("mongodb://192.168.1.230:27017/ImageCloud");
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
             services.AddImageSharpCore()
                .SetRequestParser<QueryCollectionRequestParser>()
                .SetBufferManager<PooledBufferManager>()

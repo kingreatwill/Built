@@ -31,6 +31,15 @@ namespace Built.Mongo
             Collection = Database<T>.GetCollection(config);
         }
 
+        ///// <summary>
+        ///// where you need to define a connectionString with the name of repository
+        ///// </summary>
+        ///// <param name="config">config interface to read default settings</param>
+        //public Repository(BuiltOptions options)
+        //{
+        //    Collection = Database<T>.GetCollectionFromUrl(options.Url);
+        //}
+
         /// <summary>
         /// Repository IMongoCollection
         /// </summary>
@@ -120,15 +129,41 @@ namespace Built.Mongo
 
         #endregion MongoSpecific
 
+        private GridFSBucket _Bucket;
+
         public GridFSBucket Bucket
         {
             get
             {
-                return new GridFSBucket(Collection.Database);
+                if (_Bucket == null)
+                    _Bucket = new GridFSBucket(Collection.Database);
+                return _Bucket;
             }
         }
 
         public IClientSessionHandle Session { get; set; }
+
+        #region Command
+
+        public TResult RunCommand<TResult>(Command<TResult> command, ReadPreference readPreference = null)
+        {
+            if (Session != null)
+            {
+                return Collection.Database.RunCommand(Session, command, readPreference);
+            }
+            return Collection.Database.RunCommand(command, readPreference);
+        }
+
+        public Task<TResult> RunCommandAsync<TResult>(Command<TResult> command, ReadPreference readPreference = null)
+        {
+            if (Session != null)
+            {
+                return Collection.Database.RunCommandAsync(Session, command, readPreference);
+            }
+            return Collection.Database.RunCommandAsync(command, readPreference);
+        }
+
+        #endregion Command
 
         #region CRUD
 

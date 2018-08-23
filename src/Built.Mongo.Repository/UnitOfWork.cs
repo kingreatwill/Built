@@ -1,28 +1,36 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using Polly;
+using Polly.Retry;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Built.Mongo.Repository
+namespace Built.Mongo
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IClientSessionHandle session;
         private readonly Database db;
 
-        public UnitOfWork(IConfiguration config) : this(config.GetConnectionString(""))
+        public UnitOfWork(BuiltOptions config) : this(config.Url)
         {
         }
 
-        public UnitOfWork(string connectionString)
+        public UnitOfWork(string connectionString) : this(new MongoUrl(connectionString))
         {
-            db = new Database(connectionString);
+        }
+
+        public UnitOfWork(MongoUrl url)
+        {
+            db = new Database(url);
             session = db.Client.StartSession();
             // 设置隔离级别;
-            session.StartTransaction(new TransactionOptions(
+            StartTransaction(new TransactionOptions(
                 readConcern: ReadConcern.Snapshot,
                 writeConcern: WriteConcern.WMajority));
         }
@@ -35,36 +43,31 @@ namespace Built.Mongo.Repository
             };
         }
 
+        public void StartTransaction(TransactionOptions transactionOptions = null)
+        {
+            session.StartTransaction(transactionOptions);
+        }
+
         public void CommitTransaction(CancellationToken cancellationToken = default(CancellationToken))
         {
-            while (true)
-            {
-                try
-                {
-                    session.CommitTransaction(cancellationToken); // uses write concern set at transaction start
-                    Console.WriteLine("Transaction committed.");
-                    break;
-                }
-                catch (MongoException exception)
-                {
-                    // can retry commit
-                    if (exception.HasErrorLabel("UnknownTransactionCommitResult"))
-                    {
-                        Console.WriteLine("UnknownTransactionCommitResult, retrying commit operation.");
-                        continue;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error during commit.");
-                        throw;
-                    }
-                }
-            }
+            Policy.Handle<MongoConnectionException>(i => i.InnerException.GetType() == typeof(IOException) || i.InnerException.GetType() == typeof(SocketException))
+                  .Or<MongoException>(i => i.HasErrorLabel("UnknownTransactionCommitResult"))
+                  .Retry(3, (exception, retryCount) => { Console.WriteLine("Retry." + retryCount); })
+                  .Execute(() =>
+                     {
+                         session.CommitTransaction(cancellationToken);
+                     });
         }
 
         public Task CommitTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            return session.CommitTransactionAsync(cancellationToken);
+            return Policy.Handle<MongoConnectionException>(i => i.InnerException.GetType() == typeof(IOException) || i.InnerException.GetType() == typeof(SocketException))
+                   .Or<MongoException>(i => i.HasErrorLabel("UnknownTransactionCommitResult"))
+                   .Retry(3, (exception, retryCount) => { Console.WriteLine("Retry." + retryCount); })
+                   .ExecuteAsync(() =>
+                   {
+                       return session.CommitTransactionAsync(cancellationToken);
+                   });
         }
 
         public void AbortTransaction(CancellationToken cancellationToken = default(CancellationToken))
