@@ -27,6 +27,7 @@ namespace Built.Micro.ImageCloud.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         public ValuesController(IMaterialService materialService, IUnitOfWork unitOfWork)
+
         {
             _materialService = materialService;
             _unitOfWork = unitOfWork;
@@ -46,6 +47,15 @@ namespace Built.Micro.ImageCloud.Controllers
             await rpo.InsertAsync(material);
             //_unitOfWork.AbortTransaction();
             _unitOfWork.CommitTransaction();
+
+            _unitOfWork.StartTransaction();
+            //rpo = _unitOfWork.GetRepository<Material>();
+            await rpo.InsertAsync(new Material
+            {
+                Author = "Enter" + DateTime.Now,
+                Version = 2
+            });
+            _unitOfWork.AbortTransaction();
             return new JsonResult(material);
         }
 

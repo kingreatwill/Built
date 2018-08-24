@@ -18,14 +18,20 @@ namespace Built.Mongo
     /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IClientSessionHandle session;
+        private IClientSessionHandle session;
         private readonly Database db;
 
         private readonly bool DotUseTransaction;
 
-        public UnitOfWork(BuiltOptions config) : this(config.Url)
+        public UnitOfWork(BuiltOptions config)
         {
             DotUseTransaction = config.DotUseTransaction;
+            db = new Database(config.Url);
+            if (DotUseTransaction) return;
+            // 设置隔离级别;
+            StartTransaction(new TransactionOptions(
+                readConcern: ReadConcern.Snapshot,
+                writeConcern: WriteConcern.WMajority));
         }
 
         public UnitOfWork(string connectionString) : this(new MongoUrl(connectionString))
@@ -35,25 +41,22 @@ namespace Built.Mongo
         public UnitOfWork(MongoUrl url)
         {
             db = new Database(url);
-            if (DotUseTransaction) return;
-            session = db.Client.StartSession();
-            // 设置隔离级别;
-            StartTransaction(new TransactionOptions(
-                readConcern: ReadConcern.Snapshot,
-                writeConcern: WriteConcern.WMajority));
+            StartTransaction();
         }
 
         public IRepository<T> GetRepository<T>(string databaseName = "") where T : IEntity
         {
             return new Repository<T>(db.GetCollection<T>(databaseName))
             {
-                Session = session
+                Session = DotUseTransaction ? null : session
             };
         }
 
         public void StartTransaction(TransactionOptions transactionOptions = null)
         {
             if (DotUseTransaction) return;
+            if (session == null)
+                session = db.Client.StartSession();
             session.StartTransaction(transactionOptions);
         }
 

@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <Description />
-    <PackageReleaseNotes>V1.2 support transaction.</PackageReleaseNotes>
+    <PackageReleaseNotes>V1.3 support repeat transaction.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
