@@ -84,6 +84,11 @@ Each method has multiple overloads, read method summary for additional parameter
         public MaterialRepository(IConfiguration config) : base(config)
         {
             //e.g. "mongodb://username:password@localhost:27017/databaseName"
+            //mongodb://host1:27017,host2:27017
+            //MongoClientSettings
+            //mongodb://host:27017/?replicaSet=rs0&uuidRepresentation=standard
+            //mongodb://host:27017,host2:27017/?replicaSet=rs0
+            //mongodb://192.168.1.230:27117,192.168.1.230:27217,192.168.1.230:27317/test?replicaSet=rs0
         }
 
         //custom method

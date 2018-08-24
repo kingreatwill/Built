@@ -24,8 +24,8 @@ using SixLabors.ImageSharp.Web.Resolvers;
 namespace Built.Micro.ImageCloud
 {
     /*
-     docker run -itd -p 27017:27017 --restart always mongo
-     docker run -itd -p 8081:8081 --link mongodb:mongo  --restart always  mongo-express
+     docker run -itd -p 27017:27017  --name mongodb --restart always mongo:4.1.2
+     docker run -itd -p 8081:8081 --link mongodb:mongo  --name mongodb-express  --restart always  mongo-express
      http://192.168.1.230:8081/
     */
 
@@ -46,7 +46,7 @@ namespace Built.Micro.ImageCloud
         {
             services.AddBuilt(options =>
             {
-                options.UseMongodb("mongodb://192.168.1.230:27017/ImageCloud");
+                options.UseMongodb("mongodb://192.168.1.230:27217/ImageCloud");
             });
 
             services.Configure<CookiePolicyOptions>(options =>

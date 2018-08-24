@@ -26,9 +26,9 @@ namespace Built.Micro.ImageCloud.Controllers
         private readonly IMaterialService _materialService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ValuesController(IUnitOfWork unitOfWork)
+        public ValuesController(IMaterialService materialService, IUnitOfWork unitOfWork)
         {
-            // _materialService = materialService;
+            _materialService = materialService;
             _unitOfWork = unitOfWork;
         }
 
@@ -44,7 +44,23 @@ namespace Built.Micro.ImageCloud.Controllers
                 Version = 1
             };
             await rpo.InsertAsync(material);
-            _unitOfWork.AbortTransaction();
+            //_unitOfWork.AbortTransaction();
+            _unitOfWork.CommitTransaction();
+            return new JsonResult(material);
+        }
+
+        // GET /api/values/add
+        [Route("add")]
+        [HttpGet]
+        public ActionResult Add()
+        {
+            var material = new Material
+            {
+                Author = "Enter",
+                Content = "描述",
+                Version = 1
+            };
+            _materialService.Repository.Insert(material);
             return new JsonResult(material);
         }
 

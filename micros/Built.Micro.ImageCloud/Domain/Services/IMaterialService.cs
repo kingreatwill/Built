@@ -25,6 +25,14 @@ namespace Built.Micro.ImageCloud.Domain.Services
         {
             Repository = materialRepository;
 
+            /*
+             collection.Indexes.CreateOne(new BsonDocument("i", 1));
+
+// or
+
+var keys = Builders<BsonDocument>.IndexKeys.Ascending("i");
+collection.Indexes.CreateOne(keys);
+             */
             // 创建索引;
             //Repository.Collection.Indexes.CreateOne(
             //       new CreateIndexModel<Material>(
