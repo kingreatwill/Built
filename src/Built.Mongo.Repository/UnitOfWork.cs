@@ -12,13 +12,20 @@ using System.Threading.Tasks;
 
 namespace Built.Mongo
 {
+    /// <summary>
+    /// https://docs.mongodb.com/master/core/transactions/#transactions-and-replica-sets
+    ///  Start a mongod —replSet <replsetname> then do rs.initiate() in the mongo shell
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IClientSessionHandle session;
         private readonly Database db;
 
+        private readonly bool DotUseTransaction;
+
         public UnitOfWork(BuiltOptions config) : this(config.Url)
         {
+            DotUseTransaction = config.DotUseTransaction;
         }
 
         public UnitOfWork(string connectionString) : this(new MongoUrl(connectionString))
@@ -28,6 +35,7 @@ namespace Built.Mongo
         public UnitOfWork(MongoUrl url)
         {
             db = new Database(url);
+            if (DotUseTransaction) return;
             session = db.Client.StartSession();
             // 设置隔离级别;
             StartTransaction(new TransactionOptions(
@@ -45,13 +53,15 @@ namespace Built.Mongo
 
         public void StartTransaction(TransactionOptions transactionOptions = null)
         {
+            if (DotUseTransaction) return;
             session.StartTransaction(transactionOptions);
         }
 
         public void CommitTransaction(CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (DotUseTransaction) return;
             Policy.Handle<MongoConnectionException>(i => i.InnerException.GetType() == typeof(IOException) || i.InnerException.GetType() == typeof(SocketException))
-                  .Or<MongoException>(i => i.HasErrorLabel("UnknownTransactionCommitResult"))
+                  .Or<MongoException>(i => i.HasErrorLabel("UnknownTransactionCommitResult") || i.HasErrorLabel("TransientTransactionError"))//TransientTransactionError
                   .Retry(3, (exception, retryCount) => { Console.WriteLine("Retry." + retryCount); })
                   .Execute(() =>
                      {
@@ -61,8 +71,9 @@ namespace Built.Mongo
 
         public Task CommitTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (DotUseTransaction) return Task.FromResult(0);
             return Policy.Handle<MongoConnectionException>(i => i.InnerException.GetType() == typeof(IOException) || i.InnerException.GetType() == typeof(SocketException))
-                   .Or<MongoException>(i => i.HasErrorLabel("UnknownTransactionCommitResult"))
+                   .Or<MongoException>(i => i.HasErrorLabel("UnknownTransactionCommitResult") || i.HasErrorLabel("TransientTransactionError"))
                    .Retry(3, (exception, retryCount) => { Console.WriteLine("Retry." + retryCount); })
                    .ExecuteAsync(() =>
                    {
@@ -72,128 +83,14 @@ namespace Built.Mongo
 
         public void AbortTransaction(CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (DotUseTransaction) return;
             session.AbortTransaction(cancellationToken);
         }
 
         public Task AbortTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (DotUseTransaction) return Task.FromResult(0);
             return session.AbortTransactionAsync(cancellationToken);
         }
     }
 }
-
-/*
-
-     // Start Transaction Intro Example 1
-        public void UpdateEmployeeInfo(IMongoClient client, IClientSessionHandle session)
-        {
-            var employeesCollection = client.GetDatabase("hr").GetCollection<BsonDocument>("employees");
-            var eventsCollection = client.GetDatabase("reporting").GetCollection<BsonDocument>("events");
-
-            session.StartTransaction(new TransactionOptions(
-                readConcern: ReadConcern.Snapshot,
-                writeConcern: WriteConcern.WMajority));
-
-            try
-            {
-                employeesCollection.UpdateOne(
-                    session,
-                    Builders<BsonDocument>.Filter.Eq("employee", 3),
-                    Builders<BsonDocument>.Update.Set("status", "Inactive"));
-                eventsCollection.InsertOne(
-                    session,
-                    new BsonDocument
-                    {
-                        { "employee", 3 },
-                        { "status", new BsonDocument { { "new", "Inactive" }, { "old", "Active" } } }
-                    });
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine($"Caught exception during transaction, aborting: {exception.Message}.");
-                session.AbortTransaction();
-                throw;
-            }
-
-            while (true)
-            {
-                try
-                {
-                    session.CommitTransaction(); // uses write concern set at transaction start
-                    Console.WriteLine("Transaction committed.");
-                    break;
-                }
-                catch (MongoException exception)
-                {
-                    // can retry commit
-                    if (exception.HasErrorLabel("UnknownTransactionCommitResult"))
-                    {
-                        Console.WriteLine("UnknownTransactionCommitResult, retrying commit operation.");
-                        continue;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error during commit.");
-                        throw;
-                    }
-                }
-            }
-        }
-     */
-
-/*
- * var employeesCollection = client.GetDatabase("hr").GetCollection<BsonDocument>("employees");
-            var eventsCollection = client.GetDatabase("reporting").GetCollection<BsonDocument>("events");
-
-            session.StartTransaction(new TransactionOptions(
-                readConcern: ReadConcern.Snapshot,
-                writeConcern: WriteConcern.WMajority));
-try
-            {
-                employeesCollection.UpdateOne(
-                    session,
-                    Builders<BsonDocument>.Filter.Eq("employee", 3),
-                    Builders<BsonDocument>.Update.Set("status", "Inactive"));
-                eventsCollection.InsertOne(
-                    session,
-                    new BsonDocument
-                    {
-                        { "employee", 3 },
-                        { "status", new BsonDocument { { "new", "Inactive" }, { "old", "Active" } } }
-                    });
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine($"Caught exception during transaction, aborting: {exception.Message}.");
-                session.AbortTransaction();
-                throw;
-            }
-CommitWithRetry(session);
-
-    public void CommitWithRetry(IClientSessionHandle session)
-        {
-            while (true)
-            {
-                try
-                {
-                    session.CommitTransaction();
-                    Console.WriteLine("Transaction committed.");
-                    break;
-                }
-                catch (MongoException exception)
-                {
-                    // can retry commit
-                    if (exception.HasErrorLabel("UnknownTransactionCommitResult"))
-                    {
-                        Console.WriteLine("UnknownTransactionCommitResult, retrying commit operation");
-                        continue;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error during commit: {exception.Message}.");
-                        throw;
-                    }
-                }
-            }
-        }
-*/

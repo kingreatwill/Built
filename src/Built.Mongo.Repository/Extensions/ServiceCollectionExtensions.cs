@@ -81,6 +81,12 @@ namespace Built.Mongo
 
         public string ConnectionString { get; set; }
 
+        /// <summary>
+        /// 强制不适用事物.因为在单机情况下适用事物会出错。
+        /// 如果你非要单机适用：Start a mongod —replSet replsetname then do rs.initiate() in the mongo shell
+        /// </summary>
+        public bool DotUseTransaction { get; set; }
+
         BuiltOptions IOptions<BuiltOptions>.Value
         {
             get

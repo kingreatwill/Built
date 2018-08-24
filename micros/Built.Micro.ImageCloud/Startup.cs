@@ -46,7 +46,8 @@ namespace Built.Micro.ImageCloud
         {
             services.AddBuilt(options =>
             {
-                options.UseMongodb("mongodb://192.168.1.230:27217/ImageCloud");
+                options.UseMongodb("mongodb://192.168.1.230:27017/ImageCloud");
+                options.DotUseTransaction = true;
             });
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -142,7 +143,7 @@ namespace Built.Micro.ImageCloud
             //    .AddProcessor<BackgroundColorWebProcessor>();
 
             // 注册自定义用户类
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             //services.AddScoped(typeof(MaterialRepository));
             services.AddScoped(typeof(IMaterialService), typeof(MaterialService));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
