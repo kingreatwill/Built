@@ -1,9 +1,9 @@
 Reflection.Emit
 SharpYaml
 YamlDotNet
-
-
-
+GraphQL
+ocelot
+https://github.com/MichaCo/CacheManager
 Dockerfile
 
 FROM microsoft/aspnetcore:2.0.6
