@@ -1,0 +1,31 @@
+﻿@using Stimulsoft.Report.Web;
+@using Stimulsoft.Report.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Change the Viewer Theme</h2>
+@Html.StiNetCoreViewer(new StiNetCoreViewerOptions()
+{
+    Actions =
+    {
+        GetReport = "GetReport",
+        PrintReport = "PrintReport",
+        ExportReport = "ExportReport",
+        ViewerEvent = "ViewerEvent",
+        EmailReport = "EmailReport",
+    },
+    // 主题
+    Theme = StiViewerTheme.Office2013VeryDarkGrayPurple,
+    Appearance =
+    {
+        //FullScreenMode = true,//默认全屏
+
+    },
+    Toolbar =
+    {
+        ShowSendEmailButton = true,
+        ShowFullScreenButton = true,//默认全屏false
+        //DisplayMode = StiToolbarDisplayMode.Separated//默认全屏
+    },
+    Localization = "Localization/zh-CHS.xml"
+})
