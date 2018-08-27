@@ -1,0 +1,8 @@
+﻿AllowedHosts: "*"
+
+Logging:
+  LogLevel:
+    Default: Warning
+
+ConnectionStrings: 
+  StimulsoftCloud: "mongodb://192.168.1.230:28001,192.168.1.230:28002,192.168.1.230:28003/StimulsoftCloud?replicaSet=rs1"

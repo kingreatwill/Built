@@ -19,6 +19,11 @@ namespace Built.Stimulsoft.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+             .ConfigureAppConfiguration((hostingContext, config) =>
+             {
+                 config.SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
+                 .AddYamlFile("appsettings.yml", optional: false, reloadOnChange: true);
+             })
                 .UseStartup<Startup>();
     }
 }
