@@ -26,7 +26,8 @@ namespace Built.Mongo
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-
+            //使用事物时，表和数据库一定要存在.
+            //初始化，IEntity的集合
             return new BuiltBuilder(services);
         }
     }

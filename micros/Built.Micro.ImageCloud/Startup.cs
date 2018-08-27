@@ -46,7 +46,7 @@ namespace Built.Micro.ImageCloud
         {
             services.AddBuilt(options =>
             {
-                options.UseMongodb("mongodb://192.168.1.230:27217/ImageCloud");
+                options.UseMongodb(Configuration.GetConnectionString("ImageCloud"));//   "mongodb://192.168.1.230:27217/ImageCloud"
                 options.DotUseTransaction = false;
             });
 
