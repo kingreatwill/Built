@@ -24,10 +24,24 @@ using SixLabors.ImageSharp.Web.Resolvers;
 namespace Built.Micro.ImageCloud
 {
     /*
+     * 单机复制集启动
+     docker run -itd -p 27017:27017  --name mongodb --restart always mongo:4.1.2  --replSet "rs0" --bind_ip_all
+     rs.initiate( {
+   _id : "rs0",
+   members: [
+      { _id: 0, host: "172.17.0.6:27017" }
+   ]
+})
      docker run -itd -p 27017:27017  --name mongodb --restart always mongo:4.1.2
      docker run -itd -p 8081:8081 --link mongodb:mongo  --name mongodb-express  --restart always  mongo-express
      http://192.168.1.230:8081/
     */
+    /*
+     docker run --name mongo0 -d mongo:3.6.2-jessie --replSet "rs0" --bind_ip_all
+docker run --name mongo1 -d mongo:3.6.2-jessie --replSet "rs0" --bind_ip_all
+docker run --name mongo2 -d mongo:3.6.2-jessie --replSet "rs0" --bind_ip_all
+
+         */
 
     /// <summary>
     /// Magick.NET ImageResizer ImageSharp SixLabors.ImageSharp还不是正式版，nuget默认没有；SixLabors.ImageSharp.Web

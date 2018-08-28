@@ -1,0 +1,2 @@
+https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started
+ServiceFabricLocalClusterManager

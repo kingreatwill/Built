@@ -167,7 +167,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{512B55
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stimulsoft", "stimulsoft", "{DC52B9A0-73BF-4BFC-B2B8-5DD580775DBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Stimulsoft.Web", "demos\Built.Stimulsoft.Web\Built.Stimulsoft.Web.csproj", "{FB309798-BA8F-40A8-AB77-3E6B6A27C3CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Stimulsoft.Web", "demos\Built.Stimulsoft.Web\Built.Stimulsoft.Web.csproj", "{FB309798-BA8F-40A8-AB77-3E6B6A27C3CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceFabric", "ServiceFabric", "{1B171BAE-FE1C-435E-A910-C548B7AC6DB9}"
+	ProjectSection(SolutionItems) = preProject
+		ServiceFabric.txt = ServiceFabric.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -510,6 +515,7 @@ Global
 		{512B550C-5BEA-4298-8531-C6AA2C7BC2D8} = {B49E4651-6C30-48FF-A997-67C7B7BADE0C}
 		{DC52B9A0-73BF-4BFC-B2B8-5DD580775DBB} = {512B550C-5BEA-4298-8531-C6AA2C7BC2D8}
 		{FB309798-BA8F-40A8-AB77-3E6B6A27C3CA} = {DC52B9A0-73BF-4BFC-B2B8-5DD580775DBB}
+		{1B171BAE-FE1C-435E-A910-C548B7AC6DB9} = {B49E4651-6C30-48FF-A997-67C7B7BADE0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}

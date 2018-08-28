@@ -5,4 +5,4 @@ Logging:
     Default: Warning
 
 ConnectionStrings: 
-  ImageCloud: "mongodb://192.168.1.230:28001,192.168.1.230:28002,192.168.1.230:28003/ImageCloud?replicaSet=rs1"
+  ImageCloud: "mongodb://192.168.1.230:27017/ImageCloud"
