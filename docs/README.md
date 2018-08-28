@@ -5,6 +5,7 @@ GraphQL
 ocelot
 https://github.com/MichaCo/CacheManager
 Dockerfile
+Harbor ´î½¨docker¾µÏñ²Ö¿â
 
 FROM microsoft/aspnetcore:2.0.6
 
