@@ -28,10 +28,10 @@ namespace Built.Mongo
             DotUseTransaction = config.DotUseTransaction;
             db = new Database(config.Url);
             if (DotUseTransaction) return;
-            // 设置隔离级别;
-            StartTransaction(new TransactionOptions(
-                readConcern: ReadConcern.Snapshot,
-                writeConcern: WriteConcern.WMajority));
+            //// 设置隔离级别;
+            //StartTransaction(new TransactionOptions(
+            //    readConcern: ReadConcern.Snapshot,
+            //    writeConcern: WriteConcern.WMajority));
         }
 
         public UnitOfWork(string connectionString) : this(new MongoUrl(connectionString))
@@ -41,7 +41,6 @@ namespace Built.Mongo
         public UnitOfWork(MongoUrl url)
         {
             db = new Database(url);
-            StartTransaction();
         }
 
         public IRepository<T> GetRepository<T>(string databaseName = "") where T : IEntity
@@ -50,6 +49,11 @@ namespace Built.Mongo
             {
                 Session = DotUseTransaction ? null : session
             };
+        }
+
+        public IClientSessionHandle GetSession()
+        {
+            return session;
         }
 
         public void StartTransaction(TransactionOptions transactionOptions = null)

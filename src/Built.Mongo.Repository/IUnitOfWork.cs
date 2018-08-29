@@ -8,6 +8,8 @@ namespace Built.Mongo
     {
         IRepository<T> GetRepository<T>(string databaseName = "") where T : IEntity;
 
+        IClientSessionHandle GetSession();
+
         void StartTransaction(TransactionOptions transactionOptions = null);
 
         void CommitTransaction(CancellationToken cancellationToken = default(CancellationToken));
