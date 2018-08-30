@@ -53,4 +53,43 @@ namespace Built.Mongo
             Items = items;
         }
     }
+
+    public class PagedResultDto<T> : PagedResult<T>
+    {
+        public int PageIndex { get; set; }
+
+        public int PageSize { get; set; }
+
+        public int PageCount
+        {
+            get
+            {
+                return (int)Math.Ceiling(TotalCount * 1.0 / PageSize);
+            }
+        }
+
+        public bool FirstPage
+        {
+            get
+            {
+                return PageIndex == 0;
+            }
+        }
+
+        public bool LastPage
+        {
+            get
+            {
+                return PageCount == (PageIndex + 1);
+            }
+        }
+
+        public PagedResultDto(int index, int size, long totalCount, IReadOnlyList<T> items)
+        {
+            PageIndex = index;
+            PageSize = size;
+            TotalCount = totalCount;
+            Items = items;
+        }
+    }
 }

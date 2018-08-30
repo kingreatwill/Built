@@ -148,9 +148,9 @@ namespace Built.Mongo
 
         #endregion Find
 
-        PagedResult<T> FindByPaged(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false);
+        IPagedResult<T> FindByPaged(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false);
 
-        Task<PagedResult<T>> FindByPagedAsync(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false);
+        Task<IPagedResult<T>> FindByPagedAsync(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false);
 
         #region FindAll
 

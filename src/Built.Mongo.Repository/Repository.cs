@@ -364,20 +364,20 @@ namespace Built.Mongo
 
         #region Page
 
-        public virtual PagedResult<T> FindByPaged(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false)
+        public virtual IPagedResult<T> FindByPaged(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false)
         {
             return Retry(() =>
             {
                 var query = Query(filter).Skip(pageIndex * size).Limit(size);
                 if (order == null) order = i => i.Id;
-                return new PagedResult<T>(
+                return new PagedResultDto<T>(pageIndex, size,
                     Query(filter).CountDocuments(),
                     (isDescending ? query.SortByDescending(order) : query.SortBy(order)).ToEnumerable().ToList()
                     );
             });
         }
 
-        public virtual Task<PagedResult<T>> FindByPagedAsync(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false)
+        public virtual Task<IPagedResult<T>> FindByPagedAsync(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false)
         {
             return Task.Factory.StartNew(() =>
             {

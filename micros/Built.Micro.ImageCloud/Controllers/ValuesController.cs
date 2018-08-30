@@ -44,10 +44,10 @@ namespace Built.Micro.ImageCloud.Controllers
                 Author = "Enter" + DateTime.Now,
                 Version = 1
             };
-            rpo.FindByPaged(0, 2);
+            var sd = rpo.FindByPaged(0, 2);
             await rpo.InsertAsync(material);
             //_unitOfWork.AbortTransaction();
-            _unitOfWork.CommitTransaction();
+            // _unitOfWork.CommitTransaction();
 
             _unitOfWork.StartTransaction();
             //rpo = _unitOfWork.GetRepository<Material>();
@@ -56,7 +56,7 @@ namespace Built.Micro.ImageCloud.Controllers
                 Author = "Enter" + DateTime.Now,
                 Version = 2
             });
-            _unitOfWork.AbortTransaction();
+            // _unitOfWork.AbortTransaction();
             return new JsonResult(material);
         }
 
