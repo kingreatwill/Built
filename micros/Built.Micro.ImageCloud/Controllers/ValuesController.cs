@@ -44,6 +44,7 @@ namespace Built.Micro.ImageCloud.Controllers
                 Author = "Enter" + DateTime.Now,
                 Version = 1
             };
+            rpo.FindByPaged(0, 2);
             await rpo.InsertAsync(material);
             //_unitOfWork.AbortTransaction();
             _unitOfWork.CommitTransaction();

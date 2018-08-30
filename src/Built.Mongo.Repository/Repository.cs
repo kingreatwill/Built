@@ -112,6 +112,8 @@ namespace Built.Mongo
 
         private IFindFluent<T, T> Query(Expression<Func<T, bool>> filter)
         {
+            if (filter == null)
+                return Query();
             if (Session != null)
             {
                 return Collection.Find(Session, filter);
@@ -185,7 +187,7 @@ namespace Built.Mongo
         /// <param name="entity">entity</param>
         public Task<bool> DeleteAsync(T entity)
         {
-            return Task.Run(() =>
+            return Task.Factory.StartNew(() =>
             {
                 return Delete(entity);
             });
@@ -215,7 +217,7 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
-                return Task.Run(() =>
+                return Task.Factory.StartNew(() =>
                 {
                     return Delete(id);
                 });
@@ -246,7 +248,7 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
-                return Task.Run(() =>
+                return Task.Factory.StartNew(() =>
                 {
                     return Delete(filter);
                 });
@@ -275,7 +277,7 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
-                return Task.Run(() =>
+                return Task.Factory.StartNew(() =>
                 {
                     return DeleteAll();
                 });
@@ -336,11 +338,54 @@ namespace Built.Mongo
             return Retry(() =>
             {
                 var query = Query(filter).Skip(pageIndex * size).Limit(size);
+
                 return (isDescending ? query.SortByDescending(order) : query.SortBy(order)).ToEnumerable();
             });
         }
 
+        /// <summary>
+        /// find entities with paging and ordering in direction
+        /// </summary>
+        /// <param name="filter">expression filter</param>
+        /// <param name="order">ordering parameters</param>
+        /// <param name="pageIndex">page index, based on 0</param>
+        /// <param name="size">number of items in page</param>
+        /// <param name="isDescending">ordering direction</param>
+        /// <returns>collection of entity</returns>
+        public virtual Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> order, int pageIndex, int size, bool isDescending)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                return Find(filter, order, pageIndex, size, isDescending);
+            });
+        }
+
         #endregion Find
+
+        #region Page
+
+        public virtual PagedResult<T> FindByPaged(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false)
+        {
+            return Retry(() =>
+            {
+                var query = Query(filter).Skip(pageIndex * size).Limit(size);
+                if (order == null) order = i => i.Id;
+                return new PagedResult<T>(
+                    Query(filter).CountDocuments(),
+                    (isDescending ? query.SortByDescending(order) : query.SortBy(order)).ToEnumerable().ToList()
+                    );
+            });
+        }
+
+        public virtual Task<PagedResult<T>> FindByPagedAsync(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                return FindByPaged(pageIndex, size, filter, order, isDescending);
+            });
+        }
+
+        #endregion Page
 
         #region FindAll
 
@@ -394,6 +439,22 @@ namespace Built.Mongo
             {
                 var query = Query().Skip(pageIndex * size).Limit(size);
                 return (isDescending ? query.SortByDescending(order) : query.SortBy(order)).ToEnumerable();
+            });
+        }
+
+        /// <summary>
+        /// fetch all items in collection with paging and ordering in direction
+        /// </summary>
+        /// <param name="order">ordering parameters</param>
+        /// <param name="pageIndex">page index, based on 0</param>
+        /// <param name="size">number of items in page</param>
+        /// <param name="isDescending">ordering direction</param>
+        /// <returns>collection of entity</returns>
+        public virtual Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, object>> order, int pageIndex, int size, bool isDescending)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                return FindAll(order, pageIndex, size, isDescending);
             });
         }
 
@@ -606,7 +667,7 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
-                return Task.Run(() =>
+                return Task.Factory.StartNew(() =>
                 {
                     return Replace(entity);
                 });
@@ -651,7 +712,7 @@ namespace Built.Mongo
         /// <param name="value">new value</param>
         public Task<bool> UpdateAsync<TField>(T entity, Expression<Func<T, TField>> field, TField value)
         {
-            return Task.Run(() =>
+            return Task.Factory.StartNew(() =>
             {
                 return Update(entity, Updater.Set(field, value));
             });
@@ -675,7 +736,7 @@ namespace Built.Mongo
         /// <param name="updates">updated field(s)</param>
         public virtual Task<bool> UpdateAsync(string id, params UpdateDefinition<T>[] updates)
         {
-            return Task.Run(() =>
+            return Task.Factory.StartNew(() =>
             {
                 return Update(Filter.Eq(i => i.Id, id), updates);
             });
@@ -699,7 +760,7 @@ namespace Built.Mongo
         /// <param name="updates">updated field(s)</param>
         public virtual Task<bool> UpdateAsync(T entity, params UpdateDefinition<T>[] updates)
         {
-            return Task.Run(() =>
+            return Task.Factory.StartNew(() =>
             {
                 return Update(entity.Id, updates);
             });
@@ -727,7 +788,7 @@ namespace Built.Mongo
         /// <param name="value">new value</param>
         public Task<bool> UpdateAsync<TField>(FilterDefinition<T> filter, Expression<Func<T, TField>> field, TField value)
         {
-            return Task.Run(() =>
+            return Task.Factory.StartNew(() =>
             {
                 return Update(filter, Updater.Set(field, value));
             });
@@ -761,7 +822,7 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
-                return Task.Run(() =>
+                return Task.Factory.StartNew(() =>
                 {
                     return Update(filter, updates);
                 });
@@ -796,7 +857,7 @@ namespace Built.Mongo
         {
             return Retry(() =>
             {
-                return Task.Run(() =>
+                return Task.Factory.StartNew(() =>
                 {
                     return Update(filter, updates);
                 });

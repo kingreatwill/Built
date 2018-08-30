@@ -144,7 +144,13 @@ namespace Built.Mongo
         /// <returns>collection of entity</returns>
         IEnumerable<T> Find(Expression<Func<T, bool>> filter, Expression<Func<T, object>> order, int pageIndex, int size, bool isDescending);
 
+        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> order, int pageIndex, int size, bool isDescending);
+
         #endregion Find
+
+        PagedResult<T> FindByPaged(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false);
+
+        Task<PagedResult<T>> FindByPagedAsync(int pageIndex, int size, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> order = null, bool isDescending = false);
 
         #region FindAll
 
@@ -181,6 +187,8 @@ namespace Built.Mongo
         /// <param name="isDescending">ordering direction</param>
         /// <returns>collection of entity</returns>
         IEnumerable<T> FindAll(Expression<Func<T, object>> order, int pageIndex, int size, bool isDescending);
+
+        Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, object>> order, int pageIndex, int size, bool isDescending);
 
         #endregion FindAll
 
