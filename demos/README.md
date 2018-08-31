@@ -15,3 +15,8 @@ Scheduling:
 	-FluentScheduler
 	-Hangfire 
 	-Quartz.Net 
+
+WebAssembly
+	-Blazor
+	-go 1.11
+	-dart
