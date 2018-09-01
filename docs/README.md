@@ -6,6 +6,8 @@ ocelot
 https://github.com/MichaCo/CacheManager
 Dockerfile
 Harbor 搭建docker镜像仓库
+Rafty 分布式系统的Raft算法
+refit  REST library
 
 FROM microsoft/aspnetcore:2.0.6
 
