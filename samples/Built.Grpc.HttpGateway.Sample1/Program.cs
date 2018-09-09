@@ -13,6 +13,34 @@ namespace Built.Grpc.HttpGateway.Sample1
 {
     public class Program
     {
+        /*
+         kill -l
+         2.   SIGNIT  (Ctrl+C)
+
+3.   SIGQUIT （退出）
+
+9.   SIGKILL   (强制终止）
+
+15. SIGTERM （终止）
+
+            main()
+var cts = new CancellationTokenSource();
+var bgtask = Task.Run(() => { TestService.Run(cts.Token); });
+AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+            {
+                  Console.WriteLine($"{DateTime.Now} 后台测试服务，准备进行资源清理！");
+
+                 cts.Cancel();    //设置IsCancellationRequested=true，让TestService今早结束
+                 bgtask.Wait();   //等待 testService 结束执行
+
+                 Console.WriteLine($"{DateTime.Now} 恭喜，Test服务程序已正常退出！");
+
+                 Environment.Exit(0);
+             };
+             Console.WriteLine($"{DateTime.Now} 后端服务程序正常启动！");
+             bgtask.Wait();
+             */
+
         public static void Main(string[] args)
         {
             //AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
