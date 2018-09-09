@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -14,8 +15,15 @@ namespace Built.Grpc.HttpGateway.Sample1
     {
         public static void Main(string[] args)
         {
+            //AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             CreateWebHostBuilder(args).Build().Run();
         }
+
+        public static readonly CancellationTokenSource ConfigCancellationTokenSource = new CancellationTokenSource();
+        //private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)

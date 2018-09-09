@@ -162,6 +162,40 @@ namespace Built.Grpc.HttpGateway.Sample1
             });
         }
 
+        //Program.cs
+        // public static readonly CancellationTokenSource ConfigCancellationTokenSource = new CancellationTokenSource();
+        //public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifetime)
+        //{
+        //    appLifetime.ApplicationStopping.Register(Program.ConfigCancellationTokenSource.Cancel);
+        //}
+        /*
+         public class Startup
+{
+    public void Configure(IApplicationBuilder app, IApplicationLifetime applicationLifetime)
+    {
+        applicationLifetime.ApplicationStopping.Register(OnShutdown);
+    }
+
+    private void OnShutdown()
+    {
+         // Do your cleanup here
+    }
+}
+public class Startup
+{
+    public void Configure(IApplicationBuilder app)
+    {
+        var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
+        applicationLifetime.ApplicationStopping.Register(OnShutdown);
+    }
+
+    private void OnShutdown()
+    {
+         // Do your cleanup here
+    }
+}
+             */
+
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
