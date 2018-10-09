@@ -1,5 +1,7 @@
 ﻿# tutorials
 https://github.com/Microsoft/dotnet/blob/master/dotnet-developer-projects.md
+
+.net clr profiling https://github.com/search?l=C%2B%2B&q=PROFILING+.net&type=Repositories
 MP MediatorPattern 中介者模式
 ML MachineLearning 机器学习
 MvvmCross
