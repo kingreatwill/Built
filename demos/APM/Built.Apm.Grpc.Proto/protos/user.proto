@@ -1,0 +1,24 @@
+
+syntax = "proto3";
+
+option csharp_namespace = "User";
+package UserDemo;
+
+// The service definition.
+service UserService {
+  // Sends a greeting
+  rpc Get (UserGetRequest) returns (UserGetResponse) {}
+  rpc Update (UserGetResponse) returns (UserGetResponse) {}
+}
+
+// The request message containing the user's name.
+message UserGetRequest {
+  int64 userId=1;
+}
+
+// The response message containing the greetings
+message UserGetResponse {
+  int64 userId=1;
+  string userName = 2;
+  int32 productCount=3;
+}

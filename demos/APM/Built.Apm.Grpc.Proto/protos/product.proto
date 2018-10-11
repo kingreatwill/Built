@@ -1,0 +1,30 @@
+
+syntax = "proto3";
+
+option csharp_namespace = "Product";
+package ProductDemo;
+
+import "user.proto";
+
+// The service definition.
+service ProductService {
+
+  rpc Get (ProductGetRequest) returns (ProductGetResponse) {}
+   rpc Create (ProductCreateRequest) returns (ProductGetResponse) {}
+}
+
+
+message ProductGetRequest {
+  int64 productId=1;
+}
+
+message ProductGetResponse {
+  int64 productId=1;
+  string productName = 2;
+  UserDemo.UserGetResponse user = 3;
+}
+message ProductCreateRequest {
+  int64 productId=1;
+  string productName = 2;
+  int64  userId = 3;
+}

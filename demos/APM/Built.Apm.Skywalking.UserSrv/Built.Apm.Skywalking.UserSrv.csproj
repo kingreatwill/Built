@@ -10,4 +10,9 @@
     <PackageReference Include="DotNetCore.CAP.SqlServer" Version="2.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Built.Apm.Grpc.Proto\Built.Apm.Grpc.Proto.csproj" />
+    <ProjectReference Include="..\SkyWalking.Diagnostics.Grpc\SkyWalking.Diagnostics.Grpc.csproj" />
+  </ItemGroup>
+
 </Project>
