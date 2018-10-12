@@ -212,19 +212,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Extensions.Dependency
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Datadog", "Datadog", "{DBD5F210-AF7F-4E45-AE4C-115754C5538F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Apm.Skywalking.ApiGateway", "demos\APM\Built.Apm.Skywalking.ApiGateway\Built.Apm.Skywalking.ApiGateway.csproj", "{2F2BD142-0752-4644-AB08-BFD1F0E6E3D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Apm.Skywalking.ApiGateway", "demos\APM\Built.Apm.Skywalking.ApiGateway\Built.Apm.Skywalking.ApiGateway.csproj", "{2F2BD142-0752-4644-AB08-BFD1F0E6E3D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Apm.Skywalking.ProductApi", "demos\APM\Built.Apm.Skywalking.ProductApi\Built.Apm.Skywalking.ProductApi.csproj", "{37695D57-9AE5-4DF6-9186-C56A9BD9FBEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Apm.Skywalking.ProductApi", "demos\APM\Built.Apm.Skywalking.ProductApi\Built.Apm.Skywalking.ProductApi.csproj", "{37695D57-9AE5-4DF6-9186-C56A9BD9FBEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Apm.Skywalking.ProductSrv", "demos\APM\Built.Apm.Skywalking.ProductSrv\Built.Apm.Skywalking.ProductSrv.csproj", "{1D5FA553-1328-4D4E-98BF-5566E68CFFAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Apm.Skywalking.ProductSrv", "demos\APM\Built.Apm.Skywalking.ProductSrv\Built.Apm.Skywalking.ProductSrv.csproj", "{1D5FA553-1328-4D4E-98BF-5566E68CFFAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Apm.Skywalking.UserApi", "demos\APM\Built.Apm.Skywalking.UserApi\Built.Apm.Skywalking.UserApi.csproj", "{0DE93F6F-8563-48FE-A3A9-1827DD659030}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Apm.Skywalking.UserApi", "demos\APM\Built.Apm.Skywalking.UserApi\Built.Apm.Skywalking.UserApi.csproj", "{0DE93F6F-8563-48FE-A3A9-1827DD659030}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Apm.Skywalking.UserSrv", "demos\APM\Built.Apm.Skywalking.UserSrv\Built.Apm.Skywalking.UserSrv.csproj", "{ABA91CCE-25E8-4CB3-B92B-81745A968646}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Apm.Skywalking.UserSrv", "demos\APM\Built.Apm.Skywalking.UserSrv\Built.Apm.Skywalking.UserSrv.csproj", "{ABA91CCE-25E8-4CB3-B92B-81745A968646}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyWalking.Diagnostics.Grpc", "demos\APM\SkyWalking.Diagnostics.Grpc\SkyWalking.Diagnostics.Grpc.csproj", "{59A87D67-36C7-4A79-96B9-834E2AEAFEF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Built.Apm.Grpc.Proto", "demos\APM\Built.Apm.Grpc.Proto\Built.Apm.Grpc.Proto.csproj", "{C6E4EDB3-9FD7-448D-888B-4F4554FD3794}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Built.Apm.Grpc.Proto", "demos\APM\Built.Apm.Grpc.Proto\Built.Apm.Grpc.Proto.csproj", "{C6E4EDB3-9FD7-448D-888B-4F4554FD3794}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pinpoint", "pinpoint", "{8202CB6F-1B9A-477F-94C5-0F0DC6A40178}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cat", "Cat", "{09A1ED68-7022-49A6-A29B-8C73DB1CA3C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -706,6 +710,8 @@ Global
 		{ABA91CCE-25E8-4CB3-B92B-81745A968646} = {A36238D6-F8E9-4E77-B88F-407506DD8847}
 		{59A87D67-36C7-4A79-96B9-834E2AEAFEF1} = {A36238D6-F8E9-4E77-B88F-407506DD8847}
 		{C6E4EDB3-9FD7-448D-888B-4F4554FD3794} = {A36238D6-F8E9-4E77-B88F-407506DD8847}
+		{8202CB6F-1B9A-477F-94C5-0F0DC6A40178} = {599B4159-93CA-438C-A99C-CC37ABBD1DEB}
+		{09A1ED68-7022-49A6-A29B-8C73DB1CA3C4} = {599B4159-93CA-438C-A99C-CC37ABBD1DEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00717EB0-2376-4541-BE63-40982E4778BD}
