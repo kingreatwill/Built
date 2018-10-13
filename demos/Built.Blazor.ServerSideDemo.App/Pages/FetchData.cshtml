@@ -5,7 +5,7 @@
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-
+<Counter />
 @if (forecasts == null)
 {
     <p><em>Loading...</em></p>
@@ -36,10 +36,10 @@ else
 }
 
 @functions {
-    WeatherForecast[] forecasts;
+WeatherForecast[] forecasts;
 
-    protected override async Task OnInitAsync()
-    {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-    }
+protected override async Task OnInitAsync()
+{
+    forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+}
 }

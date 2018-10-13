@@ -14,4 +14,15 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.5.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Blazor\Component\DownloadComponents\DownloadComponents.csproj" />
+    <ProjectReference Include="..\Blazor\Component\MarkdownComponent\MarkdownComponent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\Markdown.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
