@@ -28,3 +28,8 @@ rs.status()
 rs.config()
 
 docker cp mongo0:/usr/bin/mongo  /usr/bin/mongo 
+
+https://github.com/md-frank/file-service
+https://github.com/imazen/imageflow
+https://github.com/SixLabors/ImageSharp
+imageflow
